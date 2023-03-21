@@ -1,0 +1,12 @@
+Host localhost
+  StrictHostKeyChecking no
+  Port 22
+
+Host 0.0.0.0
+  StrictHostKeyChecking no
+  Port 22
+  
+Host hadoop-*
+   StrictHostKeyChecking no
+   UserKnownHostsFile=/dev/null
+   Port 22
