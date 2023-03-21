@@ -1,0 +1,625 @@
+{
+	"info": {
+		"_postman_id": "c0449731-c057-4a88-9d70-1d760f24be50",
+		"name": "5003",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24517495"
+	},
+	"item": [
+		{
+			"name": "bilibili",
+			"item": [
+				{
+					"name": "用户",
+					"item": [
+						{
+							"name": "用户空间详细信息-mid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.bilibili.com/x/space/acc/info?mid=520876959",
+									"protocol": "https",
+									"host": [
+										"api",
+										"bilibili",
+										"com"
+									],
+									"path": [
+										"x",
+										"space",
+										"acc",
+										"info"
+									],
+									"query": [
+										{
+											"key": "mid",
+											"value": "520876959"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "用户关注明细-无效",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://app.biliapi.net/x/v2/relation/followings?vmid=35359510&ps=50&pn=1",
+									"protocol": "https",
+									"host": [
+										"app",
+										"biliapi",
+										"net"
+									],
+									"path": [
+										"x",
+										"v2",
+										"relation",
+										"followings"
+									],
+									"query": [
+										{
+											"key": "vmid",
+											"value": "35359510"
+										},
+										{
+											"key": "ps",
+											"value": "50"
+										},
+										{
+											"key": "pn",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "多用户详细信息-uid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.vc.bilibili.com/account/v1/user/cards?uids=520876958",
+									"protocol": "https",
+									"host": [
+										"api",
+										"vc",
+										"bilibili",
+										"com"
+									],
+									"path": [
+										"account",
+										"v1",
+										"user",
+										"cards"
+									],
+									"query": [
+										{
+											"key": "uids",
+											"value": "520876958"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "用户名片信息-mid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.bilibili.com/x/web-interface/card?mid=35359510",
+									"protocol": "https",
+									"host": [
+										"api",
+										"bilibili",
+										"com"
+									],
+									"path": [
+										"x",
+										"web-interface",
+										"card"
+									],
+									"query": [
+										{
+											"key": "mid",
+											"value": "35359510"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "视频",
+					"item": [
+						{
+							"name": "获取视频详细信息-aid or bvid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.bilibili.com/x/web-interface/view?bvid=BV1Rc41177d4",
+									"protocol": "https",
+									"host": [
+										"api",
+										"bilibili",
+										"com"
+									],
+									"path": [
+										"x",
+										"web-interface",
+										"view"
+									],
+									"query": [
+										{
+											"key": "bvid",
+											"value": "BV1Rc41177d4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取视频在线人数-avid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.bilibili.com/x/player/online/total?bvid=BV1Rc41177d4&cid=1055653126",
+									"protocol": "https",
+									"host": [
+										"api",
+										"bilibili",
+										"com"
+									],
+									"path": [
+										"x",
+										"player",
+										"online",
+										"total"
+									],
+									"query": [
+										{
+											"key": "bvid",
+											"value": "BV1Rc41177d4"
+										},
+										{
+											"key": "cid",
+											"value": "1055653126"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "视频状态数-投币-aid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.bilibili.com/archive_stat/stat?aid=268528473",
+									"protocol": "https",
+									"host": [
+										"api",
+										"bilibili",
+										"com"
+									],
+									"path": [
+										"archive_stat",
+										"stat"
+									],
+									"query": [
+										{
+											"key": "aid",
+											"value": "268528473"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "视频分P-cid",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.bilibili.com/x/player/pagelist?bvid=BV1Rc41177d4",
+									"protocol": "https",
+									"host": [
+										"api",
+										"bilibili",
+										"com"
+									],
+									"path": [
+										"x",
+										"player",
+										"pagelist"
+									],
+									"query": [
+										{
+											"key": "bvid",
+											"value": "BV1Rc41177d4"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取单视频推荐列表",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.bilibili.com/x/web-interface/archive/related?aid=268528473",
+									"protocol": "https",
+									"host": [
+										"api",
+										"bilibili",
+										"com"
+									],
+									"path": [
+										"x",
+										"web-interface",
+										"archive",
+										"related"
+									],
+									"query": [
+										{
+											"key": "aid",
+											"value": "268528473"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取实时弹幕",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.bilibili.com/x/v2/dm/web/seg.so?type=1&oid=1055653126&segment_index=1",
+									"protocol": "https",
+									"host": [
+										"api",
+										"bilibili",
+										"com"
+									],
+									"path": [
+										"x",
+										"v2",
+										"dm",
+										"web",
+										"seg.so"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "1"
+										},
+										{
+											"key": "oid",
+											"value": "1055653126"
+										},
+										{
+											"key": "segment_index",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "获取历史弹幕 - need login",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.bilibili.com/x/v2/dm/web/history/seg.so?type=1&oid=1055653126&month=2023-03-17",
+									"protocol": "https",
+									"host": [
+										"api",
+										"bilibili",
+										"com"
+									],
+									"path": [
+										"x",
+										"v2",
+										"dm",
+										"web",
+										"history",
+										"seg.so"
+									],
+									"query": [
+										{
+											"key": "type",
+											"value": "1"
+										},
+										{
+											"key": "oid",
+											"value": "1055653126"
+										},
+										{
+											"key": "month",
+											"value": "2023-03-17"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "查询稿件公开笔记",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://api.bilibili.com/x/note/publish/list/archive?oid=738464624&oid_type=0&ps=10&pn=2",
+									"protocol": "https",
+									"host": [
+										"api",
+										"bilibili",
+										"com"
+									],
+									"path": [
+										"x",
+										"note",
+										"publish",
+										"list",
+										"archive"
+									],
+									"query": [
+										{
+											"key": "oid",
+											"value": "738464624"
+										},
+										{
+											"key": "oid_type",
+											"value": "0"
+										},
+										{
+											"key": "ps",
+											"value": "10"
+										},
+										{
+											"key": "pn",
+											"value": "2"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "stackoverflow",
+			"item": []
+		},
+		{
+			"name": "github",
+			"item": [
+				{
+					"name": "个人所有repo",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/users/mateiz/repos",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"users",
+								"mateiz",
+								"repos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "repo详细信息",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/apache/spark",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"apache",
+								"spark"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取repo的内容列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/apache/spark/contents",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"apache",
+								"spark",
+								"contents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "repo中的所有commit",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/apache/spark/commits",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"apache",
+								"spark",
+								"commits"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "issue列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/apache/spark/issues",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"apache",
+								"spark",
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查看用户关注列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/users/gjbang/following",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"users",
+								"gjbang",
+								"following"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查看用户被关注列表",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/users/mateiz/followers",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"users",
+								"mateiz",
+								"followers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查看仓库贡献人员",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/apache/spark/contributors",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"apache",
+								"spark",
+								"contributors"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "查看仓库语言",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://api.github.com/repos/apache/spark/languages",
+							"protocol": "https",
+							"host": [
+								"api",
+								"github",
+								"com"
+							],
+							"path": [
+								"repos",
+								"apache",
+								"spark",
+								"languages"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
