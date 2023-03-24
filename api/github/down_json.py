@@ -22,6 +22,14 @@ json_file_list = []
 now_time = datetime.datetime.now()
 total_hours = 1
 
+# set jointly query information:
+jointly_params = {
+    'joint_user': [True, 'users'],
+    'joint_repo': [True, 'repos'],
+    'joint_following': [True, 'following'],
+    'joint_followers': [True, 'followers'],
+}
+
 # parse gzip file and return json data line by line
 def parse_gzip_json(path):
     g = gzip.open(path, 'r')
@@ -73,6 +81,50 @@ def load_data(chunk_size=8192, timeout=30, show_progress=True, debug=True):
             if debug:
                 cnt = 0
                 for line in parse_gzip_json(temp_json_path + target_time + '.json.gz'):
+                    
+                    # if need user's information, call api to get detaild
+                    if jointly_params['joint_user'][0]:
+                        if 'actor' in line:
+                            login = line['actor']['login']
+                            user_url = 'https://api.github.com/users/' + login
+                            user_resp = requests.get(user_url)
+                            user_data = user_resp.json()
+                            line['actor']['user_data'] = user_data
+                        
+                        logging.info("add user information")
+                    
+                    # if need repo's information, call api to get detaild
+                    if jointly_params['joint_repo'][0]:
+                        if 'repo' in line:
+                            repo_url = line['repo']['url']
+                            repo_resp = requests.get(repo_url)
+                            repo_data = repo_resp.json()
+                            line['repo']['repo_data'] = repo_data
+
+                        logging.info("add repo information")
+
+                    # if need following's information, call api to get detaild
+                    if jointly_params['joint_following'][0]:
+                        if 'actor' in line:
+                            login = line['actor']['login']
+                            following_url = 'https://api.github.com/users/' + login + '/following'
+                            following_resp = requests.get(following_url)
+                            following_data = following_resp.json()
+                            line['actor']['following_data'] = following_data
+
+                        logging.info("add following information")
+
+                    # if need followers's information, call api to get detaild
+                    if jointly_params['joint_followers'][0]:
+                        if 'actor' in line:
+                            login = line['actor']['login']
+                            followers_url = 'https://api.github.com/users/' + login + '/followers'
+                            followers_resp = requests.get(followers_url)
+                            followers_data = followers_resp.json()
+                            line['actor']['followers_data'] = followers_data
+                        
+                        logging.info("add followers information")
+
                     print("line [{}]".format(cnt))
                     cnt += 1
                     print(line)
