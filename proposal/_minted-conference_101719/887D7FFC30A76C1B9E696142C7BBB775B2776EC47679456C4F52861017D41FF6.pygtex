@@ -1,0 +1,39 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{+w}{    }\PYG{p}{[}
+\PYG{+w}{        }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nt}{\PYGZdq{}sha\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}0fde146e8676ab9a4aeafebb1684eb7a44660524\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{n+nt}{\PYGZdq{}node\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}C\PYGZus{}kwDOAQXtWtoAKDBmZGUxNDZlODY3NmFiOWE0YWVhZmViYjE2ODRlYjdhNDQ2NjA1MjQ\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{n+nt}{\PYGZdq{}commit\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nt}{\PYGZdq{}author\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Juliusz Sompolski\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nt}{\PYGZdq{}email\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}julek@databricks.com\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nt}{\PYGZdq{}date\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}2023\PYGZhy{}03\PYGZhy{}24T01:56:26Z\PYGZdq{}}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                }\PYG{n+nt}{\PYGZdq{}committer\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Hyukjin Kwon\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nt}{\PYGZdq{}email\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}gurwls223@apache.org\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nt}{\PYGZdq{}date\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}2023\PYGZhy{}03\PYGZhy{}24T01:56:26Z\PYGZdq{}}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                }\PYG{n+nt}{\PYGZdq{}message\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}[SPARK\PYGZhy{}42202][CONNECT][TEST][FOLLOWUP] Loop around command entry in SimpleSparkConnectService\PYGZbs{}n\PYGZbs{}n\PYGZsh{}\PYGZsh{}\PYGZsh{} What changes were proposed in this pull request?\PYGZbs{}n\PYGZbs{}nWith the while loop around service startup, any ENTER hit in the SimpleSparkConnectService console made it loop around, try to start the service anew, and fail with address already in use.\PYGZbs{}n\PYGZbs{}nChange the loop to be around the `StdIn.readline()` entry.\PYGZbs{}n\PYGZbs{}n\PYGZsh{}\PYGZsh{}\PYGZsh{} Why are the changes needed?\PYGZbs{}n\PYGZbs{}nBetter testing / development / debugging with SparkConnect\PYGZbs{}n\PYGZbs{}n\PYGZsh{}\PYGZsh{}\PYGZsh{} Does this PR introduce \PYGZus{}any\PYGZus{} user\PYGZhy{}facing change?\PYGZbs{}n\PYGZbs{}nNo.\PYGZbs{}n\PYGZbs{}n\PYGZsh{}\PYGZsh{}\PYGZsh{} How was this patch tested?\PYGZbs{}n\PYGZbs{}nManual use of `connector/connect/bin/spark\PYGZhy{}connect`\PYGZbs{}n\PYGZbs{}nCloses \PYGZsh{}40537 from juliuszsompolski/SPARK\PYGZhy{}42202\PYGZhy{}followup.\PYGZbs{}n\PYGZbs{}nAuthored\PYGZhy{}by: Juliusz Sompolski \PYGZlt{}julek@databricks.com\PYGZgt{}\PYGZbs{}nSigned\PYGZhy{}off\PYGZhy{}by: Hyukjin Kwon \PYGZlt{}gurwls223@apache.org\PYGZgt{}\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nt}{\PYGZdq{}tree\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                    }\PYG{n+nt}{\PYGZdq{}sha\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}308faa10a134402eb4e0796c54b4e4dd000fc7dc\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                    }\PYG{n+nt}{\PYGZdq{}url\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}https://api.github.com/repos/apache/spark/git/trees/308faa10a134402eb4e0796c54b4e4dd000fc7dc\PYGZdq{}}
+\PYG{+w}{                }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{                }\PYG{err}{...}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{n+nt}{\PYGZdq{}author\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nt}{\PYGZdq{}login\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}juliuszsompolski\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nt}{\PYGZdq{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{25019163}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nt}{\PYGZdq{}node\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}MDQ6VXNlcjI1MDE5MTYz\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{err}{...}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{n+nt}{\PYGZdq{}committer\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{                }\PYG{n+nt}{\PYGZdq{}login\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}HyukjinKwon\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{                }\PYG{n+nt}{\PYGZdq{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{6477701}\PYG{p}{,}
+\PYG{+w}{                }\PYG{err}{...}
+\PYG{+w}{            }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{            }\PYG{n+nt}{\PYGZdq{}parents\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{[\PYGZob{}\PYGZcb{}]}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{},}
+\PYG{+w}{        }\PYG{err}{...}
+\PYG{+w}{    }\PYG{p}{]}
+\end{Verbatim}

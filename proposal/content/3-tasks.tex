@@ -1,0 +1,37 @@
+\section{Task}
+
+Github has provided some basic data aggregation for user to explore. For example, in \textbf{\textit{Trending\cite{ghtrending}}}, Github shows the most popular repositories in the specific time range, language and spoken language. In \textbf{\textit{Topics\cite{ghtopics}}}, Github shows repositories' topics according to tags of repositories. However, these data analysis are very basic and not wide to cover most of the information in Github.
+
+In this project, we will use spark to construct a real-time processing framework, which aims at handling massive activity records and analyze data to give a more comprehensive analysis of Github.
+
+There are main tasks in this project:
+
+\subsection{Data Preprocess}
+
+\begin{enumerate}
+    \item \textbf{Collect} data. Crawl Github Archive\cite{gha} and use Github API\cite{ghapi} to jointly query more detailed information about activities according to indices in Github Archive. Though Github Archive update several times a day, we will simulate it to a real-time stream to process data in real-time. 
+    \item \textbf{Preprocess} data by Spark. For complete each json record, split it into several parts, filter useful parts and store them in different tables.
+    \item Data \textbf{Persistence}. Design different schema and construct key meta tables to store necessary information, statistics result or some data not easily obtained directly.
+\end{enumerate}
+
+\subsection{Data Analysis}
+
+\begin{enumerate}
+    \item \textbf{Statistics}. We wiil try to construct a dashboard to show some basic statistics of Github, such as the repository with the highest frequency of commits, the most frequently commits time period, etc.
+    \item \textbf{Mining}. There are plenty of \textbf{\textit{text}} data from repository's file itself, commit record, issues, etc. We will try to use NLP to extract some useful information from these text data, such as more accuratly topics of repositories, technical hotspots, etc.
+    \item \textbf{Prediction}. We will try to predict the future trend of Github, such as the number of repositories created daily in the future, trends of some programming languages, etc.
+    \item \textbf{Relations}. One of the main two parts of Github is \textbf{Users.} They connect by following each other or participating in the development of the same repository, for example, make pull requests, or give issues, etc. We will try to analyze and construct a social graph.
+\end{enumerate}
+
+
+\subsection{Data Visualization}
+\begin{enumerate}
+    \item \textbf{Dashboard}. We will try to construct a dashboard to watch the process of data process and show the results of data analysis by deploying a webpage.
+    \item \textbf{Interaction}. We will try to make the dashboard interactive, such as users can choose the time range of data to analyze, or choose the language to analyze, etc. Results of corresponding process not only comes from persistant database, but also from real-time stream produced by Spark.
+\end{enumerate}
+
+
+
+
+
+

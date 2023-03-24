@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
+\PYG{+w}{    }\PYG{p}{\PYGZob{}}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{17165658}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}node\PYGZus{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}MDEwOlJlcG9zaXRvcnkxNzE2NTY1OA==\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}spark\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}full\PYGZus{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}apache/spark\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}private\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{false}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n+nt}{\PYGZdq{}owner\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{p}{\PYGZob{}}
+\PYG{+w}{            }\PYG{n+nt}{\PYGZdq{}login\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}apache\PYGZdq{}}\PYG{p}{,}
+\PYG{+w}{            }\PYG{n+nt}{\PYGZdq{}id\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+m+mi}{47359}\PYG{p}{,}
+\PYG{+w}{            }\PYG{err}{...}
+\PYG{+w}{        }\PYG{p}{\PYGZcb{}}
+\PYG{+w}{        }\PYG{err}{...}
+\PYG{+w}{    }\PYG{p}{\PYGZcb{}}
+\end{Verbatim}

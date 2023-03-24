@@ -1,0 +1,642 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.11.25)  24 MAR 2023 19:35
+entering extended mode
+ \write18 enabled.
+ %&-line parsing enabled.
+**conference_101719.tex
+(./conference_101719.tex
+LaTeX2e <2022-11-01>
+L3 programming layer <2022-11-02>
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/ieeetran/IEEEtran.cls
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+\@IEEEtrantmpdimenA=\dimen140
+\@IEEEtrantmpdimenB=\dimen141
+\@IEEEtrantmpdimenC=\dimen142
+\@IEEEtrantmpcountA=\count185
+\@IEEEtrantmpcountB=\count186
+\@IEEEtrantmpcountC=\count187
+\@IEEEtrantmptoksA=\toks16
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 5
+03.
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+\@IEEEnormalsizeunitybaselineskip=\dimen143
+-- This is a 10 point document.
+\CLASSINFOnormalsizebaselineskip=\dimen144
+\CLASSINFOnormalsizeunitybaselineskip=\dimen145
+\IEEEnormaljot=\dimen146
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+\IEEEquantizedlength=\dimen147
+\IEEEquantizedlengthdiff=\dimen148
+\IEEEquantizedtextheightdiff=\dimen149
+\IEEEilabelindentA=\dimen150
+\IEEEilabelindentB=\dimen151
+\IEEEilabelindent=\dimen152
+\IEEEelabelindent=\dimen153
+\IEEEdlabelindent=\dimen154
+\IEEElabelindent=\dimen155
+\IEEEiednormlabelsep=\dimen156
+\IEEEiedmathlabelsep=\dimen157
+\IEEEiedtopsep=\skip47
+\c@section=\count188
+\c@subsection=\count189
+\c@subsubsection=\count190
+\c@paragraph=\count191
+\c@IEEEsubequation=\count192
+\abovecaptionskip=\skip48
+\belowcaptionskip=\skip49
+\c@figure=\count193
+\c@table=\count194
+\@IEEEeqnnumcols=\count195
+\@IEEEeqncolcnt=\count196
+\@IEEEsubeqnnumrollback=\count197
+\@IEEEquantizeheightA=\dimen158
+\@IEEEquantizeheightB=\dimen159
+\@IEEEquantizeheightC=\dimen160
+\@IEEEquantizeprevdepth=\dimen161
+\@IEEEquantizemultiple=\count198
+\@IEEEquantizeboxA=\box51
+\@IEEEtmpitemindent=\dimen162
+\IEEEPARstartletwidth=\dimen163
+\c@IEEEbiography=\count199
+\@IEEEtranrubishbin=\box52
+)
+** ATTENTION: Overriding command lockouts (line 2).
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/cite/cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 332.
+Package: cite 2015/02/27  v 5.5
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2022/04/08 v2.17n AMS math features
+\@mathmargin=\skip50
+
+For additional information on amsmath, use the `?' option.
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks17
+\ex@=\dimen164
+))
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen165
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count266
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count267
+\leftroot@=\count268
+LaTeX Info: Redefining \overline on input line 399.
+LaTeX Info: Redefining \colon on input line 410.
+\classnum@=\count269
+\DOTSCASE@=\count270
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box53
+\strutbox@=\box54
+LaTeX Info: Redefining \big on input line 722.
+LaTeX Info: Redefining \Big on input line 723.
+LaTeX Info: Redefining \bigg on input line 724.
+LaTeX Info: Redefining \Bigg on input line 725.
+\big@size=\dimen166
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count271
+LaTeX Info: Redefining \bmod on input line 905.
+LaTeX Info: Redefining \pmod on input line 910.
+LaTeX Info: Redefining \smash on input line 940.
+LaTeX Info: Redefining \relbar on input line 970.
+LaTeX Info: Redefining \Relbar on input line 971.
+\c@MaxMatrixCols=\count272
+\dotsspace@=\muskip16
+\c@parentequation=\count273
+\dspbrk@lvl=\count274
+\tag@help=\toks18
+\row@=\count275
+\column@=\count276
+\maxfields@=\count277
+\andhelp@=\toks19
+\eqnshift@=\dimen167
+\alignsep@=\dimen168
+\tagshift@=\dimen169
+\tagwidth@=\dimen170
+\totwidth@=\dimen171
+\lineht@=\dimen172
+\@envbody=\toks20
+\multlinegap=\skip51
+\multlinetaggap=\skip52
+\mathdisplay@stack=\toks21
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/algorithms/algorithmic.sty
+Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks22
+)
+\c@ALC@unique=\count278
+\c@ALC@line=\count279
+\c@ALC@rem=\count280
+\c@ALC@depth=\count281
+\ALC@tlm=\skip53
+\algorithmicindent=\skip54
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen173
+\Gin@req@width=\dimen174
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 227.
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
+Package xcolor Info: Model `RGB' extended on input line 1369.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count282
+\float@exts=\toks23
+\float@box=\box55
+\@float@everytoks=\toks24
+\@floatcapt=\box56
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/minted/minted.sty
+Package: minted 2021/12/24 v2.6 Yet another Pygments shim for LaTeX
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+))
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/fvextra/fvextra.sty
+Package: fvextra 2019/02/04 v1.4 fvextra - extensions and patches for fancyvrb
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count283
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/fancyvrb/fancyvrb.sty
+Package: fancyvrb 2022/06/06 4.5 verbatim text (tvz,hv)
+\FV@CodeLineNo=\count284
+\FV@InFile=\read2
+\FV@TabBox=\box57
+\c@FancyVerbLine=\count285
+\FV@StepNumber=\count286
+\FV@OutFile=\write3
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/upquote/upquote.sty
+Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
+tim
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/lineno/lineno.sty
+Package: lineno 2005/11/02 line numbers on paragraphs v4.41
+\linenopenalty=\count287
+\output=\toks25
+\linenoprevgraf=\count288
+\linenumbersep=\dimen175
+\linenumberwidth=\dimen176
+\c@linenumber=\count289
+\c@pagewiselinenumber=\count290
+\c@LN@truepage=\count291
+\c@internallinenumber=\count292
+\c@internallinenumbers=\count293
+\quotelinenumbersep=\dimen177
+\bframerule=\dimen178
+\bframesep=\dimen179
+\bframebox=\box58
+LaTeX Info: Redefining \\ on input line 3056.
+)
+\c@FV@TrueTabGroupLevel=\count294
+\c@FV@TrueTabCounter=\count295
+\FV@TabBox@Group=\box59
+\FV@TmpLength=\skip55
+\c@FV@HighlightLinesStart=\count296
+\c@FV@HighlightLinesStop=\count297
+\FV@LoopCount=\count298
+\FV@NCharsBox=\box60
+\FV@BreakIndent=\dimen180
+\FV@BreakIndentNChars=\count299
+\FV@BreakSymbolSepLeft=\dimen181
+\FV@BreakSymbolSepLeftNChars=\count300
+\FV@BreakSymbolSepRight=\dimen182
+\FV@BreakSymbolSepRightNChars=\count301
+\FV@BreakSymbolIndentLeft=\dimen183
+\FV@BreakSymbolIndentLeftNChars=\count302
+\FV@BreakSymbolIndentRight=\dimen184
+\FV@BreakSymbolIndentRightNChars=\count303
+\c@FancyVerbLineBreakLast=\count304
+\FV@LineBox=\box61
+\FV@LineIndentBox=\box62
+\FV@LineWidth=\dimen185
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count305
+\calc@Bcount=\count306
+\calc@Adimen=\dimen186
+\calc@Bdimen=\dimen187
+\calc@Askip=\skip56
+\calc@Bskip=\skip57
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count307
+\calc@Cskip=\skip58
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/tools/shellesc.sty
+Package: shellesc 2019/11/08 v1.0c unified shell escape interface for LaTeX
+Package shellesc Info: Unrestricted shell escape enabled on input line 75.
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/ifplatform/ifplatform.sty
+Package: ifplatform 2017/10/13 v0.4a Testing for the operating system
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/generic/catchfile/catchfile.sty
+Package: catchfile 2019/12/09 v1.8 Catch the contents of a file (HO)
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
+))
+(c:/codesoft/texlive/2022/texmf-dist/tex/generic/iftex/ifluatex.sty
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+))
+(c:/codesoft/texlive/2022/texmf-dist/tex/generic/xstring/xstring.sty
+(c:/codesoft/texlive/2022/texmf-dist/tex/generic/xstring/xstring.tex
+\integerpart=\count308
+\decimalpart=\count309
+)
+Package: xstring 2021/07/21 v1.84 String manipulations (CT)
+)
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/framed/framed.sty
+Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
+\OuterFrameSep=\skip59
+\fb@frw=\dimen188
+\fb@frh=\dimen189
+\FrameRule=\dimen190
+\FrameSep=\dimen191
+)
+\minted@appexistsfile=\read3
+\minted@bgbox=\box63
+\minted@code=\write4
+\c@minted@FancyVerbLineTemp=\count310
+\c@minted@pygmentizecounter=\count311
+\@float@every@listing=\toks26
+\c@listing=\count312
+)
+runsystem(if not exist _minted-conference_101719 mkdir _minted-conference_10171
+9)...executed.
+
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/sttools/cuted.sty
+Package: cuted 2021/10/04 v2.0 Mixing onecolumn and twocolumn modes
+\At@ViperColsBreak=\toks27
+\preCutedStrip=\toks28
+\postCutedStrip=\toks29
+\cuted@@tempbox@a=\box64
+\cuted@@tempbox@c=\box65
+\cuted@@tempbox@var=\box66
+\hold@viper=\box67
+\@viper=\box68
+\cuted@@varbox@a=\box69
+\cuted@@varbox@c=\box70
+\cuted@@tempdim@spread=\dimen192
+\cuted@@tempdim@a=\dimen193
+\cuted@@tempdim@b=\dimen194
+\ht@hold@viper=\dimen195
+\ht@viper=\dimen196
+\var@@pagediscards@ht=\dimen197
+\stripsep=\skip60
+\viper@penalty=\count313
+)
+runsystem(for ^%i in (pygmentize.exe pygmentize.bat pygmentize.cmd) do set > co
+nference_101719.aex <nul: /p x=^%~$PATH:i>> conference_101719.aex)...executed.
+
+runsystem(del conference_101719.aex)...executed.
+
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2022-10-26 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count314
+\l__pdf_internal_box=\box71
+)
+(./conference_101719.aux)
+\openout1 = `conference_101719.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
+LaTeX Font Info:    ... okay on input line 16.
+
+-- Lines per column: 56 (exact).
+(c:/codesoft/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count315
+\scratchdimen=\dimen198
+\scratchbox=\box72
+\nofMPsegments=\count316
+\nofMParguments=\count317
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count318
+\MPscratchDim=\dimen199
+\MPnumerator=\count319
+\makeMPintoPDFobject=\count320
+\everyMPtoPDFconversion=\toks31
+) (c:/codesoft/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+(./content/1-introduction.tex) (./content/2-dataset.tex
+LaTeX Font Info:    Trying to load font information for U+msa on input line 16.
+
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 16.
+
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+\openout3 = `conference_101719.pyg'.
+
+
+(./_minted-conference_101719/emacs.pygstyle)
+(./_minted-conference_101719/81092461FC7ABB15989B05638ADB20AC0822657545B9670B6B
+1FF6C6DE2EA3AF.pygtex
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
+.
+
+(c:/codesoft/texlive/2022/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+))
+<./pic/github.png, id=1, 894.34125pt x 319.1925pt>
+File: ./pic/github.png Graphic file (type png)
+<use ./pic/github.png>
+Package pdftex.def Info: ./pic/github.png  used on input line 49.
+(pdftex.def)             Requested size: 268.3222pt x 95.76335pt.
+
+Overfull \hbox (16.3222pt too wide) in paragraph at lines 49--50
+ [][] 
+ []
+
+
+Underfull \hbox (badness 2326) in paragraph at lines 57--58
+[]\OT1/ptm/m/n/10 We will give some ex-am-ple of the data for-mat in
+ []
+
+[1{c:/codesoft/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+
+ <./pic/github.png>]) (./content/3-tasks.tex) (./content/4-techs.tex
+<./pic/dataflow.png, id=15, 1155.31625pt x 373.395pt>
+File: ./pic/dataflow.png Graphic file (type png)
+<use ./pic/dataflow.png>
+Package pdftex.def Info: ./pic/dataflow.png  used on input line 10.
+(pdftex.def)             Requested size: 273.47937pt x 88.38596pt.
+
+Overfull \hbox (21.47937pt too wide) in paragraph at lines 10--11
+ [][] 
+ []
+
+[2 <./pic/dataflow.png>]) (./content/appendix.tex
+\openout3 = `conference_101719.pyg'.
+
+
+(./_minted-conference_101719/5D3450C7412810F19333B12E1DA6A9690822657545B9670B6B
+1FF6C6DE2EA3AF.pygtex)
+\openout3 = `conference_101719.pyg'.
+
+
+(./_minted-conference_101719/E858D91C24096EBCE806A5204EBAA7AAB2776EC47679456C4F
+52861017D41FF6.pygtex
+Overfull \hbox (12.00017pt too wide) in paragraph at lines 7--7
+[][]\OT1/pcr/m/n/8 "https://avatars.githubusercontent.com/u/1143?v=4"[],|  
+ []
+
+)
+\openout3 = `conference_101719.pyg'.
+
+
+(./_minted-conference_101719/58D24E3B6F8EB04ECEDBA9EA8E8AC7B90822657545B9670B6B
+1FF6C6DE2EA3AF.pygtex)
+\openout3 = `conference_101719.pyg'.
+
+
+(./_minted-conference_101719/28F02E33C26AF15F7CE92F5E917044C6B2776EC47679456C4F
+52861017D41FF6.pygtex)
+\openout3 = `conference_101719.pyg'.
+
+
+(./_minted-conference_101719/CB862228BAAD318AD6B0036DB98963DC0822657545B9670B6B
+1FF6C6DE2EA3AF.pygtex
+Overfull \hbox (21.60017pt too wide) in paragraph at lines 2--2
+\OT1/pcr/m/n/8 https:[]//[]api[].[]github[].[]com[]/[]repos[]/[]apache[]/[]spar
+k[]/[]commits|  
+ []
+
+)
+\openout3 = `conference_101719.pyg'.
+
+
+(./_minted-conference_101719/92D840B5B342969716BC408447518EF7B2776EC47679456C4F
+52861017D41FF6.pygtex)
+\openout3 = `conference_101719.pyg'.
+
+
+(./_minted-conference_101719/12DB477CFAEB49C75885EDB00553B75EB2776EC47679456C4F
+52861017D41FF6.pygtex
+Overfull \hbox (7.20016pt too wide) in paragraph at lines 11--11
+[][]\OT1/pcr/m/n/8 "https://avatars.githubusercontent.com/u/3854017?"[]|  
+ []
+
+[3]
+Overfull \hbox (12.00017pt too wide) in paragraph at lines 29--29
+[][]\OT1/pcr/m/n/8 "5c682c2d1ec4073e277f9ba9f4bdf07e5794dabe@rspt.ch"[],|  
+ []
+
+
+Overfull \hbox (223.2003pt too wide) in paragraph at lines 34--34
+[][]\OT1/pcr/m/n/8 "https://api.github.com/repos/rspt/rspt-theme/commits/6b089e
+b4a43f728f0a594388092f480f2ecacfcd"[]|  
+ []
+
+))
+
+** Conference Paper **
+Before submitting the final camera ready copy, remember to:
+
+ 1. Manually equalize the lengths of two columns on the last page
+ of your paper;
+
+ 2. Ensure that any PostScript and/or PDF output post-processing
+ uses only Type 1 fonts and that every step in the generation
+ process uses the appropriate paper size.
+
+[4
+
+] (./conference_101719.aux)
+runsystem(del conference_101719.pyg)...executed.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 8209 strings out of 474971
+ 153137 string characters out of 5775629
+ 579581 words of memory out of 5000000
+ 29539 multiletter control sequences out of 15000+600000
+ 503727 words of font info for 91 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 74i,9n,77p,524b,645s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{c:/codesoft/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/codesoft
+/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/codesoft/
+texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/codesoft/t
+exlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/codesoft/te
+xlive/2022/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb><c:/codesoft/texlive/2
+022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/codesoft/texlive/2022/tex
+mf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/codesoft/texlive/2022/texmf-dist/f
+onts/type1/urw/times/utmbi8a.pfb><c:/codesoft/texlive/2022/texmf-dist/fonts/typ
+e1/urw/times/utmr8a.pfb><c:/codesoft/texlive/2022/texmf-dist/fonts/type1/urw/ti
+mes/utmri8a.pfb>
+Output written on conference_101719.pdf (4 pages, 185818 bytes).
+PDF statistics:
+ 68 PDF objects out of 1000 (max. 8388607)
+ 39 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+
