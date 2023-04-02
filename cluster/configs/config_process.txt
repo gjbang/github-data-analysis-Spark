@@ -1,0 +1,70 @@
+mkdir /opt/package
+mkdir /opt/module
+sudo apt-get update
+sudo apt-get install openjdk-8-jdk
+
+
+# zookeeper 
+
+# download
+wget -P /opt/package http://archive.apache.org/dist/zookeeper/zookeeper-3.5.7/apache-zookeeper-3.5.7-bin.tar.gz
+# unzip
+tar -zxvf /opt/package/apache-zookeeper-3.5.7-bin.tar.gz -C /opt/module/
+# rename
+mv /opt/module/apache-zookeeper-3.5.7-bin/ /opt/module/zookeeper
+# configs
+mkdir /opt/module/zookeeper/zkData
+mv /opt/configs/zookeeper/zoo.cfg /opt/module/zookeeper/conf/zoo.cfg
+
+
+
+# kafka
+
+# download
+wget -P /opt/package http://archive.apache.org/dist/kafka/3.0.0/kafka_2.12-3.0.0.tgz
+# unzip
+tar -zxvf /opt/package/kafka_2.12-3.0.0.tgz -C /opt/module/
+# rename
+mv /opt/module/kafka_2.12-3.0.0/ /opt/module/kafka
+#config
+mkdir /opt/module/kafka/datas
+mv /opt/configs/kafka/server.properties /opt/module/kafka/config/server.properties
+# ! change broker.id ---- vim /opt/module/kafka/config/server.properties
+
+
+
+# flume
+
+# download
+wget -P /opt/package http://archive.apache.org/dist/flume/1.9.0/apache-flume-1.9.0-bin.tar.gz
+# unzip
+tar -zxf /opt/package/apache-flume-1.9.0-bin.tar.gz -C /opt/module/
+# rename
+mv /opt/module/apache-flume-1.9.0-bin/ /opt/module/flume
+rm /opt/module/flume/lib/guava-11.0.2.jar
+
+
+
+# wget -P /opt/package http://archive.apache.org/dist/hadoop/common/hadoop-3.1.3/hadoop-3.1.3.tar.gz
+
+
+
+# hive
+
+# download
+wget -P /opt/package http://archive.apache.org/dist/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz
+# unzip
+tar -zxvf /opt/software/apache-hive-3.1.3-bin.tar.gz -C /opt/module/
+
+
+
+
+
+
+
+
+
+
+
+
+
