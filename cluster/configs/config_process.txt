@@ -3,7 +3,7 @@ mkdir /opt/module
 sudo apt-get update
 sudo apt-get install openjdk-8-jdk
 
-
+#################################################################################
 # zookeeper 
 
 # download
@@ -17,7 +17,7 @@ mkdir /opt/module/zookeeper/zkData
 mv /opt/configs/zookeeper/zoo.cfg /opt/module/zookeeper/conf/zoo.cfg
 
 
-
+#################################################################################
 # kafka
 
 # download
@@ -32,7 +32,7 @@ mv /opt/configs/kafka/server.properties /opt/module/kafka/config/server.properti
 # ! change broker.id ---- vim /opt/module/kafka/config/server.properties
 
 
-
+#################################################################################
 # flume
 
 # download
@@ -43,27 +43,33 @@ tar -zxf /opt/package/apache-flume-1.9.0-bin.tar.gz -C /opt/module/
 mv /opt/module/apache-flume-1.9.0-bin/ /opt/module/flume
 rm /opt/module/flume/lib/guava-11.0.2.jar
 
-
+#################################################################################
+# hadoop
 
 # wget -P /opt/package http://archive.apache.org/dist/hadoop/common/hadoop-3.1.3/hadoop-3.1.3.tar.gz
 
 
-
+#################################################################################
 # hive
 
 # download
 wget -P /opt/package http://archive.apache.org/dist/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz
 # unzip
-tar -zxvf /opt/software/apache-hive-3.1.3-bin.tar.gz -C /opt/module/
+tar -zxvf /opt/package/apache-hive-3.1.3-bin.tar.gz -C /opt/module/
+# rename
+mv /opt/module/apache-hive-3.1.3-bin/ /opt/module/hive
+# delete old guava-19.0.jar
+rm /opt/module/hive/lib/guava-19.0.jar 
+# copy guava-19.0.jar from hadoop share
+cp /opt/module/hadoop-3.1.3/share/hadoop/common/lib/guava-27.0-jre.jar /opt/module/hive/lib/
+# init hive metadata
+/opt/module/hive/bin/schematool -dbType derby -initSchema
 
 
-
-
-
-
-
-
-
+#################################################################################
+# change enviroment
+sudo mv /opt/configs/my_env.sh /etc/profile.d/my_env.sh
+source /etc/profile.d/my_env.sh
 
 
 

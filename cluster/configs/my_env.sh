@@ -7,3 +7,6 @@ export PATH=$PATH:$JAVA_HOME/bin
 export HADOOP_HOME=/opt/module/hadoop-3.1.3
 export PATH=$PATH:$HADOOP_HOME/bin
 export PATH=$PATH:$HADOOP_HOME/sbin
+
+export HIVE_HOME=/opt/module/hive
+export PATH=$PATH:$HIVE_HOME/bin
