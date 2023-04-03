@@ -30,8 +30,7 @@
 \PYG{+w}{                            }\PYG{n+nt}{\PYGZdq{}name\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}rspt\PYGZdq{}}
 \PYG{+w}{                        }\PYG{p}{\PYGZcb{},}
 \PYG{+w}{                        }\PYG{n+nt}{\PYGZdq{}message\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}Fix main header height on mobile\PYGZdq{}}\PYG{p}{,}
-\PYG{+w}{                        }\PYG{n+nt}{\PYGZdq{}distinct\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{true}\PYG{p}{,}
-\PYG{+w}{                        }\PYG{n+nt}{\PYGZdq{}url\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{l+s+s2}{\PYGZdq{}https://api.github.com/repos/rspt/rspt\PYGZhy{}theme/commits/6b089eb4a43f728f0a594388092f480f2ecacfcd\PYGZdq{}}
+\PYG{+w}{                        }\PYG{n+nt}{\PYGZdq{}distinct\PYGZdq{}}\PYG{p}{:}\PYG{+w}{ }\PYG{k+kc}{true}
 \PYG{+w}{                    }\PYG{p}{\PYGZcb{}}
 \PYG{+w}{                }\PYG{p}{]}
 \PYG{+w}{            }\PYG{p}{\PYGZcb{},}
