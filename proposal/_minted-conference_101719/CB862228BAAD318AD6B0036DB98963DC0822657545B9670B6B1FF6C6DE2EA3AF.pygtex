@@ -1,3 +1,0 @@
-\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8\relax}]
-    \PYG{n}{https}\PYG{p}{:}\PYG{o}{//}\PYG{n}{api}\PYG{o}{.}\PYG{n}{github}\PYG{o}{.}\PYG{n}{com}\PYG{o}{/}\PYG{n}{repos}\PYG{o}{/}\PYG{n}{apache}\PYG{o}{/}\PYG{n}{spark}\PYG{o}{/}\PYG{n}{commits}
-\end{Verbatim}
