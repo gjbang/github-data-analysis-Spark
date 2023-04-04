@@ -12,7 +12,7 @@ kafkaVersion="3.4.0"
 flumeVersion="1.11.0"
 hiveVersion="3.1.2"
 serverName=`hostname`
-
+initPassWd="heikediguo"
 
 # param list to execute different config function
 declare -A paramDict
@@ -54,7 +54,7 @@ Environments=(
     ['HADOOP_LOG_DIR']="export HADOOP_LOG_DIR=\"/var/log/hadoop\""
     ['KAFKA_HOME']="export KAFKA_HOME=\"$configPath/kafka\""
     ['HIVE_HOME']="export HIVE_HOME=\"$configPath/hive\""
-    ['JAVA_HOME']="export HIVE_HOME=\"/usr/lib/jvm/java-8-openjdk-amd64\""
+    ['JAVA_HOME']="export JAVA_HOME=\"/usr/lib/jvm/java-8-openjdk-amd64\""
 )
 
 # generate different kafka block id config file for each node
@@ -112,38 +112,6 @@ system_config(){
         cd /opt
         mkdir module
     fi
-}
-
-
-# ====== Config Spark Basic Lib ======
-spark_config(){
-
-
-
-    cd $configPath
-    log_warn "current working path: `pwd`"
-
-    log_info "install spark"
-
-    # == download spark
-    if [ ! -f "spark-$sparkVersion-bin-hadoop3.tgz" ]; then
-        log_info "download spark, version: $sparkVersion"
-        wget https://mirrors.tuna.tsinghua.edu.cn/apache/spark/spark-$sparkVersion/spark-$sparkVersion-bin-hadoop3.tgz -P ./  -r -c -O "spark-$sparkVersion-bin-hadoop3.tgz"
-        tar -zxvf spark-$sparkVersion-bin-hadoop3.tgz -C
-        mv spark-$sparkVersion-bin-hadoop3 spark
-    else
-        log_warn "Spark $sparkVersion has existed!"
-    fi
-
-    # == download graphframe
-    if [ ! -f "$graphFrameVersion" ]; then
-        log_info "download GraphFrame"
-        wget --content-disposition https://repos.spark-packages.org/graphframes/graphframes/0.8.2-spark3.0-s_2.12/graphframes-0.8.2-spark3.0-s_2.12.jar -P ./  -r -c -O "graphframes-0.8.2-spark3.0-s_2.12.jar"
-        # install graphframe
-        cp graphframes-0.8.2-spark3.0-s_2.12.jar $configPath/spark/jars/
-    else
-        log_warn "GraphFrame has existed!"
-    fi
 
     # == set path environment vars
     log_info "set path environment vars"
@@ -158,7 +126,45 @@ spark_config(){
 
     # == source bashrc
     source ~/.bashrc
+}
 
+
+# ====== Config Spark Basic Lib ======
+spark_config(){
+
+    cd $configPath
+    log_warn "current working path: `pwd`"
+
+    log_info "install spark"
+
+    # == download spark
+    if [ ! -f "spark-$sparkVersion-bin-hadoop3.tgz" ]; then
+        log_info "download spark, version: $sparkVersion"
+        wget https://mirrors.tuna.tsinghua.edu.cn/apache/spark/spark-$sparkVersion/spark-$sparkVersion-bin-hadoop3.tgz -P ./  -r -c -O "spark-$sparkVersion-bin-hadoop3.tgz"
+    else
+        log_warn "Spark $sparkVersion has existed!"
+    fi
+
+    tar -zxvf spark-$sparkVersion-bin-hadoop3.tgz
+    mv spark-$sparkVersion-bin-hadoop3 spark
+
+    # == download graphframe
+    if [ ! -f "$graphFrameVersion" ]; then
+        log_info "download GraphFrame"
+        wget --content-disposition https://repos.spark-packages.org/graphframes/graphframes/0.8.2-spark3.0-s_2.12/graphframes-0.8.2-spark3.0-s_2.12.jar -P ./  -r -c -O "graphframes-0.8.2-spark3.0-s_2.12.jar"
+        # install graphframe
+        cp graphframes-0.8.2-spark3.0-s_2.12.jar $configPath/spark/jars/
+    else
+        log_warn "GraphFrame has existed!"
+    fi
+
+    # == config spark env vars == #
+    mv $HOME/configs/spark/* $configPath/spark/conf/
+    # if not config local ip, web ui may mapping to localhost:xxxx
+    # which cannot be visited by outer network
+    # not need to modify /etc/hosts
+    # corresponding: netstat -ap | grep java; ps -ef | grep spark
+    echo -e "export SPARK_LOCAL_IP=$serverName\n" >> $configPath/spark/conf/spark-env.sh
     log_info "Spark config finished"
 }
 
@@ -230,11 +236,12 @@ zookeeper_config(){
     # decompress
     tar -zxvf zookeeper-$zookeeperVersion-bin.tar.gz
     # rename
-    mv zookeeper-$zookeeperVersion-bin zookeeper
+    mv apache-zookeeper-$zookeeperVersion-bin zookeeper
 
     # ======= configs =======
     mkdir /opt/module/zookeeper/zkData
     mv $HOME/configs/zookeeper/zoo.cfg $configPath/zookeeper/conf/zoo.cfg
+    mv $HOME/configs/zookeeper/myid $configPath/zookeeper/zkData/myid
 
 }
 
@@ -298,6 +305,7 @@ flume_config(){
     # remove useless jar lib
     rm -f $configPath/flume/lib/guava-11.0.2.jar
     # rm -f $configPath/flume/lib/guava-*.jar
+    mv $HOME/configs/flume/flume-env.sh $configPath/flume/conf/flume-env.sh
 }
 
 
@@ -334,14 +342,25 @@ hive_config(){
 
 
 ssh_config(){
-
+    # generate ssh key
     log_info "ssh config"
     ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
     cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
     chmod 600 ~/.ssh/authorized_keys
 
+    # config ssh
     echo -e "Port 22\nPubkeyAuthentication yes\n" >> /etc/ssh/sshd_config 
-    find -name "/etc/ssh/sshd_config " | xargs perl -pi -e "s|PermitRootLogin no|PermitRootLogin yes|g"
+    find /etc/ssh/ -name sshd_config | xargs perl -pi -e "s|PermitRootLogin no|PermitRootLogin yes|g"
+    # open password login, for ssh-copy id
+    find /etc/ssh/ -name sshd_config | xargs perl -pi -e "s|PasswordAuthentication no|PasswordAuthentication yes|g"
+    # not input yes when ssh-copy-id
+    sed -i '/StrictHostKeyChecking/c StrictHostKeyChecking no' /etc/ssh/ssh_config
+
+    # set a password for root, for ssh-copy-id
+    echo -e "root:$initPassWd" | chpasswd
+
+    # update config
+    service ssh restart
 }
 
 

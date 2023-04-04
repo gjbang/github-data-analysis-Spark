@@ -1,0 +1,90 @@
+Canadian media theorist Marshall McLuhan famously argued that the
+purpose of media studies was to make visible that which normally remains
+invisible ‒ namely, the effects of media technologies rather than the messages
+they convey. When he originally proposed this idea in the 1960s
+McLuhan was widely celebrated as the great prophet of the media age, but
+in the decades that followed his work gradually fell into disregard. In the
+1970s, for example, Raymond Williams claimed that McLuhan’s ideas were
+‘ludicrous’1 and Hans Magnus Enzensberger dismissed him as a ‘charlatan’
+who was ‘incapable of any theoretical construction’ and who wrote with
+‘provocative idiocy’.2 This tacit dismissal of McLuhan’s ideas was largely
+accepted until the late twentieth century, when there was renewed interest
+in his work among several German media theorists, such as Friedrich Kittler
+and Norbert Bolz. Unlike the critics associated with the Birmingham Centre
+for Contemporary Cultural Studies, who primarily focused on the content
+of media texts and the interpretive work performed by media audiences,
+these theorists applied epistemological and philosophical questions to the
+study of media, which was largely inspired by McLuhan’s famous claim
+that ‘the medium is the message’.3 Kittler even argued that ‘[w]ithout this
+formula…media studies itself would not exist as such in isolation or with
+any methodological clarity’.4 Kittler’s emphasis on the technical aspects of
+media gradually became fashionable in intellectual circles, and it is now
+widely known as ‘German media theory’. Some of the concepts and ideas
+that are common to both Canadian and German media theory include
+their focus on the materiality of communication, the notion of media as
+prosthetic technologies or ‘extensions of man’, the concept of media ecology,
+the impact of media technologies on the formation of subjectivity as
+well as the military applications of media technologies. Although German
+media theory has often been criticized for ignoring questions of content
+and reception and for promoting a kind of technological determinism (as
+was McLuhan and other critics associated with the Toronto School of Communication
+Theory), it has also been described as one of Germany’s most
+significant intellectual exports,5 and despite these criticisms the technical
+aspects of media have once again become a central issue in the humanities.
+10 Medium, Messenger, Transmission
+Sybille Krämer is rarely mentioned in these discussions, as her work is
+not widely known outside of Germany and it does not share the technical
+emphasis that is widely seen as the hallmark of German media theory.
+Nevertheless, her early work primarily focused on developing a philosophy
+of technology and theorizing the function of the computer as a medium.
+Krämer received a Ph.D. in philosophy at the Philipp University of Marburg
+in 1980, and her doctoral thesis, Technik, Gesellschaft und Natur: Versuch
+über ihren Zusammenhang (Technology, Society and Nature: An Attempt to
+Explain their Relationship), outlined her earliest reflections on technology.
+Beginning in 1984 she was also part of the ‘Mensch und Technik’ (Humans
+and Technology) work group as well as the ‘Artificial Intelligence’ commission
+of the Verein Deutscher Ingenieure (Society of German Engineers) in
+Düsseldorf. In 1988 she published her second book, Symbolische Maschinen:
+Die Idee der Formalisierung in geschichtlichem Abriss (Symbolic Machines:
+A Historical Abstract on the Concept of Formalization), which investigated
+the use of formalization, calculization, and mechanization in mathematics.
+Krämer introduced the terms ‘symbolic machines’ and ‘operational scripts’
+to refer to mathematical equations, as these equations are not readable
+texts but rather executable processes. If concrete numerals are replaced by
+letters, for example, it is possible to calculate using signs in a fundamentally
+more abstract manner. The introduction of algebra thus made it possible to
+use new signs for new operations, such as the introduction of differential
+calculus, which made it possible to work with infinitesimally small values.
+This book effectively expanded Krämer’s understanding of technology
+by arguing that all mathematical equations are essentially mechanical
+operations. In other words, Krämer did not attempt to provide a history of
+the computer or even to suggest that the machine should be understood
+as a manufactured object; rather, she suggested that the concept of the
+machine was a result of the mediating function of symbols or the process
+of ‘formalization’. Symbolische Maschinen thus signaled a shift from the
+study of technological history to the study of intellectual history and from
+the concept of technical operations to the concept of symbolic operations.
+In 1989 Krämer became professor of theoretical philosophy at the
+Institute of Philosophy at the Free University of Berlin, and in 1991 she
+published her habilitation treatise Berechenbare Vernunft: Kalkül und
+Rationalismus im 17. Jahrhundert (Computable Reason: Calculation and
+Rationalism in the 17th Century). This book represented an extension of the
+argument presented in her previous book by elaborating on the history of
+the idea of computation, and it similarly focused on operations rather than
+technologies. Berechenbare Vernunft can thus be seen as part of a similar
+Introduction: The Media Philosophy of Sybille Krämer 11
+shift away from the technological a priori that shapes or determines medial
+processes to the question of ‘mediality’ itself as a topic of philosophical
+inquiry. Kramer’s divergence from the dominant trends in German media
+theory at this time was made particularly apparent in her contribution to
+the 1998 anthology Medien, Computer, Realität: Wirklichkeitsvorstellungen
+und Neue Medien (Media, Computer, Reality: Perceptions of Reality and New
+Media), in which she articulated a very different concept of media: ‘We do
+not hear vibrations in the atmosphere but rather the sound of a bell; we do
+not read letters but rather a story.’6 In other words, the medium is supposed
+to be inaudible and invisible, and it only becomes apparent when it is not
+functioning properly.
+Krämer made a similar argument in her 2001 book, Sprache, Sprechakt,
+Kommunikation: Sprachtheoretische Positionen des 20. Jahrhunderts (Language,
+Speech Act, Communication: Theories of Language of the 20th Century),
+which focused on the disembodied nature of speech acts:
