@@ -94,7 +94,7 @@ system_config(){
     # java
     sudo add-apt-repository -y ppa:openjdk-r/ppa
     sudo apt-get -y update
-    sudo apt-get -y install openjdk-8-jdk
+    sudo apt-get -y install openjdk-8-jdk sshpass
     sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
     # install corresponding pip
     sudo apt -y install python3-pip
