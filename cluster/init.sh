@@ -169,7 +169,7 @@ spark_config(){
     fi
 
     # == config spark env vars == #
-    mv $HOME/configs/spark/* $configPath/spark/conf/
+    cp $HOME/configs/spark/* $configPath/spark/conf/
     # if not config local ip, web ui may mapping to localhost:xxxx
     # which cannot be visited by outer network
     # not need to modify /etc/hosts
@@ -202,7 +202,7 @@ hadoop_config(){
     # == move configure file to hadoop config path
     log_info "move configure file to hadoop config path"
     hadoopConfigDir="$configPath/hadoop/etc/hadoop/"
-    mv $HOME/configs/hadoop/* $hadoopConfigDir
+    cp $HOME/configs/hadoop/* $hadoopConfigDir
 
     # == set privilege of hadoop
     log_info "set privilege of hadoop"
@@ -250,8 +250,8 @@ zookeeper_config(){
 
     # ======= configs =======
     mkdir /opt/module/zookeeper/zkData
-    mv $HOME/configs/zookeeper/zoo.cfg $configPath/zookeeper/conf/zoo.cfg
-    mv $HOME/configs/zookeeper/myid $configPath/zookeeper/zkData/myid
+    cp $HOME/configs/zookeeper/zoo.cfg $configPath/zookeeper/conf/zoo.cfg
+    cp $HOME/configs/zookeeper/myid $configPath/zookeeper/zkData/myid
 
 }
 
@@ -282,7 +282,7 @@ kafka_config(){
 
     #config
     mkdir $configPath/kafka/datas
-    mv $HOME/configs/kafka/server.properties $configPath/kafka/config/server.properties
+    cp $HOME/configs/kafka/server.properties $configPath/kafka/config/server.properties
     # ! change broker.id ---- vim /opt/module/kafka/config/server.properties
     find $configPath/kafka/config/ -name "server.properties" | xargs perl -pi -e "s|broker.id=0|${kafkaBlockId[$serverName]}|g"
 }
@@ -315,7 +315,7 @@ flume_config(){
     # remove useless jar lib
     rm -f $configPath/flume/lib/guava-11.0.2.jar
     # rm -f $configPath/flume/lib/guava-*.jar
-    mv $HOME/configs/flume/flume-env.sh $configPath/flume/conf/flume-env.sh
+    cp $HOME/configs/flume/flume-env.sh $configPath/flume/conf/flume-env.sh
 }
 
 
@@ -359,7 +359,7 @@ mysql_config(){
 }
 
 
-
+# TODO: change hite-site.xml adapt to slaves
 hbase_config(){
     cd $configPath
     log_warn "current working path: `pwd`"
@@ -384,7 +384,7 @@ hbase_config(){
     # rename
     mv hbase-$hbaseVersion hbase
 
-    mv $HOME/configs/hbase/* $configPath/hbase/conf/
+    cp $HOME/configs/hbase/* $configPath/hbase/conf/
 }
 
 
@@ -430,10 +430,11 @@ hive_config(){
     cp /usr/share/java/mysql-connector-j-8.0.32.jar $configPath/hive/lib/
 
     # === move config files ===
-    mv $HOME/configs/hive/* $configPath/hive/conf/
+    cp $HOME/configs/hive/* $configPath/hive/conf/
 
-    # init hive metadata
-    $configPath/hive/bin/schematool -dbType mysql -initSchema -verbose
+    # init hive metadata,
+    ## ! This need set $HADOOP_HOME, so need source, there cannot be executed
+    # $configPath/hive/bin/schematool -dbType mysql -initSchema -verbose
 }
 
 

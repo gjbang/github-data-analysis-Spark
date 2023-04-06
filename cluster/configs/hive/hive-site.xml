@@ -15,6 +15,18 @@
         <value>com.mysql.jdbc.Driver</value>
     </property>
     
+    <!-- #### config meta db is mysql #### -->
+    <property>
+        <name>hive.metastore.db.type</name>
+        <value>mysql</value>
+        <description>元数据库类型指定为使用mysql</description>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>com.mysql.jdbc.Driver</value>
+        <description>指定mysql的驱动</description>
+    </property>
+
 	<!-- jdbc连接的username-->
     <property>
         <name>javax.jdo.option.ConnectionUserName</name>

@@ -1,2 +1,5 @@
 *.json
 *.json.gz
+./logs/*
+*/.idea/*
+cluster/test/mysqlconn/.idea/*

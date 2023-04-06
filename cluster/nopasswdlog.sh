@@ -8,15 +8,7 @@
 configPath="/opt/module"
 serverName=`hostname`
 
-nodeList=(
-    "master01"
-    "master02"
-    # "worker01"
-    # "worker02"
-    # "worker03"
-    # "worker04"
-)
-
+nodeList=()
 initPassWd="heikediguo"
 
 
@@ -38,10 +30,31 @@ log_error(){
 }
 
 
+# read lines from hosts and split by space
+while read line
+do
+    # split by space
+    arr=($line)
+    # get server name
+    nodeName=${arr[1]}
+
+    # add node name 
+    # if [ $serverName != "master01" ]; then
+    nodeList[${#nodeList[@]}]=$nodeName
+    # fi
+
+    log_info "inspect node name: $nodeName"
+done < $HOME/configs/hosts
+
 for node in ${nodeList[@]}
 do
     if [ $serverName != $node ]; then
         log_info "start to config $node"
         sshpass -p $initPassWd ssh-copy-id -i ~/.ssh/id_rsa.pub root@$node 
+    fi
+
+    if [ $node == "master01" ]; then
+        log_info "start init hive schema"
+        $configPath/hive/bin/schematool -dbType mysql -initSchema -verbose
     fi
 done

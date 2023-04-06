@@ -2,7 +2,7 @@
 
 configPath="/opt/module"
 serverName=`hostname`
-HIVE_LOG_DIR=$HIVE_HOME/logs
+HIVE_LOG_DIR=$configPath/hive/logs
 
 # print format log information
 log_info(){
@@ -53,7 +53,7 @@ $configPath/kafka/bin/kafka-server-start.sh -daemon $configPath/kafka/config/ser
 
 # start flume
 log_info "start flume service"
-$configPath/flume/bin/flume-ng agent -n a1 -c $configPath/flume/conf -f $configPath/flume/conf/flume.conf -Dflume.root.logger=INFO,console
+$configPath/flume/bin/flume-ng agent -n a1 -c $configPath/flume/conf -f $configPath/flume/conf/file_to_kafka.conf -Dflume.root.logger=INFO,console
 
 
 # start hbase
