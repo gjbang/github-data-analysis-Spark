@@ -29,4 +29,21 @@
 		<name>hadoop.http.staticuser.user</name>
 		<value>root</value>
 	</property>
+	<!--配置所有节点的root用户都可作为代理用户，server用户是root-->
+	<property>
+		<name>hadoop.proxyuser.root.hosts</name>
+		<value>*</value>
+	</property>
+
+	<!--配置root用户能够代理的用户组为任意组，避免group权限控制-->
+	<property>
+		<name>hadoop.proxyuser.root.groups</name>
+		<value>*</value>
+	</property>
+
+	<!--配置root用户能够代理的用户为任意用户-->
+	<property>
+		<name>hadoop.proxyuser.root.users</name>
+		<value>*</value>
+	</property>
 </configuration>

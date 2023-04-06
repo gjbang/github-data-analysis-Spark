@@ -11,6 +11,9 @@ scalaVersion="2.13"
 kafkaVersion="3.4.0"
 flumeVersion="1.11.0"
 hiveVersion="3.1.2"
+mysqlVersion="0.8.24-1"
+jdbcVersion="8.0.32-1"
+hbaseVersion="2.5.3"
 serverName=`hostname`
 initPassWd="heikediguo"
 
@@ -26,6 +29,8 @@ paramDict=(
     ['flume']="flume_config"
     ['hive']="hive_config"
     ['ssh']="ssh_config"
+    ['mysql']="mysql_config"
+    ['hbase']="hbase_config"
 )
 paramList=(
     "system"
@@ -35,10 +40,13 @@ paramList=(
     "scala"
     "kafka"
     "flume"
+    "mysql"
+    "hbase"
     "hive"
     "ssh"
     )
-
+# record all nodes name for initialize slaves, workers, etc.
+nodeList=()
 
 # Environment variables needed to add to bashrc
 declare -A Environments
@@ -55,6 +63,8 @@ Environments=(
     ['KAFKA_HOME']="export KAFKA_HOME=\"$configPath/kafka\""
     ['HIVE_HOME']="export HIVE_HOME=\"$configPath/hive\""
     ['JAVA_HOME']="export JAVA_HOME=\"/usr/lib/jvm/java-8-openjdk-amd64\""
+    ['HBASE_HOME']="export HBASE_HOME=\"$configPath/hbase\""
+    ['PATH']="export PATH=\$PATH:\$SPARK_HOME/bin:\$HADOOP_HOME/bin:\$HADOOP_HOME/sbin:\$KAFKA_HOME/bin:\$HIVE_HOME/bin:\$HBASE_HOME/bin"
 )
 
 # generate different kafka block id config file for each node
@@ -274,7 +284,7 @@ kafka_config(){
     mkdir $configPath/kafka/datas
     mv $HOME/configs/kafka/server.properties $configPath/kafka/config/server.properties
     # ! change broker.id ---- vim /opt/module/kafka/config/server.properties
-    find -name "$configPath/kafka/config/server.properties" | xargs perl -pi -e "s|broker.id=0|${kafkaBlockId[$serverName]}|g"
+    find $configPath/kafka/config/ -name "server.properties" | xargs perl -pi -e "s|broker.id=0|${kafkaBlockId[$serverName]}|g"
 }
 
 
@@ -309,6 +319,79 @@ flume_config(){
 }
 
 
+
+
+mysql_config(){
+    cd $configPath
+    log_warn "current working path: `pwd`"
+
+    # ===== delete old mysql =====
+    if type "mysql" > /dev/null; then
+        log_info "delete old mysql"
+        sudo DEBIAN_FRONTEND=noninteractive apt-get autoremove --purge "mysql*" -y 
+        sudo DEBIAN_FRONTEND=noninteractive rm -rf /etc/mysql/ /var/lib/mysql
+    fi
+
+    # ===== download mysql =====
+    if ! type "mysql" > /dev/null; then
+        # download
+        log_info "download mysql, version: $mysqlVersion"
+        wget "https://dev.mysql.com/get/mysql-apt-config_${mysqlVersion}_all.deb" -P ./  -r -c -O "mysql-apt-config_${mysqlVersion}_all.deb"
+        sudo DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_${mysqlVersion}_all.deb
+
+        # install mysql from apt repo
+        sudo apt update
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install mysql-server
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install mysql-client
+
+        # ====== configs user passwd and privileges =======
+        mysql -uroot < $HOME/configs/mysql/config.sql
+
+        # ====== start mysql =======
+        sudo service mysql restart
+
+        # open port
+        sudo ufw allow 3306
+    else
+        log_warn "Mysql $mysqlVersion has existed!"
+    fi
+
+}
+
+
+
+hbase_config(){
+    cd $configPath
+    log_warn "current working path: `pwd`"
+
+    # ===== delete old hbase =====
+    if [ -d "hbase" ]; then
+        log_info "delete old hbase"
+        rm -rf hbase
+    fi
+
+    # ===== download hbase =====
+    if [ ! -f "hbase-$hbaseVersion-bin.tar.gz" ]; then
+        # download
+        log_info "download hbase, version: $hbaseVersion"
+        wget https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/$hbaseVersion/hbase-$hbaseVersion-bin.tar.gz -P ./  -r -c -O "hbase-$hbaseVersion-bin.tar.gz"
+    else
+        log_warn "Hbase $hbaseVersion has existed!"
+    fi
+
+    # decompress
+    tar -zxvf hbase-$hbaseVersion-bin.tar.gz
+    # rename
+    mv hbase-$hbaseVersion hbase
+
+    mv $HOME/configs/hbase/* $configPath/hbase/conf/
+}
+
+
+# ====== hive config ======
+# 1. download hive and decompress
+# 2. adjust outer lib (JDBC, etc)
+# 3. init with MySQL
 hive_config(){
     cd $configPath
     log_warn "current working path: `pwd`"
@@ -330,17 +413,35 @@ hive_config(){
 
     # decompress
     tar -zxvf apache-hive-$hiveVersion-bin.tar.gz
-    # rename
+    # rename and logs path
     mv apache-hive-$hiveVersion-bin hive
+    mkdir $configPath/hive/logs/
+
+    # === config outer lib for hive ===
+
     # delete old guava-19.0.jar
     rm -f $configPath/hive/lib/guava-19.0.jar 
     # copy guava-19.0.jar from hadoop share
     cp $configPath/hadoop/share/hadoop/common/lib/guava-27.0-jre.jar $configPath/hive/lib/
+
+    # config MySQL JDBC
+    wget "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j_8.0.32-1ubuntu22.04_all.deb" -P ./  -r -c -O "mysql-jdbc.deb"
+    DEBIAN_FRONTEND=noninteractive dpkg -i ./mysql-jdbc.deb
+    cp /usr/share/java/mysql-connector-j-8.0.32.jar $configPath/hive/lib/
+
+    # === move config files ===
+    mv $HOME/configs/hive/* $configPath/hive/conf/
+
     # init hive metadata
-    $configPath/hive/bin/schematool -dbType derby -initSchema
+    $configPath/hive/bin/schematool -dbType mysql -initSchema -verbose
 }
 
 
+# help to config ssh, main function:
+# 1. generate ssh key
+# 2. config local ssh authorized_keys
+# 3. config sshd_config: all key/password login, 
+# 4. create root password
 ssh_config(){
     # generate ssh key
     log_info "ssh config"
@@ -364,12 +465,53 @@ ssh_config(){
 }
 
 
+# directly get the node list from hosts, not need to config manually
+generate_node_list(){
+    # generate worker list
+    log_info "generate worker list"
+
+    # read lines from hosts and split by space
+    while read line
+    do
+        # split by space
+        arr=($line)
+        # get server name
+        nodeName=${arr[1]}
+
+        # add node name 
+        # if [ $serverName != "master01" ]; then
+        nodeList[${#nodeList[@]}]=$nodeName
+        # fi
+
+        log_info "inspect node name: $nodeName"
+    done < $HOME/configs/hosts
+
+    # write node list to slaves, workers, etc
+    cat /dev/null > $HOME/configs/spark/slaves
+    cat /dev/null > $HOME/configs/hadoop/workers
+    cat /dev/null > $HOME/configs/hbase/regionservers
+    cat /dev/null > $HOME/configs/hbase/backup-masters
+    for node in ${nodeList[@]}; do
+        echo $node >> $HOME/configs/spark/slaves
+        echo $node >> $HOME/configs/hadoop/workers
+        echo $node >> $HOME/configs/hbase/regionservers
+        if [ $node != "master01" ]; then
+            echo $node >> $HOME/configs/hbase/backup-masters
+        fi
+    done
+
+
+}
+
 # ====== main execution process ======
 # check if execute all configs
 paramNum=$#
 if [ $paramNum -eq 0 ]; then
     log_info "No args, use default config, execute all config"
 fi
+
+# == generate node name from hosts file ==
+generate_node_list
 
 # == execute config for different args
 for param in ${paramList[@]}

@@ -32,4 +32,21 @@
 		<value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
 	</property>
 
+	<!-- #### Config when Hive #### -->
+	<!-- physical mem check -->
+	<property>
+		<name>yarn.nodemanager.pmem-check-enabled</name>
+		<value>true</value>
+	</property>
+	<!-- virtual mem check -->
+	<property>
+		<name>yarn.nodemanager.vmem-check-enabled</name>
+		<value>false</value>
+	</property>
+	<!-- ratio of vmem / pmem -->
+	<property>
+		<name>yarn.nodemanager.vmem-pmem-ratio</name>
+		<value>2.1</value>
+	</property>
+
 </configuration>
