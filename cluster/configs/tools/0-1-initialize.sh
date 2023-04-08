@@ -43,7 +43,6 @@ paramList=(
     "mysql"
     "hbase"
     "hive"
-    "ssh"
     )
 # record all nodes name for initialize slaves, workers, etc.
 nodeList=()
@@ -103,17 +102,17 @@ system_config(){
     log_info "apt update and install software"
     # java
     sudo add-apt-repository -y ppa:openjdk-r/ppa
-    sudo apt-get -y update
-    sudo apt-get -y install openjdk-8-jdk sshpass
+    sudo apt-get -y update >/dev/null 2>&1
+    sudo apt-get -y install openjdk-8-jdk sshpass >/dev/null 2>&1
     sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
     # install corresponding pip
-    sudo apt -y install python3-pip
+    sudo apt -y install python3-pip >/dev/null 2>&1
 
     log_info "pip install basic python package"
-    pip3 install numpy matplotlib jupyterlab pyspark
+    pip3 install numpy matplotlib jupyterlab pyspark >/dev/null 2>&1
 
     log_info "add host mapping"
-    cat $HOME/configs/hosts >> /etc/hosts
+    cat $HOME/configs/system/hosts >> /etc/hosts
 
     # == create config file path
     log_info "create config path"
@@ -155,7 +154,7 @@ spark_config(){
         log_warn "Spark $sparkVersion has existed!"
     fi
 
-    tar -zxvf spark-$sparkVersion-bin-hadoop3.tgz
+    tar -zxvf spark-$sparkVersion-bin-hadoop3.tgz >/dev/null 2>&1 
     mv spark-$sparkVersion-bin-hadoop3 spark
 
     # == download graphframe
@@ -196,7 +195,7 @@ hadoop_config(){
     fi
 
     # == untar hadoop
-    tar -zxvf hadoop-$hadoopVersion.tar.gz
+    tar -zxvf hadoop-$hadoopVersion.tar.gz >/dev/null 2>&1
     mv hadoop-$hadoopVersion hadoop
 
     # == move configure file to hadoop config path
@@ -244,7 +243,7 @@ zookeeper_config(){
     fi
 
     # decompress
-    tar -zxvf zookeeper-$zookeeperVersion-bin.tar.gz
+    tar -zxvf zookeeper-$zookeeperVersion-bin.tar.gz >/dev/null 2>&1
     # rename
     mv apache-zookeeper-$zookeeperVersion-bin zookeeper
 
@@ -276,7 +275,7 @@ kafka_config(){
     fi
 
     # decompress
-    tar -zxvf kafka_$scalaVersion-$kafkaVersion.tgz
+    tar -zxvf kafka_$scalaVersion-$kafkaVersion.tgz >/dev/null 2>&1
     # rename
     mv kafka_$scalaVersion-$kafkaVersion kafka
 
@@ -308,7 +307,7 @@ flume_config(){
     fi
 
     # decompress
-    tar -zxvf apache-flume-$flumeVersion-bin.tar.gz
+    tar -zxvf apache-flume-$flumeVersion-bin.tar.gz >/dev/null 2>&1
     # rename
     mv apache-flume-$flumeVersion-bin flume
 
@@ -337,7 +336,7 @@ mysql_config(){
         # download
         log_info "download mysql, version: $mysqlVersion"
         wget "https://dev.mysql.com/get/mysql-apt-config_${mysqlVersion}_all.deb" -P ./  -r -c -O "mysql-apt-config_${mysqlVersion}_all.deb"
-        sudo DEBIAN_FRONTEND=noninteractive dpkg -i mysql-apt-config_${mysqlVersion}_all.deb
+        sudo DEBIAN_FRONTEND=noninteractive apt install mysql-apt-config_${mysqlVersion}_all.deb
 
         # install mysql from apt repo
         sudo apt update
@@ -380,11 +379,21 @@ hbase_config(){
     fi
 
     # decompress
-    tar -zxvf hbase-$hbaseVersion-bin.tar.gz
+    tar -zxvf hbase-$hbaseVersion-bin.tar.gz >/dev/null 2>&1
     # rename
     mv hbase-$hbaseVersion hbase
 
     cp $HOME/configs/hbase/* $configPath/hbase/conf/
+
+    # produce all node list string
+    nodesStr=""
+    for node in ${!nodeList[@]}; do
+        nodesStr="$nodesStr,$node"
+    done
+    # remove first ',' 
+    keyReplace="hbase.zookeeper.quorum"
+    sed -i "/>$keyReplace</{n;s#.*#        <value>$nodeStr</value>#}" $configPath/hbase/conf/hbase-site.xml
+    
 }
 
 
@@ -412,7 +421,7 @@ hive_config(){
     fi
 
     # decompress
-    tar -zxvf apache-hive-$hiveVersion-bin.tar.gz
+    tar -zxvf apache-hive-$hiveVersion-bin.tar.gz >/dev/null 2>&1
     # rename and logs path
     mv apache-hive-$hiveVersion-bin hive
     mkdir $configPath/hive/logs/
@@ -424,10 +433,13 @@ hive_config(){
     # copy guava-19.0.jar from hadoop share
     cp $configPath/hadoop/share/hadoop/common/lib/guava-27.0-jre.jar $configPath/hive/lib/
 
-    # config MySQL JDBC
-    wget "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j_8.0.32-1ubuntu22.04_all.deb" -P ./  -r -c -O "mysql-jdbc.deb"
-    DEBIAN_FRONTEND=noninteractive dpkg -i ./mysql-jdbc.deb
-    cp /usr/share/java/mysql-connector-j-8.0.32.jar $configPath/hive/lib/
+    # config MySQL JDBC for master01
+    if [ $serverName = "master01" ]; then
+        # download mysql jdbc
+        wget "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j_8.0.32-1ubuntu22.04_all.deb" -P ./  -r -c -O "mysql-jdbc.deb"
+        DEBIAN_FRONTEND=noninteractive apt install ./mysql-jdbc.deb
+        cp /usr/share/java/mysql-connector-j-8.0.32.jar $configPath/hive/lib/
+    fi
 
     # === move config files ===
     cp $HOME/configs/hive/* $configPath/hive/conf/
@@ -485,7 +497,7 @@ generate_node_list(){
         # fi
 
         log_info "inspect node name: $nodeName"
-    done < $HOME/configs/hosts
+    done < $HOME/configs/system/hosts
 
     # write node list to slaves, workers, etc
     cat /dev/null > $HOME/configs/spark/slaves
@@ -522,6 +534,11 @@ do
         ${paramDict[$param]}
     elif [ $paramNum -eq 0 ]; then
         log_info "execute config for $param"
+        # only master01 can install mysql
+        if [ $param == "mysql" ] && [ $serverName != "master01" ]; then
+            log_warn "skip mysql config for $serverName"
+            continue
+        fi
         ${paramDict[$param]}
     else
         log_warn "No config for $param"

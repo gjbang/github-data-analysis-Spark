@@ -37,11 +37,11 @@ do
     nodeList+=($nodeName)
 
     log_info "inspect node name: $nodeName"
-done < $HOME/configs/hosts
+done < $HOME/configs/system/hosts
 
 for index in ${!ipList[@]}
 do
     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]}"
 
-    ssh -i "$HOME/.ssh/id_rsa" root@${ipList[$index]} "source ~/.bashrc; bash $HOME/start.sh "
+    ssh -i "$HOME/.ssh/id_rsa" root@${ipList[$index]} "source ~/.bashrc; bash $HOME/configs/tools/1-1-startServices.sh "
 done

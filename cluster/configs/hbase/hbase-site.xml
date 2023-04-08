@@ -54,7 +54,7 @@
 
     <property>
         <name>hbase.zookeeper.quorum</name>
-        <value>master01,master02,worker01</value>
+        <value>master01</value>
         <description>The directory shared by RegionServers.
         </description>
     </property>

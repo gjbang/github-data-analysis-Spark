@@ -28,17 +28,11 @@ There are two ways to configure Hive with Spark: `Spark on Hive` and `Hive on Sp
 
 ### Cluster Config and Start
 
-All corresponding files and directories are located at `./cluster`
+All corresponding files and directories are located at `cluster/configs`
 
-- according to server info, set hosts using private IP address
-  - not need to set `configs/hadoop/workers` and `configs/spark/slaves` 
-  - get hostname from hosts file
-- copy configs, test, and three shell scripts to $HOME
-- `sudo chmod a+x *.sh`
-- run `init.sh` firstly
-- `source ~/.bashrc`
-- after updating bash env and run `init.sh` on all nodes
-    - run `nopasswdlog.sh` on each nodes
-- run `start.sh` on master01 firstly
-    - run `start.sh` on other nodes to start spark
-    - or run `remote-start.sh` on master01 to start service on other nodes
+- modify `hosts` file with LF line ending, need to add one empty line at the end of the file
+- copy `configs` directory to `$HOME` at master01
+- modify priviledge of private key `ali-5003.pem` to `600`
+- add execution priviledge to all shell scripts in `configs/tools` directory
+- run `0-remoteConfig.sh` to config all nodes
+- run `1-remoteStart.sh` to start all nodes
