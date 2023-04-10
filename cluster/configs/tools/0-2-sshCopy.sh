@@ -20,7 +20,7 @@ log_error(){
 
 ipList=()
 nodeList=()
-initPassWd="heikediguo"
+initPassWd=$1
 
 
 # copy ssh key to all nodes

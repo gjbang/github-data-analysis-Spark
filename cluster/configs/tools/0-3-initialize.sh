@@ -113,6 +113,8 @@ system_config(){
 
     log_info "add host mapping"
     cat $HOME/configs/system/hosts >> /etc/hosts
+    # backup hostname and ip for nodes' hot-updating to file host.old
+    cp $HOME/configs/system/hosts $HOME/configs/system/hosts.old
 
     # == create config file path
     log_info "create config path"

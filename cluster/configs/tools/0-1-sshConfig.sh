@@ -6,25 +6,7 @@
 # after all nodes have executed init.sh
 # which means all nodes have a password to login
 
-initPassWd="heikediguo"
-
-
-# print format log information
-# log_info(){
-#     echo -e "`date +%m-%d-%H:%M:%S`:\033[34m [info] \033[m $1"
-# }
-
-# log_debug(){
-#     echo -e "`date +%m-%d-%H:%M:%S`:\033[32m [debug] \033[m $1"
-# }
-
-# log_warn(){
-#     echo -e "`date +%m-%d-%H:%M:%S`:\033[33m [warning] \033[m $1" 
-# }
-
-# log_error(){
-#     echo -e "`date +%m-%d-%H:%M:%S`:\033[31m [error] \033[m $1"
-# }
+initPassWd=$1
 
 
 # help to config ssh, main function:
