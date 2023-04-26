@@ -22,6 +22,18 @@ There are two ways to configure Hive with Spark: `Spark on Hive` and `Hive on Sp
 
 
 
+### Port
+
+| Port | Service | Description |
+| ---- | ------- | ----------- |
+| 8088 | YARN | YARN ResourceManager |
+| 9870 | HDFS | HDFS NameNode |
+| 9868 | HDFS | HDFS SecondaryNameNode |
+| 9864 | HDFS | HDFS DataNode |
+| 8042 | YARN | YARN NodeManager |
+| 8090 | Spark | Spark Master WebUI |
+| 8091 | Spark | Spark Worker WebUI |
+| 18080 | Spark | Spark History Server |
 
 
 ## Start Step
@@ -32,7 +44,7 @@ All corresponding files and directories are located at `cluster/configs`
 
 - modify `hosts` file with LF line ending, need to add one empty line at the end of the file
 - copy `configs` directory to `$HOME` at master01
-- modify priviledge of private key `ali-5003.pem` to `600`
+- ** modify priviledge of private key `ali-5003.pem` to `600` **
 - add execution priviledge to all shell scripts in `configs/tools` directory
-- run `0-remoteConfig.sh` to config all nodes
-- run `1-remoteStart.sh` to start all nodes
+- run `sudo ./0-remoteConfig.sh` to config all nodes
+- run `sudo ./1-remoteStart.sh` to start all nodes

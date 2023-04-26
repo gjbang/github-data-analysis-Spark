@@ -42,7 +42,7 @@ done < $HOME/configs/system/hosts
 # generate random strong password for temporary config
 sudo apt install -y openssl
 openssl rand -base64 40 > $HOME/configs/system/temp-passwd
-$initPassWd=`cat $HOME/configs/system/temp-passwd`
+initPassWd=`cat $HOME/configs/system/temp-passwd`
 log_warn "current temp init password: $initPassWd"
 
 # config ssh for all nodes
@@ -68,7 +68,7 @@ done
 
 # [FIX:] adjust ssh config to avoid malicious shell script injection via port scanning and weak password attacks
 ## close password authentication, only permit key-pair login
-sshSecurityInst="find /etc/ssh/ -name sshd_config | xargs perl -pi -e \"s|PasswordAuthentication no|PasswordAuthentication yes|g\"; sed -i '/StrictHostKeyChecking/c StrictHostKeyChecking no' /etc/ssh/ssh_config"
+sshSecurityInst="find /etc/ssh/ -name sshd_config | xargs perl -pi -e \"s|PasswordAuthentication no|PasswordAuthentication yes|g\"; sed -i '/StrictHostKeyChecking/c StrictHostKeyChecking no' /etc/ssh/ssh_config; service ssh restart"
 for index in ${!ipList[@]}
 do
     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]} remove password authentication"
