@@ -131,7 +131,12 @@ system_config(){
             echo -e "${Environments[$key]}" >> ~/.bashrc
             log_info "${key} has been set"
         else
-            log_warn "${key} has existed: ${!key}"
+            # skip "PATH"
+            if [ "${key}" == "PATH" ]; then
+                echo -e "${Environments[$key]}" >> ~/.bashrc
+            else
+                log_warn "${key} has existed: ${!key}"
+            fi
         fi
     done
 
@@ -312,11 +317,18 @@ flume_config(){
     tar -zxvf apache-flume-$flumeVersion-bin.tar.gz >/dev/null 2>&1
     # rename
     mv apache-flume-$flumeVersion-bin flume
+    # create config directory
+    mkdir $configPath/flume/conf
 
     # remove useless jar lib
     rm -f $configPath/flume/lib/guava-11.0.2.jar
-    # rm -f $configPath/flume/lib/guava-*.jar
+    # copy guava-27.0-jre.jar to flume or will cause java-exception-event bus error
+    cp $configPath/hadoop/share/hadoop/common/lib/guava-27.0-jre.jar $configPath/flume/lib/
+    # to avoid "Exception in thread "main" java.lang.NoClassDefFoundError: org/apache/hadoop/io/SequenceFile$CompressionType"
+    cp $configPath/hadoop/share/hadoop/common/hadoop-common-3.3.2.jar $configPath/flume/lib/
+    
     cp $HOME/configs/flume/flume-env.sh $configPath/flume/conf/flume-env.sh
+    cp $HOME/configs/flume/*.conf $configPath/flume/conf/
 }
 
 
@@ -395,6 +407,8 @@ hbase_config(){
     # remove first ',' 
     keyReplace="hbase.zookeeper.quorum"
     sed -i "/>$keyReplace</{n;s#.*#        <value>$nodeStr</value>#}" $configPath/hbase/conf/hbase-site.xml
+
+    log_info "hbase config done"
     
 }
 
@@ -531,13 +545,13 @@ generate_node_list
 # == execute config for different args
 for param in ${paramList[@]}
 do
-    if echo $@ | grep -q "\b$param\b"; then
+    if echo $@ | grep -o "\b$param\b"; then
         log_info "execute config for $param"
         ${paramDict[$param]}
     elif [ $paramNum -eq 0 ]; then
         log_info "execute config for $param"
         # only master01 can install mysql
-        if [ $param == "mysql" ] && [ $serverName != "master01" ]; then
+        if [ $param == "mysql" ]; then
             log_warn "skip mysql config for $serverName"
             continue
         fi
@@ -546,3 +560,5 @@ do
         log_warn "No config for $param"
     fi
 done
+
+log_info "====== config done ======"

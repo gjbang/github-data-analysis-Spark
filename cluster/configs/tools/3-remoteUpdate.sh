@@ -20,12 +20,8 @@ log_error(){
 
 ipList=()
 nodeList=()
-userName=$1
-initPassWd=$2
+userName="root"
 
-
-# copy ssh key to all nodes
-log_info "start to copy ssh key to all nodes"
 # read lines from hosts and split by space
 while read line
 do
@@ -45,6 +41,7 @@ done < $HOME/configs/system/hosts
 
 for index in ${!ipList[@]}
 do
-    log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]}"
-    sshpass -p $initPassWd ssh-copy-id -i ~/.ssh/id_rsa.pub $userName@${ipList[$index]}
+    log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]}, copy configs to remote node"
+    rsync -avz -e "ssh -i $HOME/.ssh/id_rsa" $HOME/configs $userName@${ipList[$index]}:/$HOME/
+    ssh -i "$HOME/.ssh/id_rsa" $userName@${ipList[$index]} "source ~/.bashrc; cat /dev/null > $HOME/configs/logs/update.log; bash $HOME/configs/tools/3-1-updateConfig.sh > $HOME/configs/logs/update.log"
 done
