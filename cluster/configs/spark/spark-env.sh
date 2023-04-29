@@ -11,5 +11,6 @@ export YARN_CONF_DIR=/opt/module/hadoop/etc/hadoop
 # for job history - 18080
 export SPARK_HISTORY_OPTS=-Dspark.history.provider=org.apache.spark.deploy.history.FsHistoryProvider
 export SPARK_HISTORY_OPTS=-Dspark.history.fs.logDirectory=hdfs://master01:8020/user/hadoop/evtlogs
+export SPARK_SSH_OPTS="-p 12222"
 
 

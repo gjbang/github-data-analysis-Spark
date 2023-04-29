@@ -57,23 +57,31 @@ done
 for index in ${!ipList[@]}
 do
     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]} copy configs"
-    rsync -avz -e "ssh -i $HOME/configs/system/ali-5003.pem" $HOME/configs $userName@${ipList[$index]}:/$HOME/
+    rsync -avz -e "ssh -i $HOME/configs/system/ali-5003.pem -p 12222" $HOME/configs $userName@${ipList[$index]}:/$HOME/
 done
 
 # copy ssh key to all nodes by ssh-copy-id
 for index in ${!ipList[@]}
 do
     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]} copy ssh key"
-    ssh -i "$HOME/configs/system/ali-5003.pem" $userName@${ipList[$index]} 'bash -s' < $HOME/configs/tools/0-2-sshCopy.sh $userName $initPassWd
+    ssh -i "$HOME/configs/system/ali-5003.pem" -p 12222 $userName@${ipList[$index]} 'bash -s' < $HOME/configs/tools/0-2-sshCopy.sh $userName $initPassWd
 done
 
 # [FIX:] adjust ssh config to avoid malicious shell script injection via port scanning and weak password attacks
 ## close password authentication, only permit key-pair login
-sshSecurityInst="find /etc/ssh/ -name sshd_config | xargs perl -pi -e \"s|PasswordAuthentication yes|PasswordAuthentication no|g\"; sed -i '/StrictHostKeyChecking/c StrictHostKeyChecking yes' /etc/ssh/ssh_config; sed -i '/PermitRootLogin/c PermitRootLogin no' /etc/ssh/ssh_config; service ssh restart"
+sshSecurityInst="find /etc/ssh/ -name sshd_config | xargs perl -pi -e \"s|PasswordAuthentication yes|PasswordAuthentication no|g\"; sed -i '/StrictHostKeyChecking/c StrictHostKeyChecking no' /etc/ssh/ssh_config; sed -i '/PermitRootLogin/c PermitRootLogin no' /etc/ssh/ssh_config; service ssh restart"
 for index in ${!ipList[@]}
 do
+    log_info "add host mapping"
+    ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "cat $HOME/configs/system/hosts >> /etc/hosts"
+    
+    log_info "update known_hosts for ip: ${ipList[$index]}, node name: ${nodeList[$index]}"
+    # update known_hosts by ssh-keyscan from system/hostlist for each node
+    # This will update known_hosts to ensure host can be connected without prompt and with new rsa key.
+    ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "cat $HOME/configs/system/hostlist | xargs -I {} ssh-keyscan -p 12222 {} >> ~/.ssh/known_hosts"
+    
     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]} remove password authentication"
-    ssh -i "$HOME/.ssh/id_rsa" $userName@${ipList[$index]} "$sshSecurityInst"
+    ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "$sshSecurityInst"
 done
 
 
@@ -88,5 +96,5 @@ do
     # initialize all nodes for hadoop, spark, hive, hbase, kafka, zookeeper
     ## if directly initializing mysql for master01 in 0-3..sh, there will be timeout error
     ## whole script will exit early without finishing initialization of other nodes
-    nohup ssh -i "$HOME/.ssh/id_rsa" $userName@${ipList[$index]} "source ~/.bashrc; sudo chmod a+x $HOME/configs/tools/*.sh; mkdir $HOME/configs/logs/; sudo nohup bash $HOME/configs/tools/0-3-initialize.sh > $HOME/configs/logs/init.log &" >/dev/null 2>&1 &
+    nohup ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc; sudo chmod a+x $HOME/configs/tools/*.sh; mkdir $HOME/configs/logs/; sudo nohup bash $HOME/configs/tools/0-3-initialize.sh > $HOME/configs/logs/init.log &" >/dev/null 2>&1 &
 done

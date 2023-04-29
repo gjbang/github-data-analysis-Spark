@@ -43,5 +43,5 @@ for index in ${!ipList[@]}
 do
     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]}"
 
-    ssh -i "$HOME/.ssh/id_rsa" $userName@${ipList[$index]} "source ~/.bashrc; cat /dev/null > $HOME/configs/logs/start.log; bash $HOME/configs/tools/1-1-startServices.sh > $HOME/configs/logs/start.log"
+    ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc; cat /dev/null > $HOME/configs/logs/start.log; bash $HOME/configs/tools/1-1-startServices.sh > $HOME/configs/logs/start.log &" &
 done

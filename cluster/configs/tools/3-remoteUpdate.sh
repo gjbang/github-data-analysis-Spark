@@ -42,6 +42,6 @@ done < $HOME/configs/system/hosts
 for index in ${!ipList[@]}
 do
     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]}, copy configs to remote node"
-    rsync -avz -e "ssh -i $HOME/.ssh/id_rsa" $HOME/configs $userName@${ipList[$index]}:/$HOME/
-    ssh -i "$HOME/.ssh/id_rsa" $userName@${ipList[$index]} "source ~/.bashrc; cat /dev/null > $HOME/configs/logs/update.log; bash $HOME/configs/tools/3-1-updateConfig.sh > $HOME/configs/logs/update.log"
+    rsync -avz -e "ssh -i $HOME/.ssh/id_rsa -p 12222" $HOME/configs $userName@${ipList[$index]}:/$HOME/
+    ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc; cat /dev/null > $HOME/configs/logs/update.log; bash $HOME/configs/tools/3-1-updateConfig.sh > $HOME/configs/logs/update.log"
 done

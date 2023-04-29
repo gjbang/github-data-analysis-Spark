@@ -44,7 +44,7 @@ cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/authorized_keys
 
 # config ssh
-echo -e "Port 22\nPubkeyAuthentication yes\n" >> /etc/ssh/sshd_config 
+echo -e "Port 12222\nPubkeyAuthentication yes\n" >> /etc/ssh/sshd_config 
 find /etc/ssh/ -name sshd_config | xargs perl -pi -e "s|PermitRootLogin no|PermitRootLogin yes|g"
 # open password login, for ssh-copy id
 find /etc/ssh/ -name sshd_config | xargs perl -pi -e "s|PasswordAuthentication no|PasswordAuthentication yes|g"

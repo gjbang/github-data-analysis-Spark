@@ -57,7 +57,7 @@ $configPath/kafka/bin/kafka-server-start.sh -daemon $configPath/kafka/config/ser
 
 # start flume
 log_info "start flume service"
-$configPath/flume/bin/flume-ng agent -n a1 -c $configPath/flume/conf -f $configPath/flume/conf/file_to_kafka.conf -Dflume.root.logger=INFO,console
+nohup $configPath/flume/bin/flume-ng agent -n a1 -c $configPath/flume/conf -f $configPath/flume/conf/file_to_kafka.conf -Dflume.root.logger=INFO,console &
 
 # bin/flume-ng agent -c conf/ -n a1 -f conf/file_to_kafka.conf -Dflume.root.logger=INFO,console
 

@@ -415,3 +415,4 @@ export HDFS_SECONDARYNAMENODE_USER=root
 export YARN_RESOURCEMANAGER_USER=root
 export YARN_NODEMANAGER_USER=root
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export HADOOP_SSH_OPTS="-p 12222 -o StrictHostKeyChecking=no"

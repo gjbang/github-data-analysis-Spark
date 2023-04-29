@@ -46,5 +46,8 @@ done < $HOME/configs/system/hosts
 for index in ${!ipList[@]}
 do
     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]}"
-    sshpass -p $initPassWd ssh-copy-id -i ~/.ssh/id_rsa.pub $userName@${ipList[$index]}
+    sshpass -p $initPassWd ssh-copy-id -i ~/.ssh/id_rsa.pub -p 12222 -f $userName@${ipList[$index]}
+
+    # clear known_hosts
+    # ssh-keygen -R ${ipList[$index]}
 done

@@ -103,7 +103,7 @@ system_config(){
     # java
     sudo add-apt-repository -y ppa:openjdk-r/ppa
     sudo apt-get -y update >/dev/null 2>&1
-    sudo apt-get -y install openjdk-8-jdk sshpass >/dev/null 2>&1
+    sudo DEBIAN_FRONTEND=noninteractive apt-get -y install openjdk-8-jdk >/dev/null 2>&1
     sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
     # install corresponding pip
     sudo apt -y install python3-pip >/dev/null 2>&1
@@ -111,8 +111,8 @@ system_config(){
     log_info "pip install basic python package"
     pip3 install numpy matplotlib jupyterlab pyspark >/dev/null 2>&1
 
-    log_info "add host mapping"
-    cat $HOME/configs/system/hosts >> /etc/hosts
+    # log_info "add host mapping"
+    # cat $HOME/configs/system/hosts >> /etc/hosts
     # backup hostname and ip for nodes' hot-updating to file host.old
     cp $HOME/configs/system/hosts $HOME/configs/system/hosts.old
 
@@ -122,6 +122,7 @@ system_config(){
         log_warn "$configPath not exists, create"
         cd /opt
         mkdir module
+        mkdir data
     fi
 
     # == set path environment vars
@@ -255,6 +256,25 @@ zookeeper_config(){
     mv apache-zookeeper-$zookeeperVersion-bin zookeeper
 
     # ======= configs =======
+    # modify myid according to serverName and nodeList
+    index=2
+    cid=2
+    for node in ${nodeList[@]}
+    do
+        if [ $node == $serverName ]; then
+            cid=$index
+        fi
+        echo -e "server.$index=$node:2888:3888" >> $HOME/configs/zookeeper/zoo.cfg
+        index=`expr $index + 1`
+    done
+    echo $cid > $HOME/configs/zookeeper/myid
+
+    # print zookeeper config and myid
+    log_info "zookeeper config: "
+    tail -n 5 $HOME/configs/zookeeper/zoo.cfg
+    log_info "zookeeper myid: "
+    cat $HOME/configs/zookeeper/myid
+    
     mkdir /opt/module/zookeeper/zkData
     cp $HOME/configs/zookeeper/zoo.cfg $configPath/zookeeper/conf/zoo.cfg
     cp $HOME/configs/zookeeper/myid $configPath/zookeeper/zkData/myid
@@ -335,6 +355,14 @@ flume_config(){
 
 
 mysql_config(){
+    # == create config file path
+    log_info "create config path"
+    if [ ! -d "$configPath" ]; then
+        log_warn "$configPath not exists, create"
+        cd /opt
+        mkdir module
+    fi
+
     cd $configPath
     log_warn "current working path: `pwd`"
 

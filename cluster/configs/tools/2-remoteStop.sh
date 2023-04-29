@@ -42,5 +42,5 @@ done < $HOME/configs/system/hosts
 for index in ${!ipList[@]}
 do
     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]}"
-    ssh -i "$HOME/.ssh/id_rsa" $userName@${ipList[$index]} "source ~/.bashrc; cat /dev/null > $HOME/configs/logs/stop.log; bash $HOME/configs/tools/2-1-stopServices.sh > $HOME/configs/logs/stop.log"
+    ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc; cat /dev/null > $HOME/configs/logs/stop.log; bash $HOME/configs/tools/2-1-stopServices.sh > $HOME/configs/logs/stop.log"
 done
