@@ -349,6 +349,7 @@ flume_config(){
     
     cp $HOME/configs/flume/flume-env.sh $configPath/flume/conf/flume-env.sh
     cp $HOME/configs/flume/*.conf $configPath/flume/conf/
+    cp $HOME/configs/kafka/*.conf $configPath/flume/conf/
 }
 
 

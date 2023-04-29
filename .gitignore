@@ -3,3 +3,5 @@
 ./logs/*
 */.idea/*
 cluster/test/mysqlconn/.idea/*
+data_gen/timer-data-gen.py
+data_gen/log.py

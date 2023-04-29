@@ -47,4 +47,13 @@ All corresponding files and directories are located at `cluster/configs`
 - ** modify priviledge of private key `ali-5003.pem` to `600` **
 - add execution priviledge to all shell scripts in `configs/tools` directory
 - run `sudo ./0-remoteConfig.sh` to config all nodes
+  - The most part of this shell aims to config ssh-no-password-login with ensure the security
+  - Aliyun servers are frequently attacked, so we need to do this.
 - run `sudo ./1-remoteStart.sh` to start all nodes
+
+#### Attention
+
+- After running `0-remoteConfig.sh`, the ssh port will be modified to `12222`
+  - Aliyun server will be attacked very often, and the `22` port is the most dangerous port
+
+- Logs of initialization and starting are located at `cluster/configs/logs`, shell script won't producce too much info, so details can be found in logs.
