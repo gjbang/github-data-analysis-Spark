@@ -24,7 +24,7 @@
 	<!-- 指定 ResourceManager 的地址-->
 	<property>
 		<name>yarn.resourcemanager.hostname</name>
-		<value>master01</value>
+		<value>master02</value>
 	</property>
 	<!-- 环境变量的继承 -->
 	<property>

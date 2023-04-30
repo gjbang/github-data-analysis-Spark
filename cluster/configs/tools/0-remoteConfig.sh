@@ -89,12 +89,12 @@ done
 for index in ${!ipList[@]}
 do
     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]} remote initialize"
-    # initialize mysql for master01
-    if [ ${nodeList[$index]} == "master01" ]; then
+    # initialize mysql for worker02
+    if [ ${nodeList[$index]} == "worker02" ]; then
         ./0-3-initialize.sh mysql > $HOME/configs/mysql/init.log
     fi
     # initialize all nodes for hadoop, spark, hive, hbase, kafka, zookeeper
-    ## if directly initializing mysql for master01 in 0-3..sh, there will be timeout error
+    ## if directly initializing mysql for worker02 in 0-3..sh, there will be timeout error
     ## whole script will exit early without finishing initialization of other nodes
     nohup ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc; sudo chmod a+x $HOME/configs/tools/*.sh; mkdir $HOME/configs/logs/; sudo nohup bash $HOME/configs/tools/0-3-initialize.sh > $HOME/configs/logs/init.log &" >/dev/null 2>&1 &
 done

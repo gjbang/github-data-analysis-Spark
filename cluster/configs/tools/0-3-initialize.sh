@@ -7,7 +7,7 @@ sparkVersion="3.3.2"
 hadoopVersion="3.3.2"
 graphFrameVersion="graphframes-0.8.2-spark3.0-s_2.12.jar"
 zookeeperVersion="3.7.1"
-scalaVersion="2.13"
+scalaVersion="2.12"
 kafkaVersion="3.4.0"
 flumeVersion="1.11.0"
 hiveVersion="3.1.2"
@@ -109,7 +109,7 @@ system_config(){
     sudo apt -y install python3-pip >/dev/null 2>&1
 
     log_info "pip install basic python package"
-    pip3 install numpy matplotlib jupyterlab pyspark >/dev/null 2>&1
+    pip3 install numpy matplotlib jupyterlab pyspark==3.3.2 >/dev/null 2>&1
 
     # log_info "add host mapping"
     # cat $HOME/configs/system/hosts >> /etc/hosts
@@ -122,6 +122,11 @@ system_config(){
         log_warn "$configPath not exists, create"
         cd /opt
         mkdir module
+    fi
+
+    if [ ! -d "/opt/data" ]; then
+        log_warn "/opt/data not exists, create"
+        cd /opt
         mkdir data
     fi
 
@@ -357,12 +362,20 @@ flume_config(){
 
 mysql_config(){
     # == create config file path
+    # == create config file path
     log_info "create config path"
     if [ ! -d "$configPath" ]; then
         log_warn "$configPath not exists, create"
         cd /opt
         mkdir module
     fi
+
+    if [ ! -d "/opt/data" ]; then
+        log_warn "/opt/data not exists, create"
+        cd /opt
+        mkdir data
+    fi
+
 
     cd $configPath
     log_warn "current working path: `pwd`"
@@ -479,7 +492,7 @@ hive_config(){
     cp $configPath/hadoop/share/hadoop/common/lib/guava-27.0-jre.jar $configPath/hive/lib/
 
     # config MySQL JDBC for master01
-    if [ $serverName = "master01" ]; then
+    if [ $serverName = "worker02" ]; then
         # download mysql jdbc
         wget "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j_8.0.32-1ubuntu22.04_all.deb" -P ./  -r -c -O "mysql-jdbc.deb"
         DEBIAN_FRONTEND=noninteractive apt install ./mysql-jdbc.deb

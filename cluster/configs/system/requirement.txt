@@ -1,0 +1,6 @@
+pyspark==3.3.2
+apscheduler
+numpy
+matplotlib
+pandas
+requests
