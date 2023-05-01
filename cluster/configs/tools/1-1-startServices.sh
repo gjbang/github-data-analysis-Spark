@@ -52,16 +52,30 @@ log_info "start kafka service"
 $configPath/kafka/bin/kafka-server-start.sh -daemon $configPath/kafka/config/server.properties
 
 # create kafka topic
-# log_info "create kafka topic"
-# $configPath/kafka/bin/kafka-topics.sh  --create --bootstrap-server master01:9092 --replication-factor 1 --partitions 1 --topic gh_activity
+log_info "create kafka topic"
+if [ $serverName == "worker02" ]; then
+    log_info "create kafka topic"
+    $configPath/kafka/bin/kafka-topics.sh  --create --bootstrap-server `hostname`:9092 --replication-factor 1 --partitions 1 --topic gh_activity
+fi
+
+# /opt/module/kafka/bin/kafka-topics.sh  --create --bootstrap-server worker02:9092 --replication-factor 1 --partitions 1 --topic gh_activity
 
 # start flume
 log_info "start flume service"
+
+if [ $serverName == "worker02" ]; then
+    log_info "start flume service"
+    # start master01 node
+    nohup $configPath/flume/bin/flume-ng agent -n a1 -c $configPath/flume/conf -f $configPath/flume/conf/file_to_kafka.conf -Dflume.root.logger=INFO,console &
+    nohup $configPath/flume/bin/flume-ng agent -n a2 -c $configPath/flume/conf -f $configPath/flume/conf/kafka_to_hdfs_log.conf -Dflume.root.logger=INFO,console &
+fi
+
 # # flume inspect /opt/data/*.json changes, and send to kafka
 # nohup $configPath/flume/bin/flume-ng agent -n a1 -c $configPath/flume/conf -f $configPath/flume/conf/file_to_kafka.conf -Dflume.root.logger=INFO,console &
+# nohup /opt/module/flume/bin/flume-ng agent -n a1 -c /opt/module/flume/conf -f /opt/module/flume/conf/file_to_kafka.conf -Dflume.root.logger=INFO,console &
 # # kafka inspect kafka topic, and send to hdfs
-# nohup $configPath/flume/bin/flume-ng agent -n a1 -c $configPath/flume/conf -f $configPath/flume/conf/kafka_to_hdfs_log.conf -Dflume.root.logger=INFO,console &
-
+# nohup $configPath/flume/bin/flume-ng agent -n a2 -c $configPath/flume/conf -f $configPath/flume/conf/kafka_to_hdfs_log.conf -Dflume.root.logger=INFO,console &
+# nohup /opt/module/flume/bin/flume-ng agent -n a2 -c /opt/module/flume/conf -f /opt/module/flume/conf/kafka_to_hdfs_log.conf -Dflume.root.logger=INFO,console &
 # bin/flume-ng agent -c conf/ -n a1 -f conf/file_to_kafka.conf -Dflume.root.logger=INFO,console
 
 # start hbase

@@ -1,0 +1,10 @@
+[Unit]
+Description= proxy
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/clash -f /root/.config/clash/config.yaml
+
+[Install]
+WantedBy=multi-user.target

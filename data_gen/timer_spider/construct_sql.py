@@ -95,11 +95,13 @@ def cons_repo_sql(cjson_list):
         lic = item["license"] if "license" in item else None
         # cut to 200 max chars with '' as split char
         topics = "'" + "','".join(item["topics"][:20]) + "'" if "topics" in item else None
+        # cut description to 250 max chars
+        description = item["description"][:250] if "description" in item else None
 
 
         value_list.append((
             item["id"],item["node_id"],item["name"],item["full_name"],item["private"],
-            item["owner"]["id"],item["description"],item["fork"],datetime.strptime(item["created_at"],UTC_FORMAT),datetime.strptime(item["updated_at"],UTC_FORMAT),
+            item["owner"]["id"], description, item["fork"],datetime.strptime(item["created_at"],UTC_FORMAT),datetime.strptime(item["updated_at"],UTC_FORMAT),
             datetime.strptime(item["pushed_at"],UTC_FORMAT),item["homepage"],item["size"],item["stargazers_count"],item["watchers_count"],
             item["language"],item["has_issues"],item["has_projects"],item["has_downloads"],item["has_wiki"],
             item["has_pages"],item["forks_count"],item["archived"],item["disabled"],item["open_issues_count"],

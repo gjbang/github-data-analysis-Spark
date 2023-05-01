@@ -116,7 +116,7 @@ system_config(){
 
     log_info "pip install basic python package"
     pip3 install numpy matplotlib jupyterlab pyspark==3.3.2 >/dev/null 2>&1
-    pip3 install -r $HOME/configs/system/requirment.txt >/dev/null 2>&1
+    pip3 install -r $HOME/configs/system/requirement.txt >/dev/null 2>&1
 
     # log_info "add host mapping"
     # cat $HOME/configs/system/hosts >> /etc/hosts
@@ -135,6 +135,8 @@ system_config(){
         log_warn "/opt/data not exists, create"
         cd /opt
         mkdir data
+        cd /opt/data
+        mkdir flume
     fi
 
     # == set path environment vars
@@ -320,9 +322,16 @@ kafka_config(){
 
     #config
     mkdir $configPath/kafka/datas
-    cp $HOME/configs/kafka/server.properties $configPath/kafka/config/server.properties
+
     # ! change broker.id ---- vim /opt/module/kafka/config/server.properties
-    find $configPath/kafka/config/ -name "server.properties" | xargs perl -pi -e "s|broker.id=0|${kafkaBlockId[$serverName]}|g"
+    find $HOME/configs/kafka/ -name "server.properties" | xargs perl -pi -e "s|broker.id=0|${kafkaBlockId[$serverName]}|g"
+    # change listeners in /opt/module/kafka/config/server.properties
+    sed -i "s|listeners=PLAINTEXT://master01:9092|listeners=PLAINTEXT://$serverName:9092|g" $HOME/configs/kafka/server.properties
+    # change channel bootstrap.servers in kafka_to_hdfs_log.conf
+    sed -i "s|bootstrap.servers = master01:9092|bootstrap.servers = $serverName:9092|g" $HOME/configs/kafka/kafka_to_hdfs_log.conf
+
+    cp $HOME/configs/kafka/server.properties $configPath/kafka/config/server.properties
+
 }
 
 
@@ -360,8 +369,13 @@ flume_config(){
     cp $configPath/hadoop/share/hadoop/common/hadoop-common-3.3.2.jar $configPath/flume/lib/
     
     cp $HOME/configs/flume/flume-env.sh $configPath/flume/conf/flume-env.sh
+
+    # change file_to_kafka.conf channel's bootstrap.servers
+    sed -i "s|bootstrap.servers = master01:9092|bootstrap.servers = $serverName:9092|g" $HOME/configs/flume/file_to_kafka.conf
+
     cp $HOME/configs/flume/*.conf $configPath/flume/conf/
     cp $HOME/configs/kafka/*.conf $configPath/flume/conf/
+
 }
 
 
@@ -381,6 +395,8 @@ mysql_config(){
         log_warn "/opt/data not exists, create"
         cd /opt
         mkdir data
+        cd /opt/data
+        mkdir flume
     fi
 
 

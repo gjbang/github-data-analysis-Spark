@@ -7,3 +7,4 @@ data_gen/timer-data-gen.py
 data_gen\timer_spider\__pycache__
 data_gen\timer_spider\temp_flume_data
 data_gen\timer_spider\temp_data
+data_gen/timer_spider/logs/*

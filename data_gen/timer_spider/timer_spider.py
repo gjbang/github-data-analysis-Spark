@@ -19,11 +19,11 @@ from log import Logger
 
 from construct_sql import cons_user_sql, cons_repo_sql,get_repo_insert_sql, get_user_insert_sql
 
-temp_data_dir = "/var/tmp/data"
-flume_data_dir = "/opt/data/flume"
+# temp_data_dir = "/tmp/data"
+# flume_data_dir = "/opt/data/flume"
 
-# temp_data_dir = "./temp_data"
-# flume_data_dir = "./temp_flume_data"
+temp_data_dir = "./temp_data"
+flume_data_dir = "./temp_flume_data"
 
 # current_mysql_json_name = ""
 # last_mysql_json_name = ""
@@ -37,16 +37,27 @@ new_files = []
 auth_tokens = []
 current_token_id = 0
 
+call_api_batch_size = 200
+
+# db_conn = pymysql.connect(
+#     host="worker02",
+#     port=3306,
+#     user="root",
+#     password="123456",
+#     database="github",
+#     charset="utf8mb4"
+# )
+
 db_conn = pymysql.connect(
-    host="worker02",
+    host="localhost",
     port=3306,
     user="root",
-    password="123456",
+    password="heikediguo",
     database="github",
-    charset="utf8"
+    charset="utf8mb4"
 )
 
-logger = Logger("./down_archive.log", logging.DEBUG, __name__).getlog()
+logger = Logger("./logs/main.log", logging.DEBUG, __name__).getlog()
 
 
 # decompress gzip file to json file
@@ -68,8 +79,8 @@ def download_json_data(download_cnt=1):
     
     # read downloaded json list from record log file
     # only record json which has been import to mysql,so it will be newer then data in flume
-    if os.path.exists("./downloaded_files.log"):
-        with open("./downloaded_files.log", "r") as f:
+    if os.path.exists("./logs/downloaded_files.log"):
+        with open("./logs/downloaded_files.log", "r") as f:
             downloaded_files = f.readlines()
     else:
         downloaded_files = []
@@ -83,7 +94,6 @@ def download_json_data(download_cnt=1):
     while fetch_cnt < download_cnt:
         target_time = (now_time - datetime.timedelta(hours=interval)).strftime('%Y-%m-%d-%H')
         
-
         if target_time + "\n" not in downloaded_files:
             # construct target url
             target_url = 'https://data.gharchive.org/' + target_time + '.json.gz'
@@ -112,7 +122,7 @@ def download_json_data(download_cnt=1):
                         # # another earlest file name B will only import to flume
                         # if fetch_cnt == 1:
                         # records downloaded file into downloaded_files.log
-                        with open("./downloaded_files.log", "a") as f:
+                        with open("./logs/downloaded_files.log", "a") as f:
                             f.write(target_time + "\n")
                 fetch_cnt += 1
                 current_mysql_json_name = target_time
@@ -144,8 +154,6 @@ def call_api_to_mysql(cjson_list):
         "user_data": ['actor', 'login','https://api.github.com/users/{}'],
         "repo_data": ['repo','name','https://api.github.com/repos/{}']
     }
-
-    ccj =0
 
     for cjson in cjson_list:
         for key, param in query_term.items():
@@ -194,8 +202,8 @@ def process_json_mysql():
     global import_mysql_cnt_main
 
     # read from last_mysql_json_name.log
-    if os.path.exists("./last_mysql_json_name.log"):
-        with open("./last_mysql_json_name.log", "r") as f:
+    if os.path.exists("./logs/last_mysql_json_name.log"):
+        with open("./logs/last_mysql_json_name.log", "r") as f:
             # delete "/n" in the end of line
             last_mysql_json_name = f.readline()
     else:
@@ -204,8 +212,8 @@ def process_json_mysql():
     # wait for download_json_data to download new json file
     while True:
         # get the name of lastest json file downloaded 
-        if os.path.exists("./downloaded_files.log"):
-            with open("./downloaded_files.log", "r") as f:
+        if os.path.exists("./logs/downloaded_files.log"):
+            with open("./logs/downloaded_files.log", "r") as f:
                 current_mysql_json_name = f.readlines()[-1][:-1]
         else:
             current_mysql_json_name = ""
@@ -227,8 +235,8 @@ def process_json_mysql():
         for cjson in generate_gzip_json(os.path.join(temp_data_dir, current_mysql_json_name + ".json.gz")):
             json_cnt += 1
             json_list.append(cjson)
-            if json_cnt == 20:
-                logger.debug("submit 20 json data to thread pool")
+            if json_cnt == call_api_batch_size:
+                logger.debug("submit " + str(call_api_batch_size) + " json data to thread pool")
                 executor.submit(call_api_to_mysql, json_list)
                 json_cnt = 0
                 json_list = []
@@ -239,7 +247,11 @@ def process_json_mysql():
 
     # finish mysql import
     # clear and then update last_mysql_json_name.log
-    with open("./last_mysql_json_name.log", "w") as f:
+    with open("./logs/last_mysql_json_name.log", "w") as f:
+        f.write(current_mysql_json_name)
+
+    # recorded all json which has been imported into mysql
+    with open("./logs/mysql_imported.log", "a") as f:
         f.write(current_mysql_json_name)
 
     logger.info(" == end import json data to mysql " + current_mysql_json_name + " == ")
@@ -287,7 +299,7 @@ def import_json_to_flume(cjson, opath):
 
 
     # logger.debug(" == start to append json to flume directory == ")
-    logger.debug(cjson)
+    # logger.debug(cjson)
 
     # append json to flume directory
     with open(opath, "a") as f:
@@ -299,8 +311,8 @@ def process_json_flume():
     global import_flume_cnt_main
 
     # read from last_flume_json_name.log
-    if os.path.exists("./last_flume_json_name.log"):
-        with open("./last_flume_json_name.log", "r") as f:
+    if os.path.exists("./logs/last_flume_json_name.log"):
+        with open("./logs/last_flume_json_name.log", "r") as f:
             # delete "/n" in the end of line
             last_flume_json_name = f.readline()
     else:
@@ -309,8 +321,8 @@ def process_json_flume():
     # wait for process_json_mysql to import new json file
     while True:
         # get the name of lastest json file imported to mysql
-        if os.path.exists("./last_mysql_json_name.log"):
-            with open("./last_mysql_json_name.log", "r") as f:
+        if os.path.exists("./logs/last_mysql_json_name.log"):
+            with open("./logs/last_mysql_json_name.log", "r") as f:
                 last_mysql_json_name = f.readline()
         else:
             last_mysql_json_name = ""
@@ -336,8 +348,12 @@ def process_json_flume():
 
     # finish flume import
     # clear and then update last_flume_json_name.log
-    with open("./last_flume_json_name.log", "w") as f:
+    with open("./logs/last_flume_json_name.log", "w") as f:
         f.write(last_mysql_json_name)
+
+    # record all json which has been imported into flume
+    with open('./logs/flume_imported.log', "a") as f:
+        f.write(last_mysql_json_name + "\n")
 
     logger.info(" == end import json data to flume " + last_flume_json_name + " == ")
     import_flume_cnt_main += 1
@@ -345,6 +361,23 @@ def process_json_flume():
 
 
 if __name__ == '__main__':
+
+    # check if temp_data_dir exists
+    if not os.path.exists(temp_data_dir):
+        os.makedirs(temp_data_dir)
+
+    # check if flume_data_dir exists
+    if not os.path.exists(flume_data_dir):
+        os.makedirs(flume_data_dir)
+
+    # clear last_mysql_json_name.log to empty content
+    with open("./logs/last_mysql_json_name.log", "w") as f:
+        f.write("")
+    
+    # clear last_flume_json_name.log to empty content
+    with open("./logs/last_flume_json_name.log", "w") as f:
+        f.write("")
+
     # check if DB connection : db_conn is available
     if not db_conn:
         logger.error("DB connection failed, exit")
@@ -355,16 +388,23 @@ if __name__ == '__main__':
         for line in f.readlines():
             auth_tokens.append(line.strip())
 
+    # init first part data by execute download task immediately
+    download_json_data()
+
     # Create a scheduler
     scheduler = BackgroundScheduler()
     # Schedule the download function to run every hour
-    scheduler.add_job(download_json_data, 'interval', hours=1, minutes=5, misfire_grace_time=None)
+    scheduler.add_job(download_json_data, 'interval', minutes=5, misfire_grace_time=None)
     # Schedule the processing function to run every hour, five minutes after the download function
-    scheduler.add_job(process_json_mysql, 'interval', hours=1, minutes=2, misfire_grace_time=None)
+    scheduler.add_job(process_json_mysql, 'interval', minutes=1, misfire_grace_time=None)
     # Schedule the processing function to run every hour, five minutes after the download function
-    scheduler.add_job(process_json_flume, 'interval', hours=1, seconds=5, misfire_grace_time=None)
-    # Start the scheduler
-    scheduler.start()
+    scheduler.add_job(process_json_flume, 'interval', minutes=1, misfire_grace_time=None)
+
+    try:
+        # Start the scheduler
+        scheduler.start()
+    except (KeyboardInterrupt, SystemExit):
+        scheduler.shutdown()
 
     # Wait for the scheduler to finish executing
     while True:

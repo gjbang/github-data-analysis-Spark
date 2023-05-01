@@ -38,7 +38,7 @@ $configPath/kafka/bin/kafka-server-stop.sh
 
 # need to set configuration name to replace "flume"
 log_warn "stop flume service"
-ps -ef | grep test-1 | grep -v grep | awk '{print $2}' | xargs kill -9
+ps -ef | grep flume | grep -v grep | awk '{print $2}' | xargs kill -9
 
 log_warn "stop hadoop service"
 $configPath/hadoop/sbin/stop-yarn.sh

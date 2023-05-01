@@ -113,26 +113,14 @@ do
     ## if directly initializing mysql for worker02 in 0-3..sh, there will be timeout error
     ## whole script will exit early without finishing initialization of other nodes
     nohup ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc; sudo chmod a+x $HOME/configs/tools/*.sh; mkdir $HOME/configs/logs/; sudo nohup bash $HOME/configs/tools/0-3-initialize.sh >> $HOME/configs/logs/init.log &" >/dev/null 2>&1 &
+done
 
-    # # init hive metastore for worker02
-    # if [ ${nodeList[$index]} == "worker02" ]; then
-    #     # by checking if /opt/module has hive directory, we can know if hive is installed
-    #     # if hive is installed, then init hive metastore
-    #     while true;
-    #     do
-    #         log_info "wait for hive installation to finish"
-    #         ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "ls /opt/module | grep hive | grep -v grep"
-    #         if [ $? -eq 0 ]; then
-    #             log_info "hive installation finished"
-    #             break
-    #         else
-    #             log_info "hive installation not finished, wait for 5 seconds"
-    #             sleep 5
-    #         fi
-    #     done
-    #     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]} init hive metastore"
-    #     # refresh HOME env variable to ensure hive can be found
-    #     ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc"
-    #     ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "/opt/module/hive/bin/schematool -dbType mysql -initSchema -verbose >> $HOME/configs/logs/init.log &" >/dev/null 2>&1 &
-    # fi
+
+# config agency for all nodes to visit foreign website and resources
+for index in ${!ipList[@]}
+do
+    log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]} config clash agency"
+    ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} 'bash -s' < $HOME/configs/tools/0-4-clashConfig.sh
+    # update env variable
+    ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc"
 done
