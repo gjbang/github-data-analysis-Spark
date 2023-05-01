@@ -85,16 +85,54 @@ do
 done
 
 
+ssh -i "$HOME/.ssh/id_rsa" -p 12222 root@worker02 "$HOME/configs/tools/0-3-initialize.sh mysql > $HOME/configs/mysql/init.log"
+
+# wait for mysql initialization to finish <- check ps -ef | grep mysql to see if mysql is running
+# if mysql is not running, current host wait for 5 seconds and check again
+while true;
+do
+    log_info "wait for mysql initialization to finish"
+    ssh -i "$HOME/.ssh/id_rsa" -p 12222 root@worker02 "service mysql restart; ps -ef | grep mysql | grep -v grep"
+    if [ $? -eq 0 ]; then
+        log_info "mysql initialization finished"
+        break
+    else
+        log_info "mysql initialization not finished, wait for 5 seconds"
+        sleep 5
+    fi
+done
+
+
 # remote initialize all nodes by calling 1-initiate.sh
 for index in ${!ipList[@]}
 do
     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]} remote initialize"
-    # initialize mysql for worker02
-    if [ ${nodeList[$index]} == "worker02" ]; then
-        ./0-3-initialize.sh mysql > $HOME/configs/mysql/init.log
-    fi
+
+
     # initialize all nodes for hadoop, spark, hive, hbase, kafka, zookeeper
     ## if directly initializing mysql for worker02 in 0-3..sh, there will be timeout error
     ## whole script will exit early without finishing initialization of other nodes
-    nohup ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc; sudo chmod a+x $HOME/configs/tools/*.sh; mkdir $HOME/configs/logs/; sudo nohup bash $HOME/configs/tools/0-3-initialize.sh > $HOME/configs/logs/init.log &" >/dev/null 2>&1 &
+    nohup ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc; sudo chmod a+x $HOME/configs/tools/*.sh; mkdir $HOME/configs/logs/; sudo nohup bash $HOME/configs/tools/0-3-initialize.sh >> $HOME/configs/logs/init.log &" >/dev/null 2>&1 &
+
+    # # init hive metastore for worker02
+    # if [ ${nodeList[$index]} == "worker02" ]; then
+    #     # by checking if /opt/module has hive directory, we can know if hive is installed
+    #     # if hive is installed, then init hive metastore
+    #     while true;
+    #     do
+    #         log_info "wait for hive installation to finish"
+    #         ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "ls /opt/module | grep hive | grep -v grep"
+    #         if [ $? -eq 0 ]; then
+    #             log_info "hive installation finished"
+    #             break
+    #         else
+    #             log_info "hive installation not finished, wait for 5 seconds"
+    #             sleep 5
+    #         fi
+    #     done
+    #     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]} init hive metastore"
+    #     # refresh HOME env variable to ensure hive can be found
+    #     ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc"
+    #     ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "/opt/module/hive/bin/schematool -dbType mysql -initSchema -verbose >> $HOME/configs/logs/init.log &" >/dev/null 2>&1 &
+    # fi
 done

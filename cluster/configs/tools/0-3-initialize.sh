@@ -105,11 +105,18 @@ system_config(){
     sudo apt-get -y update >/dev/null 2>&1
     sudo DEBIAN_FRONTEND=noninteractive apt-get -y install openjdk-8-jdk >/dev/null 2>&1
     sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
+
+    sleep 2
+
+    sudo DEBIAN_FRONTEND=noninteractive apt-get -y install openjdk-8-jdk >/dev/null 2>&1
+    sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
+
     # install corresponding pip
     sudo apt -y install python3-pip >/dev/null 2>&1
 
     log_info "pip install basic python package"
     pip3 install numpy matplotlib jupyterlab pyspark==3.3.2 >/dev/null 2>&1
+    pip3 install -r $HOME/configs/system/requirment.txt >/dev/null 2>&1
 
     # log_info "add host mapping"
     # cat $HOME/configs/system/hosts >> /etc/hosts
@@ -392,7 +399,7 @@ mysql_config(){
         # download
         log_info "download mysql, version: $mysqlVersion"
         wget "https://dev.mysql.com/get/mysql-apt-config_${mysqlVersion}_all.deb" -P ./  -r -c -O "mysql-apt-config_${mysqlVersion}_all.deb"
-        sudo DEBIAN_FRONTEND=noninteractive apt install mysql-apt-config_${mysqlVersion}_all.deb
+        sudo DEBIAN_FRONTEND=noninteractive apt install $configPath/mysql-apt-config_${mysqlVersion}_all.deb
 
         # install mysql from apt repo
         sudo apt update
@@ -402,14 +409,26 @@ mysql_config(){
         # ====== configs user passwd and privileges =======
         mysql -uroot < $HOME/configs/mysql/config.sql
 
+        # ====== change mysql config -- bind ip address -- open mysql to all address =======
+        # replace /etc/mysql/mysql.conf.d/mysqld.cnf bind-address = 127.0.0.1 by bind-address = 0.0.0.0
+        sudo sed -i "s/bind-address.*/bind-address = 0.0.0.0/g" /etc/mysql/mysql.conf.d/mysqld.cnf
+        sudo killall -u mysql
+        
         # ====== start mysql =======
         sudo service mysql restart
+        # open mysql when system start automatically
+        sudo update-rc.d -f mysql defaults
 
         # open port
         sudo ufw allow 3306
+
+        sudo netstat -tulnp | grep LISTEN | grep mysql
+
     else
-        log_warn "Mysql $mysqlVersion has existed!"
+        log_warn "Mysql $mysqlVersion has existed!" 
     fi
+
+    log_info "mysql config finished"
 
 }
 
@@ -504,7 +523,12 @@ hive_config(){
 
     # init hive metadata,
     ## ! This need set $HADOOP_HOME, so need source, there cannot be executed
-    # $configPath/hive/bin/schematool -dbType mysql -initSchema -verbose
+    if [ $serverName = "worker02" ]; then
+        log_info "init hive metadata"
+        $configPath/hive/bin/schematool -dbType mysql -initSchema -verbose
+    fi
+
+    log_info "hive config done"
 }
 
 

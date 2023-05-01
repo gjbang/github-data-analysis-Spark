@@ -19,11 +19,11 @@ from log import Logger
 
 from construct_sql import cons_user_sql, cons_repo_sql,get_repo_insert_sql, get_user_insert_sql
 
-# temp_data_dir = "/var/tmp/data"
-# flume_data_dir = "/opt/data/flume"
+temp_data_dir = "/var/tmp/data"
+flume_data_dir = "/opt/data/flume"
 
-temp_data_dir = "./temp_data"
-flume_data_dir = "./temp_flume_data"
+# temp_data_dir = "./temp_data"
+# flume_data_dir = "./temp_flume_data"
 
 # current_mysql_json_name = ""
 # last_mysql_json_name = ""
@@ -38,15 +38,15 @@ auth_tokens = []
 current_token_id = 0
 
 db_conn = pymysql.connect(
-    host="localhost",
+    host="worker02",
     port=3306,
     user="root",
-    password="heikediguo",
+    password="123456",
     database="github",
     charset="utf8"
 )
 
-logger = Logger("down_archive.log", logging.DEBUG, __name__).getlog()
+logger = Logger("./down_archive.log", logging.DEBUG, __name__).getlog()
 
 
 # decompress gzip file to json file
@@ -358,11 +358,11 @@ if __name__ == '__main__':
     # Create a scheduler
     scheduler = BackgroundScheduler()
     # Schedule the download function to run every hour
-    # scheduler.add_job(download_json_data, 'interval', minutes=5, misfire_grace_time=None)
+    scheduler.add_job(download_json_data, 'interval', hours=1, minutes=5, misfire_grace_time=None)
     # Schedule the processing function to run every hour, five minutes after the download function
-    # scheduler.add_job(process_json_mysql, 'interval', minutes=2, misfire_grace_time=None)
+    scheduler.add_job(process_json_mysql, 'interval', hours=1, minutes=2, misfire_grace_time=None)
     # Schedule the processing function to run every hour, five minutes after the download function
-    scheduler.add_job(process_json_flume, 'interval', seconds=5, misfire_grace_time=None)
+    scheduler.add_job(process_json_flume, 'interval', hours=1, seconds=5, misfire_grace_time=None)
     # Start the scheduler
     scheduler.start()
 

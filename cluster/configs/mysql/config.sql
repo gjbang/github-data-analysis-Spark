@@ -15,7 +15,7 @@ create database metastore;
 create database github;
 use github;
 -- create table to store basic information of github users
-create table users(
+create table if not exists users(
     id int primary key,
     login varchar(255) unique, 
     node_id varchar(255),
@@ -40,7 +40,7 @@ create table users(
 );
 
 -- create table to store basic information of github repos without any url
-create table repos(
+create table if not exists repos(
     id int primary key,
     node_id varchar(255),
     name varchar(255),
@@ -72,6 +72,7 @@ create table repos(
     open_issues int,
     watchers int,
     organization_id int,
+    topics varchar(255),
     default_branch varchar(255),
     etag varchar(255) default null
 );

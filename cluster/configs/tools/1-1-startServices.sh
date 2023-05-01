@@ -71,15 +71,17 @@ $configPath/hbase/bin/start-hbase.sh
 
 # start hive
 log_info "start hive service"
-start_hive(){
-    metapid=$(check_process HiveMetastore 9083)
-    cmd="nohup hive --service metastore >$HIVE_LOG_DIR/metastore.log 2>&1 &"
-    [ -z "$metapid" ] && eval $cmd || log_info "Metastroe服务已启动"
-    server2pid=$(check_process HiveServer2 10000)
-    cmd="nohup hive --service hiveserver2 >$HIVE_LOG_DIR/hiveServer2.log 2>&1 &"
-    [ -z "$server2pid" ] && eval $cmd || log_info "HiveServer2服务已启动"
-}
-start_hive
+# start_hive(){
+#     metapid=$(check_process HiveMetastore 9083)
+#     cmd="nohup hive --service metastore >$HIVE_LOG_DIR/metastore.log 2>&1 &"
+#     [ -z "$metapid" ] && eval $cmd || log_info "Metastroe服务已启动"
+#     server2pid=$(check_process HiveServer2 10000)
+#     cmd="nohup hive --service hiveserver2 >$HIVE_LOG_DIR/hiveServer2.log 2>&1 &"
+#     [ -z "$server2pid" ] && eval $cmd || log_info "HiveServer2服务已启动"
+# }
+# start_hive
+nohup $configPath/hive/bin/hive --service metastore > $HIVE_LOG_DIR/metastore-m.log 2>&1 &
+nohup $configPath/hive/bin/hive --service hiveserver2 > $HIVE_LOG_DIR/hiveServer2-m.log 2>&1 &
 
 
 # $configPath/hive/bin/hive --service metastore &
@@ -107,4 +109,11 @@ if [ $serverName == "master01" ]; then
 else
     log_info "start spark service"
     $configPath/spark/sbin/start-worker.sh spark://master01:7077
+fi
+
+
+# start mysql for worker02
+if [ $serverName == "worker02" ]; then
+    log_info "start mysql service"
+    service mysql restart
 fi
