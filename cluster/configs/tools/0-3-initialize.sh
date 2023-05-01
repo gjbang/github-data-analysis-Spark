@@ -14,6 +14,7 @@ hiveVersion="3.1.2"
 mysqlVersion="0.8.24-1"
 jdbcVersion="8.0.32-1"
 hbaseVersion="2.5.3"
+flinkVersion="1.17.0"
 serverName=`hostname`
 initPassWd="heikediguo"
 
@@ -31,6 +32,7 @@ paramDict=(
     ['ssh']="ssh_config"
     ['mysql']="mysql_config"
     ['hbase']="hbase_config"
+    ['flink']="flink_config"
 )
 paramList=(
     "system"
@@ -43,6 +45,7 @@ paramList=(
     "mysql"
     "hbase"
     "hive"
+    "flink"
     )
 # record all nodes name for initialize slaves, workers, etc.
 nodeList=()
@@ -576,6 +579,34 @@ ssh_config(){
 }
 
 
+
+flink_config(){
+    cd $configPath
+    log_warn "current working path: `pwd`"
+
+    log_info "install flink"
+
+    # == download flink
+    if [ ! -f "flink-$flinkVersion-bin.tgz" ]; then
+        log_info "download flink, version: $flinkVersion"
+        wget https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-$flinkVersion/flink-$flinkVersion-bin-scala_$scalaVersion.tgz -P ./  -r -c -O "flink-$flinkVersion-bin.tgz"
+        # wget https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-$flinkVersion/python/apache_flink-$flinkVersion-cp310-cp310-manylinux1_x86_64.whl  -P ./  -r -c -O "apache_flink-$flinkVersion-cp310-cp310-manylinux1_x86_64.whl"
+    else
+        log_warn "flink $flinkVersion has existed!"
+    fi
+
+    tar -zxvf flink-$flinkVersion-bin.tgz >/dev/null 2>&1 
+    mv flink-$flinkVersion flink
+
+    # pip3 install $configPath/apache_flink-$flinkVersion-cp310-cp310-manylinux1_x86_64.whl
+
+    # == config spark env vars == #
+    cp $HOME/configs/flink/* $configPath/flink/conf/
+
+    log_info "flink config finished"
+}
+
+
 # directly get the node list from hosts, not need to config manually
 generate_node_list(){
     # generate worker list
@@ -602,6 +633,7 @@ generate_node_list(){
     cat /dev/null > $HOME/configs/hadoop/workers
     cat /dev/null > $HOME/configs/hbase/regionservers
     cat /dev/null > $HOME/configs/hbase/backup-masters
+    cat /dev/null > $HOME/configs/flink/workers
     for node in ${nodeList[@]}; do
         echo $node >> $HOME/configs/spark/slaves
         echo $node >> $HOME/configs/hadoop/workers
@@ -609,6 +641,7 @@ generate_node_list(){
         if [ $node != "master01" ]; then
             echo $node >> $HOME/configs/hbase/backup-masters
         fi
+        echo $node >> $HOME/configs/flink/workers
     done
 
 

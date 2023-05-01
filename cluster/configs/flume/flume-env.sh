@@ -33,3 +33,4 @@
 #FLUME_CLASSPATH=""
 
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export JAVA_OPTS="-Xms1024m -Xmx2048m -Xss256k -Xmn1g -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:-UseGCOverheadLimit -Dcom.sun.management.jmxremote"

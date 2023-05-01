@@ -51,6 +51,8 @@ $configPath/zookeeper/bin/zkServer.sh start
 log_info "start kafka service"
 $configPath/kafka/bin/kafka-server-start.sh -daemon $configPath/kafka/config/server.properties
 
+# /opt/module/kafka/bin/kafka-server-start.sh -daemon /opt/module/kafka/config/server.properties
+
 # create kafka topic
 log_info "create kafka topic"
 if [ $serverName == "worker02" ]; then
@@ -58,8 +60,8 @@ if [ $serverName == "worker02" ]; then
     $configPath/kafka/bin/kafka-topics.sh  --create --bootstrap-server `hostname`:9092 --replication-factor 1 --partitions 1 --topic gh_activity
 fi
 
-# /opt/module/kafka/bin/kafka-topics.sh  --create --bootstrap-server worker02:9092 --replication-factor 1 --partitions 1 --topic gh_activity
-
+# /opt/module/kafka/bin/kafka-topics.sh  --create --bootstrap-server worker01:9092 --replication-factor 2 --partitions 4 --topic gh_activity
+# /opt/module/kafka/bin/kafka-topics.sh  --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic gh_activity
 # start flume
 log_info "start flume service"
 
@@ -130,4 +132,11 @@ fi
 if [ $serverName == "worker02" ]; then
     log_info "start mysql service"
     service mysql restart
+fi
+
+
+# start flink services
+if [ $serverName == "master01" ]; then
+    log_info "start flink service"
+    $configPath/flink/bin/start-cluster.sh
 fi
