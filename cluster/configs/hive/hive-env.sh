@@ -51,8 +51,7 @@
 # export HIVE_CONF_DIR=
 
 # Folder containing extra libraries required for hive compilation/execution can be controlled by:
-# export HIVE_AUX_JARS_PATH=
-
+export HIVE_AUX_JARS_PATH=/opt/module/hive/lib
 export HADOOP_HOME=/opt/module/hadoop/
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 export HIVE_SSH_OPTS="-p 12222 -o StrictHostKeyChecking=no"

@@ -107,9 +107,9 @@ system_config(){
     sudo add-apt-repository -y ppa:openjdk-r/ppa
     sudo apt-get -y update >/dev/null 2>&1
     sudo DEBIAN_FRONTEND=noninteractive apt-get -y install openjdk-8-jdk >/dev/null 2>&1
-    sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
+    sudo update-java-alternatives --set java-1.8.0-openjdk-amd64  >/dev/null 2>&1
 
-    sleep 2
+    sleep 1
 
     sudo DEBIAN_FRONTEND=noninteractive apt-get -y install openjdk-8-jdk >/dev/null 2>&1
     sudo update-java-alternatives --set java-1.8.0-openjdk-amd64
@@ -368,6 +368,7 @@ flume_config(){
     rm -f $configPath/flume/lib/guava-11.0.2.jar
     # copy guava-27.0-jre.jar to flume or will cause java-exception-event bus error
     cp $configPath/hadoop/share/hadoop/common/lib/guava-27.0-jre.jar $configPath/flume/lib/
+    mv $configPath/flume/lib/guava-27.0-jre.jar $configPath/flume/lib/guava-27.0.jar
     # to avoid "Exception in thread "main" java.lang.NoClassDefFoundError: org/apache/hadoop/io/SequenceFile$CompressionType"
     cp $configPath/hadoop/share/hadoop/common/hadoop-common-3.3.2.jar $configPath/flume/lib/
     
@@ -376,9 +377,20 @@ flume_config(){
     # change file_to_kafka.conf channel's bootstrap.servers
     sed -i "s|bootstrap.servers = master01:9092|bootstrap.servers = $serverName:9092|g" $HOME/configs/flume/file_to_kafka.conf
 
+    # copy config
     cp $HOME/configs/flume/*.conf $configPath/flume/conf/
     cp $HOME/configs/kafka/*.conf $configPath/flume/conf/
 
+    # copy necessary lib
+    cp $configPath/hadoop/share/hadoop/yarn/timelineservice/lib/htrace-core-3.1.0-incubating.jar $configPath/flume/lib/
+    rm -f $configPath/flume/lib/commons-io-2.11.0.jar
+    cp $configPath/hadoop/share/hadoop/common/lib/commons-io-2.8.0.jar $configPath/flume/lib/
+    cp $configPath/hadoop/share/hadoop/common/lib/commons-configuration2-2.1.1.jar $configPath/flume/lib/
+    cp $configPath/hadoop/share/hadoop/common/lib/hadoop-auth-3.3.2.jar $configPath/flume/lib/
+    cp $configPath/hadoop/share/hadoop/hdfs/hadoop-hdfs-3.3.2.jar $configPath/flume/lib/
+    cp $configPath/hadoop/share/hadoop/common/lib/woodstox-core-5.3.0.jar $configPath/flume/lib/
+    cp $configPath/hadoop/share/hadoop/common/lib/stax2-api-4.2.1.jar $configPath/flume/lib/
+    cp $configPath/hadoop/share/hadoop/hdfs/hadoop-hdfs-client-3.3.2.jar $configPath/flume/lib/
 }
 
 
@@ -529,13 +541,11 @@ hive_config(){
     # copy guava-19.0.jar from hadoop share
     cp $configPath/hadoop/share/hadoop/common/lib/guava-27.0-jre.jar $configPath/hive/lib/
 
-    # config MySQL JDBC for master01
-    if [ $serverName = "worker02" ]; then
-        # download mysql jdbc
-        wget "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j_8.0.32-1ubuntu22.04_all.deb" -P ./  -r -c -O "mysql-jdbc.deb"
-        DEBIAN_FRONTEND=noninteractive apt install ./mysql-jdbc.deb
-        cp /usr/share/java/mysql-connector-j-8.0.32.jar $configPath/hive/lib/
-    fi
+    # download mysql jdbc
+    wget "https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-j_8.0.32-1ubuntu22.04_all.deb" -P ./  -r -c -O "mysql-jdbc.deb"
+    DEBIAN_FRONTEND=noninteractive apt install ./mysql-jdbc.deb
+    cp /usr/share/java/mysql-connector-j-8.0.32.jar $configPath/hive/lib/
+    cp /usr/share/java/mysql-connector-j-8.0.32.jar $configPath/spark/jars/
 
     # === move config files ===
     cp $HOME/configs/hive/* $configPath/hive/conf/
@@ -546,6 +556,16 @@ hive_config(){
         log_info "init hive metadata"
         $configPath/hive/bin/schematool -dbType mysql -initSchema -verbose
     fi
+
+    # === config json serde ===
+    cd $configPath/hive
+    mkdir auxlib
+    cp $HOME/configs/hive/json-serde-1.3.8-jar-with-dependencies.jar $configPath/hive/auxlib/
+    cp $HOME/configs/hive/json-serde-1.3.8-jar-with-dependencies.jar $configPath/hive/lib/
+
+    # config spark on hive
+    cp $HOME/configs/hive/hive-site.xml $configPath/spark/conf/
+    cp $HOME/configs/hive/json-serde-1.3.8-jar-with-dependencies.jar $configPath/spark/jars/
 
     log_info "hive config done"
 }

@@ -14,6 +14,10 @@ create database metastore;
 -- create meta datasource for mysql
 create database github;
 use github;
+
+-- change charset to adapt to emoji in github data
+alter database github character set utf8mb4 collate utf8mb4_unicode_ci;
+
 -- create table to store basic information of github users
 create table if not exists users(
     id int primary key,

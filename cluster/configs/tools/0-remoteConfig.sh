@@ -115,6 +115,20 @@ do
     nohup ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc; sudo chmod a+x $HOME/configs/tools/*.sh; mkdir $HOME/configs/logs/; sudo nohup bash $HOME/configs/tools/0-3-initialize.sh >> $HOME/configs/logs/init.log &" >/dev/null 2>&1 &
 done
 
+# wait for all nodes to finish initialization
+while true;
+do
+    log_info "wait for all nodes to finish initialization"
+    ssh -i "$HOME/.ssh/id_rsa" -p 12222 root@worker02 "ps -ef | grep 0-3-initialize.sh | grep -v grep"
+    if [ $? -eq 0 ]; then
+        log_info "all nodes finished initialization"
+        break
+    else
+        log_info "all nodes not finished initialization, wait for 5 seconds"
+        sleep 5
+    fi
+done
+
 
 # config agency for all nodes to visit foreign website and resources
 for index in ${!ipList[@]}
@@ -122,5 +136,5 @@ do
     log_info "ip: ${ipList[$index]}, node name: ${nodeList[$index]} config clash agency"
     ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} 'bash -s' < $HOME/configs/tools/0-4-clashConfig.sh
     # update env variable
-    ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc"
+    ssh -i "$HOME/.ssh/id_rsa" -p 12222 $userName@${ipList[$index]} "source ~/.bashrc; systemctl restart clash.service"
 done

@@ -25,21 +25,22 @@ log_error(){
 
 # get executable file -- clash
 gunzip $HOME/configs/clash/clash-linux-amd64-v1.15.1.gz
-mv clash-linux-amd64-v1.15.1 $HOME/configs/clash/clash
+mv $HOME/configs/clash/clash-linux-amd64-v1.15.1 $HOME/configs/clash/clash
 sudo chmod a+x $HOME/configs/clash/clash
 cp $HOME/configs/clash/clash /usr/local/bin/clash
 
 # cp config file
+mkdir $HOME/.config/clash
 cp $HOME/configs/clash/config.yaml $HOME/.config/clash/config.yaml
-cp $HOME/configs/clash/Country.mmdb $HOME/configs/clash/Country.mmdb
+cp $HOME/configs/clash/Country.mmdb $HOME/.config/clash/Country.mmdb
 
 # config system service
 cp $HOME/configs/clash/clash.service /etc/systemd/system/clash.service
 
 # add agency
-echo -e "export https_proxy=http://127.0.0.1:7890" >> ~/.bashrc
-echo -e "export http_proxy=http://127.0.0.1:7890" >> ~/.bashrc
-echo -e "export all_proxy=socks5://127.0.0.1:7891" >> ~/.bashrc
+echo "export https_proxy=http://127.0.0.1:7890" >> ~/.bashrc
+echo "export http_proxy=http://127.0.0.1:7890" >> ~/.bashrc
+echo "export all_proxy=socks5://127.0.0.1:7891" >> ~/.bashrc
 
 source ~/.bashrc
 
@@ -51,6 +52,6 @@ systemctl enable clash
 systemctl start clash
 
 # verify if clash service can visit foreign website
-curl -I https://www.google.com > $HOME/configs/logs/clash.log
+# curl -I https://www.google.com > $HOME/configs/logs/clash.log &
 
 log_info "clash config finished"
