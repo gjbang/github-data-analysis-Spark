@@ -19,11 +19,11 @@ from log import Logger
 
 from construct_sql import cons_user_sql, cons_repo_sql,get_repo_insert_sql, get_user_insert_sql
 
-# temp_data_dir = "/tmp/data"
-# flume_data_dir = "/opt/data/flume"
+temp_data_dir = "/tmp/data"
+flume_data_dir = "/opt/data/flume"
 
-temp_data_dir = "./temp_data"
-flume_data_dir = "./temp_flume_data"
+# temp_data_dir = "./temp_data"
+# flume_data_dir = "./temp_flume_data"
 
 # current_mysql_json_name = ""
 # last_mysql_json_name = ""
@@ -37,25 +37,26 @@ new_files = []
 auth_tokens = []
 current_token_id = 0
 
-call_api_batch_size = 200
-
-# db_conn = pymysql.connect(
-#     host="worker02",
-#     port=3306,
-#     user="root",
-#     password="123456",
-#     database="github",
-#     charset="utf8mb4"
-# )
+call_api_batch_size = 10
+write_flume_batch_size = 200
 
 db_conn = pymysql.connect(
-    host="localhost",
+    host="worker02",
     port=3306,
     user="root",
-    password="heikediguo",
+    password="123456",
     database="github",
     charset="utf8mb4"
 )
+
+# db_conn = pymysql.connect(
+#     host="localhost",
+#     port=3306,
+#     user="root",
+#     password="heikediguo",
+#     database="github",
+#     charset="utf8mb4"
+# )
 
 logger = Logger("./logs/main.log", logging.DEBUG, __name__).getlog()
 
@@ -120,7 +121,6 @@ def download_json_data(download_cnt=1):
                         logger.info("download file " + target_time + " success")
                         # only record the 1st or the lastest file name A, which wiil query and import to mysql
                         # # another earlest file name B will only import to flume
-                        # if fetch_cnt == 1:
                         # records downloaded file into downloaded_files.log
                         with open("./logs/downloaded_files.log", "a") as f:
                             f.write(target_time + "\n")
@@ -155,6 +155,9 @@ def call_api_to_mysql(cjson_list):
         "repo_data": ['repo','name','https://api.github.com/repos/{}']
     }
 
+    limited = False
+    limited_token_id = 0
+
     for cjson in cjson_list:
         for key, param in query_term.items():
             url = param[2].format(cjson[param[0]][param[1]])
@@ -165,27 +168,37 @@ def call_api_to_mysql(cjson_list):
                 resp.raise_for_status()
             except Exception as e:
                 if resp.status_code == 403:
+                    if limited and limited_token_id == current_token_id:
+                        time.sleep(120)
+                    if not limited:
+                        limited_token_id = current_token_id
+                        limited = True
                     current_token_id = (current_token_id + 1) % len(auth_tokens)
                     logger.warning("token " + str(current_token_id) + " has been used up, change to next token")
                 else:
                     logger.error("call github api failed, error: " + str(e))
             else:
+                limited = False
                 # logger.debug("call github api success, url: " + url)
                 # get user data for insert sql
                 if key == "user_data":
                     user_values += cons_user_sql([resp.json()])
+                    # print(len(user_values))    
                 elif key == "repo_data":
                     repo_values += cons_repo_sql([resp.json()])
+                    # print(repo_values)
         # ccj += 1
         # logger.debug(" == call api to mysql, the # of json: " + str(ccj) +"/" + str(len(cjson_list)) + " == ")
 
         
     
     logger.debug(" == start to insert mysql == ")
-
+    # logger.debug(user_values)
     # execute insert sql
     cursor = db_conn.cursor()
     try:
+        # check if mysql connection is alive, if not, reconnect
+        db_conn.ping(reconnect=True)
         cursor.executemany(user_sql, user_values)
         cursor.executemany(repo_sql, repo_values)
         db_conn.commit()
@@ -201,13 +214,12 @@ def call_api_to_mysql(cjson_list):
 def process_json_mysql():
     global import_mysql_cnt_main
 
-    # read from last_mysql_json_name.log
-    if os.path.exists("./logs/last_mysql_json_name.log"):
-        with open("./logs/last_mysql_json_name.log", "r") as f:
-            # delete "/n" in the end of line
-            last_mysql_json_name = f.readline()
-    else:
-        last_mysql_json_name = ""
+    mysql_imported_files = []
+    if os.path.exists("./logs/mysql_imported.log"):
+        with open("./logs/mysql_imported.log", "r") as f:
+            for line in f.readlines():
+                mysql_imported_files.append(line[:-1])
+    
 
     # wait for download_json_data to download new json file
     while True:
@@ -218,7 +230,7 @@ def process_json_mysql():
         else:
             current_mysql_json_name = ""
 
-        if current_mysql_json_name != "" and current_mysql_json_name != last_mysql_json_name:
+        if current_mysql_json_name != "" and current_mysql_json_name not in mysql_imported_files:
             break
         else:
             logger.warning("current_mysql_json_name is empty, wait 60s")
@@ -245,14 +257,10 @@ def process_json_mysql():
         if json_cnt > 0:
             executor.submit(call_api_to_mysql, json_list)
 
-    # finish mysql import
-    # clear and then update last_mysql_json_name.log
-    with open("./logs/last_mysql_json_name.log", "w") as f:
-        f.write(current_mysql_json_name)
 
     # recorded all json which has been imported into mysql
     with open("./logs/mysql_imported.log", "a") as f:
-        f.write(current_mysql_json_name)
+        f.write(current_mysql_json_name + "\n")
 
     logger.info(" == end import json data to mysql " + current_mysql_json_name + " == ")
     import_mysql_cnt_main += 1
@@ -264,38 +272,39 @@ def process_json_mysql():
 
 # write archieve data to json file in flume directory
 # delete all urls property in json and serialize payload to string
-def import_json_to_flume(cjson, opath):
-    # modify json slightly to decrease the size of json
-    stack = [cjson]
-    while stack:
-        obj = stack.pop()
-        if isinstance(obj, dict):
-            for key in list(obj.keys()):
-                # delete all attributes which is "url" in json
-                if isinstance(obj[key], str) and ('http://' in obj[key] or 'https://' in obj[key]):
-                    del obj[key]
-                # delete empty attributes : [], {}
-                elif isinstance(obj[key], list) and len(obj[key]) == 0:
-                    del obj[key]
-                elif isinstance(obj[key], dict) and len(obj[key]) == 0:
-                    del obj[key]
-                else:
-                    stack.append(obj[key])
-        elif isinstance(obj, list):
-            stack.extend(obj)
+def import_json_to_flume(cjson_list, opath):
+    for cjson in cjson_list:
+        # modify json slightly to decrease the size of json
+        stack = [cjson]
+        while stack:
+            obj = stack.pop()
+            if isinstance(obj, dict):
+                for key in list(obj.keys()):
+                    # delete all attributes which is "url" in json
+                    if isinstance(obj[key], str) and ('http://' in obj[key] or 'https://' in obj[key]):
+                        del obj[key]
+                    # delete empty attributes : [], {}
+                    elif isinstance(obj[key], list) and len(obj[key]) == 0:
+                        del obj[key]
+                    elif isinstance(obj[key], dict) and len(obj[key]) == 0:
+                        del obj[key]
+                    else:
+                        stack.append(obj[key])
+            elif isinstance(obj, list):
+                stack.extend(obj)
 
-    stack = [cjson]
-    while stack:
-        obj = stack.pop()
-        if isinstance(obj, dict):
-            for key in list(obj.keys()):
-                # delete all attributes which is "url" in json
-                if key == 'payload':
-                    obj[key] = json.dumps(obj[key])
-                else:
-                    stack.append(obj[key])
-        elif isinstance(obj, list):
-            stack.extend(obj)
+    # stack = [cjson]
+    # while stack:
+    #     obj = stack.pop()
+    #     if isinstance(obj, dict):
+    #         for key in list(obj.keys()):
+    #             # delete all attributes which is "url" in json
+    #             if key == 'payload':
+    #                 obj[key] = json.dumps(obj[key])
+    #             else:
+    #                 stack.append(obj[key])
+    #     elif isinstance(obj, list):
+    #         stack.extend(obj)
 
 
     # logger.debug(" == start to append json to flume directory == ")
@@ -303,31 +312,37 @@ def import_json_to_flume(cjson, opath):
 
     # append json to flume directory
     with open(opath, "a") as f:
-        f.write(json.dumps(cjson) + "\n")
+        for cjson in cjson_list:
+            f.write(json.dumps(cjson) + "\n")
 
 
 
 def process_json_flume():
     global import_flume_cnt_main
 
-    # read from last_flume_json_name.log
-    if os.path.exists("./logs/last_flume_json_name.log"):
-        with open("./logs/last_flume_json_name.log", "r") as f:
-            # delete "/n" in the end of line
-            last_flume_json_name = f.readline()
-    else:
-        last_flume_json_name = ""
+    flume_imported_files = []
+    if os.path.exists("./logs/flume_imported.log"):
+        with open("./logs/flume_imported.log", "r") as f:
+            for line in f.readlines():
+                flume_imported_files.append(line[:-1])
 
+    current_flume_json_name = ""
     # wait for process_json_mysql to import new json file
     while True:
-        # get the name of lastest json file imported to mysql
-        if os.path.exists("./logs/last_mysql_json_name.log"):
-            with open("./logs/last_mysql_json_name.log", "r") as f:
-                last_mysql_json_name = f.readline()
-        else:
-            last_mysql_json_name = ""
+        down_files = []
+        # if os.path.exists("./logs/mysql_imported.log"):
+        #     with open("./logs/mysql_imported.log", "r") as f:
+        #         for line in f.readlines():
+        #             mysql_imported_files.append(line[:-1])
 
-        if last_mysql_json_name != "" and last_mysql_json_name != last_flume_json_name:
+        if os.path.exists("./logs/downloaded_files.log"):
+            with open("./logs/downloaded_files.log", "r") as f:
+                for line in f.readlines():
+                    down_files.append(line[:-1])
+
+        # if file is in mysql_imported_files, but not in flume_imported_files, then import it into flume
+        if len(list(set(down_files) - set(flume_imported_files))) > 0:
+            current_flume_json_name = list(set(down_files) - set(flume_imported_files))[-1]
             break
         else:
             logger.warning("current_flume_json_name is empty, wait 60s")
@@ -335,32 +350,56 @@ def process_json_flume():
 
     # create target json file
     logger.info(" == start import json data into flume == ")
-    if not os.path.exists(os.path.join(flume_data_dir, last_mysql_json_name + ".json")):
-        with open(os.path.join(flume_data_dir, last_mysql_json_name + ".json"), "w") as f:
+    if not os.path.exists(os.path.join(flume_data_dir, current_flume_json_name + ".json")):
+        with open(flume_data_dir+"/"+current_flume_json_name + ".json", "w") as f:
             f.write("")
 
 
     # == import data into flume == #
     with ThreadPoolExecutor(max_workers=10) as executor:
         # use map() to apply the function to each item coming from generate_gzip_json()
-        executor.map(import_json_to_flume, generate_gzip_json(os.path.join(temp_data_dir, last_mysql_json_name + ".json.gz")), repeat(os.path.join(flume_data_dir, last_mysql_json_name + ".json")))
+        # executor.map(import_json_to_flume, generate_gzip_json(os.path.join(temp_data_dir, current_flume_json_name + ".json.gz")), repeat(os.path.join(flume_data_dir, current_flume_json_name + ".json")))
+        json_cnt = 0
+        json_list = []
+        for cjson in generate_gzip_json(os.path.join(temp_data_dir, current_flume_json_name + ".json.gz")):
+            json_cnt += 1
+            json_list.append(cjson)
+            if json_cnt == write_flume_batch_size:
+                logger.debug("[flume] submit " + str(write_flume_batch_size) + " json data to thread pool")
+                executor.submit(import_json_to_flume, json_list, flume_data_dir +"/"+ current_flume_json_name + ".json")
+                json_cnt = 0
+                json_list = []
+                time.sleep(2)
 
+        if json_cnt > 0:
+            executor.submit(import_json_to_flume, json_list, flume_data_dir +"/"+ current_flume_json_name + ".json")
 
-    # finish flume import
-    # clear and then update last_flume_json_name.log
-    with open("./logs/last_flume_json_name.log", "w") as f:
-        f.write(last_mysql_json_name)
 
     # record all json which has been imported into flume
     with open('./logs/flume_imported.log', "a") as f:
-        f.write(last_mysql_json_name + "\n")
+        f.write(current_flume_json_name + "\n")
 
-    logger.info(" == end import json data to flume " + last_flume_json_name + " == ")
+    # delete last json file
+    with open('./logs/last_flume_json_name.log', "r") as f:
+        last_flume_json_name = f.readline()
+    os.remove(os.path.join(flume_data_dir, last_flume_json_name + ".json"))
+    with open('./logs/last_flume_json_name.log', "w") as f:
+        f.write(current_flume_json_name)
+
+    logger.info(" == end import json data to flume " + current_flume_json_name + " == ")
     import_flume_cnt_main += 1
 
 
 
 if __name__ == '__main__':
+    # check if log directory exists
+    if not os.path.exists("./logs"):
+        os.makedirs("./logs")
+
+    # chekc if log file exists
+    if not os.path.exists("./logs/main.log"):
+        with open("./logs/main.log", "w") as f:
+            f.write("")
 
     # check if temp_data_dir exists
     if not os.path.exists(temp_data_dir):
@@ -369,14 +408,6 @@ if __name__ == '__main__':
     # check if flume_data_dir exists
     if not os.path.exists(flume_data_dir):
         os.makedirs(flume_data_dir)
-
-    # clear last_mysql_json_name.log to empty content
-    with open("./logs/last_mysql_json_name.log", "w") as f:
-        f.write("")
-    
-    # clear last_flume_json_name.log to empty content
-    with open("./logs/last_flume_json_name.log", "w") as f:
-        f.write("")
 
     # check if DB connection : db_conn is available
     if not db_conn:
