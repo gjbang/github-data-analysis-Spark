@@ -398,6 +398,56 @@ def getUserActivity():
 
 
 
+def getRepoTopActivity():
+    timetable_df = spark.sql("select * from default.timestable")
+    maxtimestamp = timetable_df.select(F.max("timestamp_d").alias("timestamp_d"))
+    timetable_df = timetable_df.select(timetable_df.time_hour, timetable_df.timestamp_d)
+    timetable_df = timetable_df.join(maxtimestamp, maxtimestamp.timestamp_d==timetable_df.timestamp_d, 'inner')
+    timetable_df = timetable_df.select(timetable_df.time_hour).limit(1)
+
+
+    t_timetable_df = timetable_df.withColumn("nid", F.lit(1))
+    t_timetable_df = t_timetable_df.withColumnRenamed("time_hour", "created_at")
+    # convert the time_hour to timestamp
+    t_timetable_df = t_timetable_df.withColumn("created_at", F.to_timestamp(t_timetable_df.created_at, "yyyy-MM-dd-HH"))
+
+    pushTable_df = spark.sql("select id as event_id,time,actor_id, repo_id from default.pushTable")
+    pushTable_df = pushTable_df.join(timetable_df, timetable_df.time_hour == pushTable_df.time).drop(timetable_df.time_hour).drop(pushTable_df.time)
+
+    repo = spark.sql("select id, name, full_name, language from default.repos")
+    repo_rdd = repo.rdd
+    repo_rdd = repo_rdd.map(lambda x : (x[0], (x[1], x[2], x[3])))
+    repo_rdd = repo_rdd.reduceByKey(lambda a, b: b)
+    repo_rdd = repo_rdd.map(lambda x : (x[0], x[1][0], x[1][1], x[1][2]))
+    repo_df = spark.createDataFrame(repo_rdd, ["id", "name", "full_name", "language"])
+
+    push_repo = pushTable_df.join(repo_df, pushTable_df.repo_id == repo_df.id).drop(repo_df.id)
+    push_repo = push_repo.distinct()
+
+    # top active repos per hour
+    topActiveRepo = push_repo.groupBy(push_repo.repo_id).count()
+    topActiveRepo = topActiveRepo.join(repo, repo.id == topActiveRepo.repo_id).orderBy("count", ascending=0)
+    topActiveRepo = topActiveRepo.withColumnRenamed("count", "activity_cnt")
+    topActiveRepo = topActiveRepo.withColumnRenamed("id", "act_id")
+    topActiveRepo = topActiveRepo.withColumn("updated_at", F.lit(datetime.now().strftime("%Y-%m-%d %H:%M:%S")).cast("timestamp"))
+    topActiveRepo = topActiveRepo.withColumn("nid", F.lit(1)).join(t_timetable_df, "nid", "inner").drop("nid")
+    # topActiveRepo.show(20)
+
+
+    # top languages of active repos per hour
+    ###############################################
+    ### 根据语言的使用数量， 可以预测语言的变化趋势 ######
+    ###############################################
+    topLanguage = push_repo.filter(push_repo.language != "None").groupBy('language').count().orderBy("count", ascending=0)
+    topLanguage = topLanguage.withColumnRenamed("count", "activity_cnt")
+    topLanguage = topLanguage.withColumn("updated_at", F.lit(datetime.now().strftime("%Y-%m-%d %H:%M:%S")).cast("timestamp"))
+    topLanguage = topLanguage.withColumn("nid", F.lit(1)).join(t_timetable_df, "nid", "inner").drop("nid")
+    # topLanguage.show(20)
+
+    iodatabase(topActiveRepo, "topActiveRepo", "dws_repoTopActiveRepo", to_mongo=True, to_mysql=True, to_hive=True, show_count=False)
+    iodatabase(topLanguage, "topLanguage", "dws_repoTopLanguage", to_mongo=True, to_mysql=True, to_hive=True, show_count=False)
+
+
 if __name__ == '__main__':
     # df = getEventAllCount()
     # iodatabase(df, "eventAllCount", "dws_eventCounts", to_mongo=False, to_mysql=False, to_hive=True, show_count=True)
@@ -407,6 +457,6 @@ if __name__ == '__main__':
 
     # getIssueBasic()
     # mysqlUserBasic()
-    getUserActivity()
-
+    # getUserActivity()
+    getRepoTopActivity()
     

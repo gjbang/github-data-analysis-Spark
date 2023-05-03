@@ -1,5 +1,5 @@
 use github;
-drop table if exists userBasic;
+-- drop table if exists userBasic;
 create table if not exists userBasic(
     id int primary key auto_increment,
     email_ratio float,
