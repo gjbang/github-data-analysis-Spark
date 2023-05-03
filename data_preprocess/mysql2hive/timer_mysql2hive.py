@@ -122,18 +122,18 @@ if __name__ == '__main__':
     # start immediately
     import_mysql2hive()
 
-    # start timer
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(import_mysql2hive, 'interval', minutes=30)
+    # # start timer
+    # scheduler = BackgroundScheduler()
+    # scheduler.add_job(import_mysql2hive, 'interval', minutes=30)
 
 
-    try:
-        scheduler.start()
-    except (KeyboardInterrupt, SystemExit):
-        scheduler.shutdown()
+    # try:
+    #     scheduler.start()
+    # except (KeyboardInterrupt, SystemExit):
+    #     scheduler.shutdown()
 
-    while True:
-        time.sleep(1800)
-        # write log
-        with open("./logs/timer_mysql2hive.log", "a") as f:
-            f.write("==== Waiting for next round ====\n")
+    # while True:
+    #     time.sleep(1800)
+    #     # write log
+    #     with open("./logs/timer_mysql2hive.log", "a") as f:
+    #         f.write("==== Waiting for next round ====\n")
