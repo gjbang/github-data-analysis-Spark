@@ -31,7 +31,7 @@ def iodatabase(wdf, table, htable, to_mongo=True, to_mysql=True, to_hive=True, s
         # write data to hive
         # check if table exists
         try:
-            df.createOrReplaceTempView("tmptable")
+            wdf.createOrReplaceTempView("tmptable")
             s = spark.sql("show tables in default like '{}'".format(htable))
             flag = len(s.collect())
             if flag:

@@ -1,7 +1,7 @@
 use github;
-drop table if exists issueBasic;
+-- drop table if exists issueBasic;
 create table if not exists issueBasic(
-    id int primary key auto_increment,
+    id int primary key default 0 auto_increment,
     issueOpenCount int,
     issueClosedCount int,
     issueReopenedCount int,

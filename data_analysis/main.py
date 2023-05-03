@@ -31,7 +31,7 @@ def iodatabase(wdf, table, htable, to_mongo=True, to_mysql=True, to_hive=True, s
         # write data to hive
         # check if table exists
         try:
-            df.createOrReplaceTempView("tmptable")
+            wdf.createOrReplaceTempView("tmptable")
             s = spark.sql("show tables in default like '{}'".format(htable))
             flag = len(s.collect())
             if flag:
@@ -246,6 +246,158 @@ def getEventCount():
     return eventCount_df
 
 
+
+def mysqlUserBasic():
+    # read data from mysql
+    rdf = spark.read.format("jdbc")\
+            .option("url", "jdbc:mysql://worker02:3306/github")\
+            .option("driver", "com.mysql.cj.jdbc.Driver")\
+            .option("dbtable", "users")\
+            .option("user", "root")\
+            .option("password", "123456")\
+            .load()
+
+        # == get real data created time ==
+    timetable_df = spark.sql("select * from default.timestable")
+    maxtimestamp = timetable_df.select(F.max("timestamp_d").alias("timestamp_d"))
+    timetable_df = timetable_df.select(timetable_df.time_hour, timetable_df.timestamp_d)
+    timetable_df = timetable_df.join(maxtimestamp, maxtimestamp.timestamp_d==timetable_df.timestamp_d, 'inner')
+    timetable_df = timetable_df.select(timetable_df.time_hour).limit(1)
+    timetable_df = timetable_df.withColumn("id", F.lit(1)).withColumnRenamed("time_hour", "created_at")
+    # convert the time_hour to timestamp
+    timetable_df = timetable_df.withColumn("created_at", F.to_timestamp(timetable_df.created_at, "yyyy-MM-dd-HH"))
+
+
+
+    statistics = {}
+
+    # total user number
+    user_num = rdf.count()
+    # satisfy ratio of user having a public email
+    statistics["email_ratio"] = rdf.filter(rdf.email != "null").count() / user_num * 100
+    # satisfy ratio of user having a company
+    statistics["company_ratio"] = rdf.filter(rdf.company != "null").count() / user_num * 100
+    # satisfy ratio of user having a location
+    statistics["location_ratio"] = rdf.filter(rdf.location != "null").count() / user_num * 100
+    # satisfy ratio of user having a bio
+    statistics["bio_ratio"] = rdf.filter(rdf.bio != "null").count() / user_num * 100
+    # satisfy ratio of user having a blog
+    statistics["blog_ratio"] = rdf.filter(rdf.blog != "null").count() / user_num * 100
+    # satisfy ratio of user having a hireable
+    statistics["hireable_ratio"] = rdf.filter(rdf.hireable != "null").count() / user_num * 100
+    # satisfy ratio of user having a twitter_username
+    statistics["twitter_username_ratio"] = rdf.filter(rdf.twitter_username != "null").count() / user_num * 100
+    # satisfy ratio of user having a followers
+    statistics["followers_ratio"] = rdf.filter(rdf.followers != 0).count() / user_num * 100
+    # satisfy ratio of user having a following
+    statistics["following_ratio"] = rdf.filter(rdf.following != 0).count() / user_num * 100
+    # satisfy ratio of user having a positive ratio of followers/following
+    statistics["followers_following_ratio"] = rdf.filter(rdf.followers / rdf.following > 1).count() / user_num * 100
+    # satisfy ratio of user having a public_repo
+    statistics["public_repos_ratio"] = rdf.filter(rdf.public_repos != 0).count() / user_num * 100
+    # satisfy ratio of user having a public_gists
+    statistics["public_gists_ratio"] = rdf.filter(rdf.public_gists != 0).count() / user_num * 100
+    
+    # cut float to only 2 float point
+    for key in statistics:
+        statistics[key] = round(statistics[key], 2)
+
+    # create dataframe
+    d = [statistics]
+    ratio_df = spark.createDataFrame(d)
+    ratio_df = ratio_df.withColumn("updated_at", F.lit(datetime.now().strftime("%Y-%m-%d %H:%M:%S")).cast("timestamp"))
+    ratio_df = ratio_df.withColumn("id", F.lit(1)).join(timetable_df, "id", "inner").drop("id")
+
+    # find the top 20 users who have the most followers
+    top20_followers = rdf.orderBy(rdf.followers.desc()).select("id", "login", "followers").limit(20).withColumn("updated_at", F.lit(datetime.now().strftime("%Y-%m-%d %H:%M:%S")).cast("timestamp"))
+
+    # find the top 20 users who have the most following
+    top20_following = rdf.orderBy(rdf.following.desc()).select("id", "login", "following").limit(20).withColumn("updated_at", F.lit(datetime.now().strftime("%Y-%m-%d %H:%M:%S")).cast("timestamp"))
+
+    iodatabase(ratio_df, "userBasic", "dws_userBasic", to_mongo=True, to_mysql=True, to_hive=True, show_count=False)
+    iodatabase(top20_followers, "top20_followers", "dws_userTop20Followers", to_mongo=True, to_mysql=True, to_hive=True, show_count=False)
+    iodatabase(top20_following, "top20_following", "dws_userTop20Following", to_mongo=True, to_mysql=True, to_hive=True, show_count=False)
+
+
+
+def getUserActivity():
+    timetable_df = spark.sql("select * from default.timestable")
+    maxtimestamp = timetable_df.select(F.max("timestamp_d").alias("timestamp_d"))
+    timetable_df = timetable_df.select(timetable_df.time_hour, timetable_df.timestamp_d)
+    timetable_df = timetable_df.join(maxtimestamp, maxtimestamp.timestamp_d==timetable_df.timestamp_d, 'inner')
+    timetable_df = timetable_df.select(timetable_df.time_hour).limit(1)
+
+
+    t_timetable_df = timetable_df.withColumn("id", F.lit(1))
+    t_timetable_df = t_timetable_df.withColumnRenamed("time_hour", "created_at")
+    # convert the time_hour to timestamp
+    t_timetable_df = t_timetable_df.withColumn("created_at", F.to_timestamp(t_timetable_df.created_at, "yyyy-MM-dd-HH"))
+
+    pushTable_df = spark.sql("select id as active_id,time,actor_id from default.pushTable")
+    pushTable_df = pushTable_df.join(timetable_df, timetable_df.time_hour == pushTable_df.time).drop(timetable_df.time_hour).drop(pushTable_df.time)
+    # print("==================================")
+    # print(pushTable_df.filter(pushTable_df.active_id == "69688279").count())
+
+    user = spark.sql("select id,login,company,followers,following,location,public_repos from default.users")
+    # print("====================================")
+    # print(user.select(user.location).distinct().collect())
+    # print("====================================")
+
+    user_rdd = user.rdd
+    user_rdd = user_rdd.map(lambda x : (x[0], (x[1], x[2], x[3], x[4], x[5], x[6])))
+    user_rdd = user_rdd.reduceByKey(lambda a, b: b)
+    user_rdd = user_rdd.map(lambda x : (x[0], x[1][0], x[1][1], x[1][2], x[1][3], x[1][4], x[1][5]))
+
+    user_df = spark.createDataFrame(user_rdd, ["id","login","company","followers","following","location","public_repos"])
+    # print("====================================")
+    # print(user_df.select(user_df.location).distinct().collect())
+    # print("====================================")
+
+    # mixed table contains many imformation to do more group on this dataframe
+    activity_mix = user_df.join(pushTable_df, user_df.id == pushTable_df.actor_id).drop(pushTable_df.actor_id)
+    activity_mix = activity_mix.distinct()
+
+
+
+    # create a table contains the top 100 active users in this hour
+    acivityGroupByUserid = activity_mix.groupBy('id').count()
+    acivityGroupByUserid = acivityGroupByUserid.join(user_df, user_df.id == acivityGroupByUserid.id).drop(acivityGroupByUserid.id)
+    topActiveUser = acivityGroupByUserid.filter(acivityGroupByUserid.public_repos > 0).filter(acivityGroupByUserid.public_repos != 0).orderBy("count", ascending=0)
+    # rename count to activity_cnt
+    topActiveUser = topActiveUser.withColumnRenamed("count", "activity_cnt")
+    topActiveUser = topActiveUser.withColumn("updated_at", F.lit(datetime.now().strftime("%Y-%m-%d %H:%M:%S")).cast("timestamp"))
+    topActiveUser = topActiveUser.withColumn("id", F.lit(1)).join(t_timetable_df, "id", "inner").drop("id")
+    # topActiveUser.show(20)
+
+    # define funtion to transform location to do better group
+    def changelocation(s):
+        s = s.strip()
+        if "," in s:
+            s = s.split(',')
+            return s[-1].strip()
+        return s
+
+    # create a table contains the top 100 active location in this hour
+    changelocationUDF = F.udf(changelocation, StringType())
+    topActiveRegion = activity_mix.filter(activity_mix.location != "None")
+    topActiveRegion = topActiveRegion.withColumn("location", changelocationUDF(topActiveRegion.location))
+    topActiveRegion = topActiveRegion.groupBy('location').count().orderBy("count", ascending=0)
+    topActiveRegion = topActiveRegion.withColumn("updated_at", F.lit(datetime.now().strftime("%Y-%m-%d %H:%M:%S")).cast("timestamp"))
+    topActiveRegion = topActiveRegion.withColumnRenamed("count", "activity_cnt")
+    # topActiveRegion.show(20)
+
+    # create a table contains the top 100 active company in this hour
+    topActiveCompany = activity_mix.filter(activity_mix.company != "None").groupBy('company').count().orderBy("count", ascending=0)
+    topActiveCompany = topActiveCompany.withColumn("updated_at", F.lit(datetime.now().strftime("%Y-%m-%d %H:%M:%S")).cast("timestamp"))
+    topActiveCompany = topActiveCompany.withColumnRenamed("count", "activity_cnt")
+    # topActiveCompany.show(20)
+
+    iodatabase(topActiveUser, "topActiveUser", "dws_userTopActiveUser", to_mongo=True, to_mysql=True, to_hive=True, show_count=False)
+    iodatabase(topActiveRegion, "topActiveRegion", "dws_userTopActiveRegion", to_mongo=True, to_mysql=True, to_hive=True, show_count=False)
+    iodatabase(topActiveCompany, "topActiveCompany", "dws_userTopActiveCompany", to_mongo=True, to_mysql=True, to_hive=True, show_count=False)
+
+
+
 if __name__ == '__main__':
     # df = getEventAllCount()
     # iodatabase(df, "eventAllCount", "dws_eventCounts", to_mongo=False, to_mysql=False, to_hive=True, show_count=True)
@@ -253,7 +405,8 @@ if __name__ == '__main__':
     # df.show()
     # iodatabase(df, "eventCount", "dws_eventCountsPerhour", to_mongo=False, to_mysql=False, to_hive=True, show_count=True)
 
-    getIssueBasic()
-    
+    # getIssueBasic()
+    # mysqlUserBasic()
+    getUserActivity()
 
     
