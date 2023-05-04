@@ -38,7 +38,7 @@ auth_tokens = []
 current_token_id = 0
 
 call_api_batch_size = 10
-write_flume_batch_size = 200
+write_flume_batch_size = 1000
 
 db_conn = pymysql.connect(
     host="worker02",
@@ -382,7 +382,8 @@ def process_json_flume():
     # delete last json file
     with open('./logs/last_flume_json_name.log', "r") as f:
         last_flume_json_name = f.readline()
-    os.remove(os.path.join(flume_data_dir, last_flume_json_name + ".json"))
+    if last_flume_json_name != "":
+        os.remove(os.path.join(flume_data_dir, last_flume_json_name + ".json"))
     with open('./logs/last_flume_json_name.log', "w") as f:
         f.write(current_flume_json_name)
 
@@ -425,7 +426,7 @@ if __name__ == '__main__':
     # Create a scheduler
     scheduler = BackgroundScheduler()
     # Schedule the download function to run every hour
-    scheduler.add_job(download_json_data, 'interval', minutes=5, misfire_grace_time=None)
+    scheduler.add_job(download_json_data, 'interval', minutes=10, misfire_grace_time=None)
     # Schedule the processing function to run every hour, five minutes after the download function
     scheduler.add_job(process_json_mysql, 'interval', minutes=1, misfire_grace_time=None)
     # Schedule the processing function to run every hour, five minutes after the download function
@@ -439,7 +440,7 @@ if __name__ == '__main__':
 
     # Wait for the scheduler to finish executing
     while True:
-        time.sleep(30)
+        time.sleep(600)
         logger.info("== Main Thread for 300s, then check again. ==")
         logger.info("**** import_mysql_cnt_main: " + str(import_mysql_cnt_main))
         logger.info("**** import_flume_cnt_main: " + str(import_flume_cnt_main))

@@ -35,6 +35,7 @@ $configPath/spark/sbin/stop-all.sh
 
 log_warn "stop kafka service"
 $configPath/kafka/bin/kafka-server-stop.sh
+# /opt/module/kafka/bin/kafka-server-stop.sh
 
 # need to set configuration name to replace "flume"
 log_warn "stop flume service"

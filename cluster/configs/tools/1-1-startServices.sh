@@ -60,8 +60,8 @@ if [ $serverName == "worker02" ]; then
     $configPath/kafka/bin/kafka-topics.sh  --create --bootstrap-server `hostname`:9092 --replication-factor 1 --partitions 1 --topic gh_activity
 fi
 
-/opt/module/kafka/bin/kafka-topics.sh  --list --bootstrap-server `hostname`:9092
-# /opt/module/kafka/bin/kafka-topics.sh  --create --bootstrap-server master01:9092 --replication-factor 1 --partitions 1 --topic gh_activity
+# /opt/module/kafka/bin/kafka-topics.sh  --list --bootstrap-server `hostname`:9092
+# /opt/module/kafka/bin/kafka-topics.sh  --create --bootstrap-server `hostname`:9092 --replication-factor 1 --partitions 1 --topic gh_activity
 # /opt/module/kafka/bin/kafka-topics.sh  --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic gh_activity
 # start flume
 log_info "start flume service"

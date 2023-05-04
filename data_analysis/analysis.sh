@@ -9,6 +9,16 @@ do
     # get file list of ./scripts and run them one by one in a for loop
     for file in `ls $HOME/data_analysis/scripts/*`
     do
+        # not execute the file named "log.py"
+        if [ $file == "$HOME/data_analysis/scripts/log.py" ]; then
+            continue
+        fi
+
+        # not execute the files of directory "__pycache__"
+        if [ ${file##*/} == "__pycache__" ]; then
+            continue
+        fi
+        
         echo "start to run $file" >> $HOME/data_analysis/logs/hive2event.log 2>&1
         python3 $file >> $HOME/data_analysis/logs/hive2event.log 2>&1
         echo "finish to run $file" >> $HOME/data_analysis/logs/hive2event.log 2>&1

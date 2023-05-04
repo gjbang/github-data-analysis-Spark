@@ -30,8 +30,8 @@ time_transformUDF = F.udf(time_hour, StringType())
 time_dayUDF = F.udf(time_day, StringType())
 
 
-inserts = read_df.withColumn("timestamp", F.lit(time.time()))
-inserts = inserts.withColumn("time", time_transformUDF(inserts.created_at))
+inserts = read_df.withColumn("timestamp_d", F.lit(time.time()))
+inserts = inserts.withColumn("time_hour", time_transformUDF(inserts.created_at))
 inserts = inserts.withColumn("time_day", time_dayUDF(inserts.created_at))
 inserts = inserts.drop('created_at')
 

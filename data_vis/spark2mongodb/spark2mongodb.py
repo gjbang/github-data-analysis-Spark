@@ -18,6 +18,7 @@ spark = SparkSession.builder\
     .config("spark.mongodb.output.collection", collectionname)\
     .config("spark.mongodb.output.mode", "append")\
     .config("spark.mongodb.output.replaceDocument", "false")\
+    .config("spark.jars.packages", "org.mongodb.spark:mongo-spark-connector_2.12:3.0.2")\
     .enableHiveSupport()\
     .getOrCreate()
 
