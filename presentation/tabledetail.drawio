@@ -1,0 +1,85 @@
+<mxfile host="app.diagrams.net" modified="2023-05-04T08:54:26.062Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="DK7o-05wAKMWjkLXk35W" version="21.2.7" type="device">
+  <diagram id="3VssZdCwUSZoYQUB5-BF" name="第 1 页">
+    <mxGraphModel dx="782" dy="539" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-5" value="Fact table(issuetable)" style="swimlane;whiteSpace=wrap;html=1;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="250" y="230" width="210" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-20" value="id&lt;br style=&quot;font-size: 15px;&quot;&gt;actor_id&lt;br style=&quot;font-size: 15px;&quot;&gt;repo_id&lt;br&gt;issue_id&lt;br style=&quot;font-size: 15px;&quot;&gt;payload&lt;br style=&quot;font-size: 15px;&quot;&gt;created_at" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontSize=15;" parent="KL_sbNxZulM6Eu_9Mo-C-5" vertex="1">
+          <mxGeometry x="5" y="20" width="100" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-7" value="issue" style="swimlane;whiteSpace=wrap;html=1;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="60" y="410" width="150" height="160" as="geometry">
+            <mxRectangle x="530" y="240" width="70" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-19" value="id&lt;br style=&quot;font-size: 14px;&quot;&gt;state_reason&lt;br style=&quot;font-size: 14px;&quot;&gt;state&lt;br style=&quot;font-size: 14px;&quot;&gt;comments&lt;br style=&quot;font-size: 14px;&quot;&gt;number&lt;br style=&quot;font-size: 14px;&quot;&gt;start_time&lt;br style=&quot;font-size: 14px;&quot;&gt;end_time" style="text;html=1;align=left;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontSize=14;" parent="KL_sbNxZulM6Eu_9Mo-C-7" vertex="1">
+          <mxGeometry y="25" width="110" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-8" value="user" style="swimlane;whiteSpace=wrap;html=1;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="60" y="10" width="150" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-15" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; line-height: 19px;&quot;&gt;&lt;div&gt;id&lt;/div&gt;&lt;div&gt;login&lt;/div&gt;&lt;div&gt;node_id&lt;/div&gt;&lt;div&gt;gravatar_id&lt;/div&gt;&lt;div&gt;type&lt;/div&gt;&lt;div&gt;site_admin&lt;/div&gt;&lt;div&gt;name&lt;/div&gt;&lt;div&gt;company&lt;/div&gt;&lt;div&gt;blog&lt;/div&gt;&lt;div&gt;location&lt;/div&gt;&lt;div&gt;email&lt;/div&gt;&lt;div&gt;hireable&lt;/div&gt;&lt;div&gt;bio&lt;/div&gt;&lt;div&gt;twitter_username&lt;/div&gt;&lt;div&gt;public_repos&lt;/div&gt;&lt;div&gt;followers&lt;/div&gt;&lt;div&gt;following&lt;/div&gt;&lt;div&gt;created_at&lt;/div&gt;&lt;div&gt;updated_at&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontFamily=Helvetica;" parent="KL_sbNxZulM6Eu_9Mo-C-8" vertex="1">
+          <mxGeometry y="20" width="150" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-10" value="time" style="swimlane;whiteSpace=wrap;html=1;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="510" y="535" width="150" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-18" value="created_at&lt;br style=&quot;font-size: 14px;&quot;&gt;timestamp&lt;br style=&quot;font-size: 14px;&quot;&gt;time_hour&lt;br style=&quot;font-size: 14px;&quot;&gt;time_day" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontSize=14;" parent="KL_sbNxZulM6Eu_9Mo-C-10" vertex="1">
+          <mxGeometry y="25" width="90" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-11" value="repo" style="swimlane;whiteSpace=wrap;html=1;fontSize=14;" parent="1" vertex="1">
+          <mxGeometry x="510" y="10" width="150" height="510" as="geometry" />
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-16" value="&lt;div style=&quot;background-color: rgb(255, 255, 255); font-size: 14px; line-height: 19px;&quot;&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;id&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;node_id&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;name&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;full_name&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;private&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;owner_id&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;description&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;created_at&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;updated_at&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;pushed_at&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;homepage&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;size&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;watchers_count&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;language&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;forks_count&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;archived&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;open_issues_count&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;license&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;forks&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;allow_forking&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;open_issues&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;watchers&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;organization_id&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;topics&lt;/b&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 14px;&quot;&gt;&lt;b style=&quot;font-size: 14px;&quot;&gt;default_branch&lt;/b&gt;&lt;br style=&quot;font-size: 14px;&quot;&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontFamily=Helvetica;fontSize=14;" parent="KL_sbNxZulM6Eu_9Mo-C-11" vertex="1">
+          <mxGeometry y="20" width="150" height="490" as="geometry" />
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-25" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;startArrow=classic;endSize=8;startSize=8;rounded=0;exitX=1.024;exitY=0.045;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" edge="1">
+          <mxGeometry width="100" relative="1" as="geometry">
+            <mxPoint x="211.60000000000002" y="46.64999999999998" as="sourcePoint" />
+            <mxPoint x="250" y="280" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="230" y="47" />
+              <mxPoint x="230" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-26" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;startArrow=classic;endSize=8;startSize=8;rounded=0;entryX=-0.038;entryY=0.567;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="KL_sbNxZulM6Eu_9Mo-C-20" edge="1">
+          <mxGeometry width="100" relative="1" as="geometry">
+            <mxPoint x="210" y="440" as="sourcePoint" />
+            <mxPoint x="240" y="310" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="230" y="440" />
+              <mxPoint x="230" y="318" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-27" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;startArrow=classic;endSize=8;startSize=8;rounded=0;exitX=1.058;exitY=0.42;exitDx=0;exitDy=0;exitPerimeter=0;entryX=-0.024;entryY=0.024;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="KL_sbNxZulM6Eu_9Mo-C-20" target="KL_sbNxZulM6Eu_9Mo-C-16" edge="1">
+          <mxGeometry width="100" relative="1" as="geometry">
+            <mxPoint x="370" y="90" as="sourcePoint" />
+            <mxPoint x="480" y="40" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="480" y="300" />
+              <mxPoint x="480" y="42" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KL_sbNxZulM6Eu_9Mo-C-29" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;startArrow=classic;endSize=8;startSize=8;rounded=0;entryX=-0.049;entryY=0.195;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="KL_sbNxZulM6Eu_9Mo-C-18" edge="1">
+          <mxGeometry width="100" relative="1" as="geometry">
+            <mxPoint x="360" y="360" as="sourcePoint" />
+            <mxPoint x="490" y="600" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="480" y="360" />
+              <mxPoint x="480" y="576" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="5Y_Oh52RafdFoe_1zluh-1" value="An example&lt;br style=&quot;font-size: 15px;&quot;&gt;(using issuetable)" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=1;fontSize=15;" vertex="1" parent="1">
+          <mxGeometry x="280" y="150" width="150" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
