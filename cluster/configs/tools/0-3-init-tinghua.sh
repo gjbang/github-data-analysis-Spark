@@ -174,9 +174,8 @@ spark_config(){
     # == download spark
     if [ ! -f "spark-$sparkVersion-bin-hadoop3.tgz" ]; then
         log_info "download spark, version: $sparkVersion"
-        wget https://mirrors.aliyun.com/apache/spark/spark-$sparkVersion/spark-$sparkVersion-bin-hadoop3.tgz -P ./  -r -c -O "spark-$sparkVersion-bin-hadoop3.tgz"
-        # wget https://mirrors.aliyun.com/apache/spark/spark-3.3.2/spark-3.3.2-bin-hadoop3.tgz -P ./  -r -c -O "spark-3.3.2-bin-hadoop3.tgz"
-        # https://mirrors.aliyun.com/apache/spark/spark-3.3.2/spark-3.3.2-bin-hadoop3.tgz?spm=a2c6h.25603864.0.0.405e74a8BisO0N
+        wget https://mirrors.tuna.tsinghua.edu.cn/apache/spark/spark-$sparkVersion/spark-$sparkVersion-bin-hadoop3.tgz -P ./  -r -c -O "spark-$sparkVersion-bin-hadoop3.tgz"
+        # wget https://mirrors.tuna.tsinghua.edu.cn/apache/spark/spark-3.3.2/spark-3.3.2-bin-hadoop3.tgz -P ./  -r -c -O "spark-3.3.2-bin-hadoop3.tgz"
     else
         log_warn "Spark $sparkVersion has existed!"
     fi
@@ -216,7 +215,7 @@ hadoop_config(){
     if [ ! -f "hadoop-$hadoopVersion.tar.gz" ]; then
         log_info "download hadoop, version: $hadoopVersion"
         # wget https://archive.apache.org/dist/hadoop/common/hadoop-$hadoopVersion/hadoop-$hadoopVersion.tar.gz -P ./  -r -c -O "hadoop-$hadoopVersion.tar.gz"
-        wget https://mirrors.aliyun.com/apache/hadoop/common/hadoop-$hadoopVersion/hadoop-$hadoopVersion.tar.gz -P ./  -r -c -O "hadoop-$hadoopVersion.tar.gz"
+        wget https://mirrors.tuna.tsinghua.edu.cn/apache/hadoop/common/hadoop-$hadoopVersion/hadoop-$hadoopVersion.tar.gz -P ./  -r -c -O "hadoop-$hadoopVersion.tar.gz"
     else
         log_warn "Hadoop $hadoopVersion has existed!"
     fi
@@ -264,7 +263,7 @@ zookeeper_config(){
     if [ ! -f "zookeeper-$zookeeperVersion-bin.tar.gz" ]; then
         # download
         log_info "download zookeeper, version: $zookeeperVersion"
-        wget https://mirrors.aliyun.com/apache/zookeeper/zookeeper-$zookeeperVersion/apache-zookeeper-$zookeeperVersion-bin.tar.gz -P ./  -r -c -O "zookeeper-$zookeeperVersion-bin.tar.gz"
+        wget https://mirrors.tuna.tsinghua.edu.cn/apache/zookeeper/zookeeper-$zookeeperVersion/apache-zookeeper-$zookeeperVersion-bin.tar.gz -P ./  -r -c -O "zookeeper-$zookeeperVersion-bin.tar.gz"
     else
         log_warn "Zookeeper $zookeeperVersion has existed!"
     fi
@@ -315,7 +314,7 @@ kafka_config(){
     if [ ! -f "kafka_$scalaVersion-$kafkaVersion.tgz" ]; then
         # download
         log_info "download kafka, version: $kafkaVersion"
-        wget https://mirrors.aliyun.com/apache/kafka/$kafkaVersion/kafka_$scalaVersion-$kafkaVersion.tgz -P ./  -r -c -O "kafka_$scalaVersion-$kafkaVersion.tgz"
+        wget https://mirrors.tuna.tsinghua.edu.cn/apache/kafka/$kafkaVersion/kafka_$scalaVersion-$kafkaVersion.tgz -P ./  -r -c -O "kafka_$scalaVersion-$kafkaVersion.tgz"
     else
         log_warn "Kafka $kafkaVersion has existed!"
     fi
@@ -354,7 +353,7 @@ flume_config(){
     if [ ! -f "apache-flume-$flumeVersion-bin.tar.gz" ]; then
         # download
         log_info "download flume, version: $flumeVersion"
-        wget https://mirrors.aliyun.com/apache/flume/$flumeVersion/apache-flume-$flumeVersion-bin.tar.gz -P ./  -r -c -O "apache-flume-$flumeVersion-bin.tar.gz"
+        wget https://mirrors.tuna.tsinghua.edu.cn/apache/flume/$flumeVersion/apache-flume-$flumeVersion-bin.tar.gz -P ./  -r -c -O "apache-flume-$flumeVersion-bin.tar.gz"
     else
         log_warn "Flume $flumeVersion has existed!"
     fi
@@ -481,7 +480,7 @@ hbase_config(){
     if [ ! -f "hbase-$hbaseVersion-bin.tar.gz" ]; then
         # download
         log_info "download hbase, version: $hbaseVersion"
-        wget https://mirrors.aliyun.com/apache/hbase/$hbaseVersion/hbase-$hbaseVersion-bin.tar.gz -P ./  -r -c -O "hbase-$hbaseVersion-bin.tar.gz"
+        wget https://mirrors.tuna.tsinghua.edu.cn/apache/hbase/$hbaseVersion/hbase-$hbaseVersion-bin.tar.gz -P ./  -r -c -O "hbase-$hbaseVersion-bin.tar.gz"
     else
         log_warn "Hbase $hbaseVersion has existed!"
     fi
@@ -525,7 +524,7 @@ hive_config(){
     if [ ! -f "apache-hive-$hiveVersion-bin.tar.gz" ]; then
         # download
         log_info "download hive, version: $hiveVersion"
-        wget https://mirrors.aliyun.com/apache/hive/hive-$hiveVersion/apache-hive-$hiveVersion-bin.tar.gz -P ./  -r -c -O "apache-hive-$hiveVersion-bin.tar.gz"
+        wget https://mirrors.tuna.tsinghua.edu.cn/apache/hive/hive-$hiveVersion/apache-hive-$hiveVersion-bin.tar.gz -P ./  -r -c -O "apache-hive-$hiveVersion-bin.tar.gz"
     else
         log_warn "Hive $hiveVersion has existed!"
     fi
@@ -611,8 +610,8 @@ flink_config(){
     # == download flink
     if [ ! -f "flink-$flinkVersion-bin.tgz" ]; then
         log_info "download flink, version: $flinkVersion"
-        wget https://mirrors.aliyun.com/apache/flink/flink-$flinkVersion/flink-$flinkVersion-bin-scala_$scalaVersion.tgz -P ./  -r -c -O "flink-$flinkVersion-bin.tgz"
-        # wget https://mirrors.aliyun.com/apache/flink/flink-$flinkVersion/python/apache_flink-$flinkVersion-cp310-cp310-manylinux1_x86_64.whl  -P ./  -r -c -O "apache_flink-$flinkVersion-cp310-cp310-manylinux1_x86_64.whl"
+        wget https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-$flinkVersion/flink-$flinkVersion-bin-scala_$scalaVersion.tgz -P ./  -r -c -O "flink-$flinkVersion-bin.tgz"
+        # wget https://mirrors.tuna.tsinghua.edu.cn/apache/flink/flink-$flinkVersion/python/apache_flink-$flinkVersion-cp310-cp310-manylinux1_x86_64.whl  -P ./  -r -c -O "apache_flink-$flinkVersion-cp310-cp310-manylinux1_x86_64.whl"
     else
         log_warn "flink $flinkVersion has existed!"
     fi

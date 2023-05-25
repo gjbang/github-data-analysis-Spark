@@ -11,7 +11,7 @@ create table if not exists topActiveUser(
     activity_cnt INT,
     updated_at DATETIME,
     created_at DATETIME
-);
+)auto_increment=0;
 
 drop table if exists topActiveRegion;
 create table if not exists topActiveRegion(
@@ -19,7 +19,7 @@ create table if not exists topActiveRegion(
     location VARCHAR(255),
     activity_cnt INT,
     updated_at datetime
-);
+)auto_increment=0;
 
 drop table if exists topActiveCompany;
 create table if not exists topActiveCompany(
@@ -27,4 +27,4 @@ create table if not exists topActiveCompany(
     company VARCHAR(255),
     activity_cnt INT,
     updated_at datetime
-);
+)auto_increment=0;

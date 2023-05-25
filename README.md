@@ -19,11 +19,11 @@
 
 ## Architecture
 
-![image-20230505104910290](C:\github\msbd5003-project\README.assets\image-20230505104910290.png)
+![image-20230505104910290](.README.assets\image-20230505104910290.png)
 
-![image-20230505104933214](C:\github\msbd5003-project\README.assets\image-20230505104933214.png)
+![image-20230505104933214](.\README.assets\image-20230505104933214.png)
 
-![image-20230505104939393](C:\github\msbd5003-project\README.assets\image-20230505104939393.png)
+![image-20230505104939393](.\README.assets\image-20230505104939393.png)
 
 ## Configuration
 

@@ -6,7 +6,7 @@ create table if not exists topLanguage(
     activity_cnt int,
     updated_at datetime,
     created_at datetime
-);
+)auto_increment=0;
 drop table if exists topActiveRepo;
 create table if not exists topActiveRepo(
     repo_id int PRIMARY KEY,

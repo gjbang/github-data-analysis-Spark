@@ -16,7 +16,7 @@ create table if not exists userBasic(
     public_gists_ratio float,
     updated_at datetime,
     created_at datetime
-);
+)auto_increment=0;
 
 use github;
 create table if not exists top20_followers(

@@ -2,12 +2,16 @@
 # the kafka topic is "gh_activity"
 # the data is json format from github activity api
 
+import json
+import os
+
+memory = '2g'
+pyspark_submit_args = ' --driver-memory ' + memory + ' pyspark-shell'
+os.environ["PYSPARK_SUBMIT_ARGS"] = pyspark_submit_args
+
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
-
-import json
-import os
 
 from pyspark.streaming import StreamingContext
 
@@ -22,6 +26,8 @@ df = spark.readStream.format("kafka") \
     .option("kafka.bootstrap.servers", "worker02:9092") \
     .option("subscribe", "gh_activity") \
     .option("startingOffsets", "latest") \
+    .option("cleanSource", "delete") \
+    .option("failOnDataLoss", "false") \
     .load()
 
 # use watermark to write with append mode
@@ -80,8 +86,9 @@ df = df.withColumn("updated_at", current_timestamp())
 
 
 
-# output to mysql
-query = df.writeStream.outputMode("update").trigger(processingTime='1 minutes').foreachBatch(write_to_mysql).start()
+# output to mysql with watermark
+query = df.withWatermark("updated_at", "1 minutes").writeStream.outputMode("append").trigger(processingTime='1 minutes').foreachBatch(write_to_mysql).start()
+# query = df.writeStream.outputMode("append").trigger(processingTime='1 minutes').foreachBatch(write_to_mysql).start()
 
 query.awaitTermination()
 query.stop()

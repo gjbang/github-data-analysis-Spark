@@ -1,7 +1,7 @@
 use github;
 -- drop table if exists issueBasic;
 create table if not exists issueBasic(
-    id int primary key default 0 auto_increment,
+    id int primary key auto_increment,
     issueOpenCount int,
     issueClosedCount int,
     issueReopenedCount int,
@@ -9,7 +9,7 @@ create table if not exists issueBasic(
     issueOtherClosedCount int,
     created_at datetime,
     updated_at datetime
-);
+)auto_increment=0;
 
 use github;
 create table if not exists issueInterval(
@@ -26,7 +26,7 @@ create table if not exists issueInterval(
     others int,
     created_at datetime,
     updated_at datetime
-);
+)auto_increment=0;
 
 use github;
 create table if not exists issueComments(
@@ -41,7 +41,7 @@ create table if not exists issueComments(
     others int,
     created_at datetime,
     updated_at datetime
-);
+)auto_increment=0;
 
 use github;
 create table if not exists issueNumber(
@@ -56,5 +56,5 @@ create table if not exists issueNumber(
     others int,
     created_at datetime,
     updated_at datetime
-);
+)auto_increment=0;
 
