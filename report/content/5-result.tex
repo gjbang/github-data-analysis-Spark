@@ -1,0 +1,16 @@
+\section{Data Analysis}
+
+After the data was aggregated into the warehouse, we collected various tables with good structural characteristics, and based on this, we used spark to further get some useful analysis results, which will also be stored into MySQL and MongoDB for further use.
+
+
+Because user data on github is sparse, which means activity is not continuous and there isn't a strong pattern of activity, so there is no obvious causal relationship between attributes. For example, a large number of followers does not mean that he has a popular warehouse with a large number of stars, nor does the number of starts in a warehouse increase with the increase of fork. In other words, they reflect the same trend of users and warehouses - Degree of popularity, so we need huge dataset to analyze a very long time period to find a hidden weak pattern. Based on this, we only finished some simple aggregation and visualization of the data.
+
+
+\subsection{Aggregation}
+
+
+
+
+
+\subsection{Visualization}
+We used grafana to visualize the results stored in Mysql, which are produced by spark. 

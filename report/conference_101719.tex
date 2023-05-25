@@ -1,0 +1,80 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{cuted}%%\stripsep-3pt
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{Github Data Analysis\\
+{\small Wide Project Proposal}
+}
+
+\author{
+\IEEEauthorblockN{YUAN Yingzhe}
+\IEEEauthorblockA{\textit{Computer Science and Enigeering} \\
+\textit{HKUST}\\
+Hongkong, China }
+\and
+\IEEEauthorblockN{GUO Jiong}
+\IEEEauthorblockA{\textit{Computer Science and Enigeering} \\
+\textit{HKUST}\\
+Hongkong, China}
+}
+
+\maketitle
+
+\begin{abstract}
+    GitHub have huge user group. Every moment there are hundreds of activities happen. To analyze the GitHub data continually, we use some opensource big data component such as Hadoop, spark, hive to construct a GitHub data processing framework, which aims at handling massive activity records and analyze data to find out patterns of users, repositories and languages. Using python crawler to get data from GitHub. By different data processing skills, the data is transport by certain channel to provide the downstream usage. Building the data warehouse base on the structure and content of the data and make three layers of the data warehouse. By spark, making data analyzation and store the result in the relational database. Finally present the graph and table on the dashboard.
+\end{abstract}
+
+% \begin{IEEEkeywords}
+% Github, Spark, Data Analysis, Data Mining
+% \end{IEEEkeywords}
+
+
+\input{content/1-introduction.tex}
+
+\input{content/2-dataset.tex}
+
+\input{content/3-tasks.tex}
+
+\input{content/4-arch.tex}
+
+\input{content/5-result.tex}
+
+\input{content/6-summary.tex}
+
+
+\section{Summary}
+
+Based on Github's activity data, we will use Spark and corresponding tools to construct a real-time processing framework, which will be deployed on a cloud cluster. We will show more comprehensive analysis of Github by using this framework.
+
+
+
+% \section*{Acknowledgment}
+
+% The contribution of our team members are as follows:
+
+
+
+\begin{thebibliography}{00}
+\bibitem{gha}https://www.gharchive.org/
+\bibitem{ghapi}https://docs.github.com/en/rest?apiVersion=2022-11-28
+\bibitem{ghtrending}https://github.com/trending
+\bibitem{ghtopics}https://github.com/topics
+\end{thebibliography}
+
+\input{content/7-appendix.tex}
+
+
+\end{document}
