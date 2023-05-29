@@ -84,7 +84,7 @@ All big data components will be installed when installation script is executed. 
 
 
 \subsubsection{Security Control}    
-After deployment, servers are frequently attacked from unknown sources, including DDoS, mining viruses, worms, and remote controlling, which causes the extremely high CPU usage, high disk IO, and unable to access the server. Killing processes, resetting servers, and recollecting data took up over 40\% of our time
+After deployment, servers are frequently attacked from unknown sources, including DDoS, mining viruses, worms, and remote controlling, which causes the extremely high CPU usage, high disk IO, and unable to access the server. Killing processes, resetting servers, and recollecting data took up over 40\% of our time.
 
 
 Although it has been observed that the behavior after entering the server is to inject code into the process, it is not clear by what means the server was successfully accessed and permissions obtained. We have taken the following steps to try to avoid being attacked:
@@ -96,7 +96,7 @@ Although it has been observed that the behavior after entering the server is to 
     \item \textbf{Install anti-virus software}: We installed \textit{ClamAV} on each node to scan the system periodically.
 \end{itemize}
 
-All above measures cannot completely prevent attacks, and we believe there is an unknown vulnerability. The corresponding logs are in the appendix.
+All above measures cannot completely prevent attacks, and we believe there is an unknown vulnerability in linux system or big date components. The corresponding logs are in the Appendix \ref{a-sec}.
 
 
 
@@ -134,10 +134,12 @@ For the entire analysis system we use the following components. Here we briefly 
     \item \textbf{Spark}: Spark is deployed on the entire cluster as the main component for data processing and data analysis.
     \item \textbf{MySQL}: The data of users and warehouses are stored in MySQL, and MySQL is deployed on worker02. At the same time, the hive meta store is also on MySQL.
     \item \textbf{Flume}: Track the data in the data capture folder and transfer it to Kafka. It will also transfer data from Kafka into a temporary folder in HDFS. The data capture process is deployed on worker02.
-    \item \textbf{MongoDB}: MongoDB is deployed on master02 for expose the API.
-    \item \textbf{Grafana}: Grafana is deployed on worker01. It’s the interface of data visualization.
+    \item \textbf{MongoDB}: MongoDB is deployed on master02 for expose the API. The data is stored in json format, which facilitates a background application such as flask to respond to web requests. We have stored analysis results in MongoDB.
+    \item \textbf{Grafana}: Grafana is deployed on worker01. It's the interface of data visualization. It can connect to MySQL to get data and display it in the form of charts. In fact, it get well-structure data by constructing SQL statements and then send it to MySQL for processing. It's easy to combine single figure into a  dashboard. Grafana also provides port mapping for external network access.
 \end{enumerate}
 
+
+The version of key components will be listed in the Appendeix\ref{a-version}.
 
 
 
@@ -145,7 +147,7 @@ For the entire analysis system we use the following components. Here we briefly 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{./pic/dataflow.png}
+    \includegraphics[width=0.4\textwidth]{./pic/dataflow.png}
     \caption{A figure shows the data flow of the system}
     \label{fig:dataflow}
 \end{figure}

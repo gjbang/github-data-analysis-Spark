@@ -1,1 +1,3 @@
 \section{summary}
+
+Based on Github Open API and GH archive dataset, we implement a data processing framework to analyze the Github data. We use python crawler to get data from Github and store them in HDFS. Then we use Hive to convert data in well-structure form and use Spark to analyze the data and store the result in MySQL. Finally, we use Grafana to visualize the result in MySQL. This is a complete big data system containing data collection, data warehouse, data processing, and data analysis.

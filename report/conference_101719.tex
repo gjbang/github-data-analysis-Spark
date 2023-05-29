@@ -10,13 +10,15 @@
 \usepackage{float}
 \usepackage{minted}
 \usepackage{cuted}%%\stripsep-3pt
+\usepackage{longtable}
+
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \begin{document}
 
 \title{Github Data Analysis\\
-{\small Wide Project Proposal}
+{\small Wide Project Report}
 }
 
 \author{
@@ -34,7 +36,7 @@ Hongkong, China}
 \maketitle
 
 \begin{abstract}
-    GitHub have huge user group. Every moment there are hundreds of activities happen. To analyze the GitHub data continually, we use some opensource big data component such as Hadoop, spark, hive to construct a GitHub data processing framework, which aims at handling massive activity records and analyze data to find out patterns of users, repositories and languages. Using python crawler to get data from GitHub. By different data processing skills, the data is transport by certain channel to provide the downstream usage. Building the data warehouse base on the structure and content of the data and make three layers of the data warehouse. By spark, making data analyzation and store the result in the relational database. Finally present the graph and table on the dashboard.
+    GitHub have huge user group. Every moment there are hundreds of activities happen. To analyze the GitHub data continually, we use some opensource big data component such as Hadoop, spark, hive to construct a GitHub data processing framework, which aims at handling massive activity records and analyze data to find out patterns of users, repositories and languages. Using python crawler to get data from GitHub. By different data processing skills, the data is transport by certain channel to provide the downstream usage. Building the data warehouse base on the structure and content of the data and make three layers of the data warehouse. By spark, making data analyzation and store the result in the relational database. Finally present the graph and table on the dashboard. The code can be found in \textit{https://github.com/gjbang/msbd5003-project} .
 \end{abstract}
 
 % \begin{IEEEkeywords}
@@ -55,9 +57,6 @@ Hongkong, China}
 \input{content/6-summary.tex}
 
 
-\section{Summary}
-
-Based on Github's activity data, we will use Spark and corresponding tools to construct a real-time processing framework, which will be deployed on a cloud cluster. We will show more comprehensive analysis of Github by using this framework.
 
 
 
