@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.1)  29 MAY 2023 14:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.5.1)  29 MAY 2023 16:04
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -584,12 +584,7 @@ Package pdftex.def Info: ./pic/dataflow.png  used on input line 150.
 File: ./pic/tables.png Graphic file (type png)
 <use ./pic/tables.png>
 Package pdftex.def Info: ./pic/tables.png  used on input line 193.
-(pdftex.def)             Requested size: 258.0pt x 270.85387pt.
-
-Overfull \hbox (6.0pt too wide) in paragraph at lines 193--194
- [][] 
- []
-
+(pdftex.def)             Requested size: 232.19843pt x 243.77428pt.
 <./pic/warehouse.png, id=35, 1915.155pt x 782.925pt>
 File: ./pic/warehouse.png Graphic file (type png)
 <use ./pic/warehouse.png>
@@ -717,7 +712,7 @@ runsystem(del conference_101719.pyg)...executed.
 Here is how much of TeX's memory you used:
  8507 strings out of 476001
  158263 string characters out of 5788707
- 1895068 words of memory out of 5000000
+ 1894068 words of memory out of 5000000
  28778 multiletter control sequences out of 15000+600000
  552058 words of font info for 109 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -731,7 +726,7 @@ xlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/codesoft/texlive/202
 3/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/codesoft/texlive/2023/texmf-
 dist/fonts/type1/urw/times/utmr8a.pfb><c:/codesoft/texlive/2023/texmf-dist/font
 s/type1/urw/times/utmri8a.pfb>
-Output written on conference_101719.pdf (8 pages, 1081382 bytes).
+Output written on conference_101719.pdf (8 pages, 1081454 bytes).
 PDF statistics:
  106 PDF objects out of 1000 (max. 8388607)
  49 compressed objects within 1 object stream

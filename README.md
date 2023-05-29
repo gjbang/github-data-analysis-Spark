@@ -1,4 +1,4 @@
-# msbd5003-project
+# Github Data Analysis by Big Data System
 
 ## Repo Structure
 
@@ -9,6 +9,7 @@
     - ***/backup-config*** and ***/test*** are some useless directory
 - ***/data_gen***: python script to collect raw data
     - ***/time_spider:***	`timer_spider.py` is the main script, it will download GH archive compressed package and call Github Open API to collect data.  API data of users and repos will be stored in MySQL and merge with GH Archive data. After merging, the data will write to a json file, which is watched by **flume**
+        - Github Open API limits the anonymous access to 50/hour, so to call API continuously by python, we need to use Github’s developer token to increase this limit to 5000/hour. The token list file is `auth_token.txt`, and all token has invalid after making this repo public, you need to get you own developer token.
 - ***/data_preprocess***: process raw data of **HDFS** and extract activity table into **Hive**
     - ***/load2hive***: shell will call python script to load raw data file in **HDFS** to **Hive** base table
     - ***/hive2event***: shell will call python script to extract **Hive** base table to different activity table
@@ -116,7 +117,7 @@ There are two ways to configure Hive with Spark: `Spark on Hive` and `Hive on Sp
 | 7890 | Clash | VPN Server |
 | 7891 | Clash | VPN Server |
 
-
+- Some default port of components has been changed for security. You need to open most of them only in internal network for security consideration.
 
 
 ## Start Step

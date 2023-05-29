@@ -131,7 +131,7 @@ For the entire analysis system we use the following components. Here we briefly 
     \item \textbf{Kafka}: message queue, which temporarily stores data and sends it downstream. It is the data source and key part of subsequent data stream processing.
     \item \textbf{Hadoop}: Hadoop includes HDFS, Yarn and MapReduce. HDFS is the main storage place where we store data. HDFS is deployed on each server. Use Yarn as a resource manager. The resource manager is deployed on master02.
     \item \textbf{Hive}: Hive data is stored in HDFS. The hive engine is very inefficient, so only use hive as storage and data management on HDFS. Hive is deployed on the entire cluster.
-    \item \textbf{Spark}: Spark is deployed on the entire cluster as the main component for data processing and data analysis.
+    \item \textbf{Spark}: Spark is deployed on the entire cluster as the main component for data processing and data analysis. Also use \textbf{Spark Streaming} to process real-time data streams.
     \item \textbf{MySQL}: The data of users and warehouses are stored in MySQL, and MySQL is deployed on worker02. At the same time, the hive meta store is also on MySQL.
     \item \textbf{Flume}: Track the data in the data capture folder and transfer it to Kafka. It will also transfer data from Kafka into a temporary folder in HDFS. The data capture process is deployed on worker02.
     \item \textbf{MongoDB}: MongoDB is deployed on master02 for expose the API. The data is stored in json format, which facilitates a background application such as flask to respond to web requests. We have stored analysis results in MongoDB.
@@ -190,7 +190,7 @@ Spark streaming directly obtains data through kafka for real-time data processin
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{./pic/tables.png}
+    \includegraphics[width=0.45\textwidth]{./pic/tables.png}
     \caption{A figure shows the schema of the data warehouse}
     \label{fig:tables}
 \end{figure}
