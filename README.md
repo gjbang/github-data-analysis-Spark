@@ -40,7 +40,7 @@
 
 ## Architecture
 
-![image-20230505104910290](.\README.assets\image-20230505104910290.png)
+![image-20230505104910290](./README.assets/image-20230505104910290.png)
 
 <center>
     Whole Framework
@@ -48,7 +48,7 @@
 
 
 
-![image-20230505104933214](.\README.assets\image-20230505104933214.png)
+![image-20230505104933214](./README.assets/image-20230505104933214.png)
 
 <center>
     Cluster and component structure
@@ -56,7 +56,7 @@
 
 
 
-![image-20230505104939393](.\README.assets\image-20230505104939393.png)
+![image-20230505104939393](./README.assets/image-20230505104939393.png)
 
 <center>
     Data Schema
